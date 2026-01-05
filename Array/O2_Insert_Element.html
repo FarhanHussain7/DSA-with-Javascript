@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert Element in Array</title>
+    <script>
+
+        let arr = [10, 20, 30, 40, 50];
+
+        function insertElementAtIndex(){
+            let position = document.getElementById("element").value;
+            let val = document.getElementById("value").value;
+            if (position >= 0 && position <= arr.length) {
+                // arr.splice(position, 0, Number(val));
+                for (let i = arr.length; i > position; i--) {
+                    if(i === position){
+                        arr[i] = Number(val);
+                    } else {
+                        arr[i] = arr[i - 1];
+                    }
+                }
+                alert(`Array after insertion: ${arr}`);
+            } else {
+                alert("Index out of bounds");
+            }
+        }
+    </script>
+</head>
+<body>
+    <div>Insert Element in Array </div>
+    <input type="text" id="element" placeholder="Enter the index number ">
+    <input type="text" id="value" placeholder="Enter the value to insert ">
+    <button onclick="insertElementAtIndex()">Insert Element</button>
+</body>
+</html>
