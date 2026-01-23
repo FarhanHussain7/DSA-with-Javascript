@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Iteration Methods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Iteration Methods</h1>
+            <p class="subtitle">Loop Through Object Properties - for...in, forEach, entries</p>
+        </header>
+
+        <div class="content">
+            <!-- for...in Loop -->
+            <div class="example">
+                <div class="example-title">✅ for...in Loop</div>
+                <div class="description">
+                    Loop through all enumerable properties of an object (including inherited ones).
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    email: "john@example.com",
+    city: "New York"
+};
+
+// Basic for...in loop
+for (let key in person) {
+    console.log(key + ": " + person[key]);
+}
+
+// Output:
+// name: John
+// age: 30
+// email: john@example.com
+// city: New York
+
+// With prototype
+const proto = { country: "USA" };
+const user = Object.create(proto);
+user.name = "Alice";
+user.age = 25;
+
+for (let key in user) {
+    console.log(key); // name, age, country (includes inherited)
+}
+
+// Filter out inherited properties
+for (let key in user) {
+    if (user.hasOwnProperty(key)) {
+        console.log(key); // only name, age (own properties)
+    }
+}</code></pre>
+                <button onclick="runForIn()">Run Example</button>
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Object.keys().forEach() -->
+            <div class="example">
+                <div class="example-title">✅ Object.keys().forEach()</div>
+                <div class="description">
+                    Loop through enumerable own properties using forEach with keys.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    email: "john@example.com"
+};
+
+// Method 1: Simple forEach
+Object.keys(person).forEach(key => {
+    console.log(key + ": " + person[key]);
+});
+
+// Method 2: With index
+Object.keys(person).forEach((key, index) => {
+    console.log(index + 1 + ". " + key + ": " + person[key]);
+});
+
+// Method 3: Traditional for loop alternative
+const keys = Object.keys(person);
+for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    console.log(key + ": " + person[key]);
+}</code></pre>
+                <button onclick="runKeysForEach()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Object.values().forEach() -->
+            <div class="example">
+                <div class="example-title">✅ Object.values().forEach()</div>
+                <div class="description">
+                    Loop through object values directly without needing keys.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    email: "john@example.com",
+    city: "New York"
+};
+
+// Iterate over values only
+Object.values(person).forEach(value => {
+    console.log(value);
+});
+
+// Output:
+// John
+// 30
+// john@example.com
+// New York
+
+// With type checking
+Object.values(person).forEach(value => {
+    if (typeof value === "number") {
+        console.log(value + " (number)");
+    } else if (typeof value === "string") {
+        console.log(value + " (string)");
+    }
+});</code></pre>
+                <button onclick="runValuesForEach()">Run Example</button>
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- Object.entries().forEach() -->
+            <div class="example">
+                <div class="example-title">✅ Object.entries().forEach() - Best Method</div>
+                <div class="description">
+                    Loop through key-value pairs. Recommended method for iteration.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    email: "john@example.com",
+    city: "New York"
+};
+
+// Destructured entries
+Object.entries(person).forEach(([key, value]) => {
+    console.log(key + ": " + value);
+});
+
+// With index
+Object.entries(person).forEach(([key, value], index) => {
+    console.log((index + 1) + ". " + key + ": " + value);
+});
+
+// Without destructuring
+Object.entries(person).forEach(entry => {
+    console.log(entry[0] + " = " + entry[1]);
+});
+
+// Filter while iterating
+Object.entries(person).forEach(([key, value]) => {
+    if (typeof value === "string") {
+        console.log("String: " + key + " = " + value);
+    }
+});</code></pre>
+                <button onclick="runEntriesForEach()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- Converting to Map -->
+            <div class="example">
+                <div class="example-title">✅ Object to Map Conversion</div>
+                <div class="description">
+                    Convert object to Map for advanced iteration patterns.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    email: "john@example.com"
+};
+
+// Convert object to Map
+const personMap = new Map(Object.entries(person));
+
+console.log(personMap);
+// Map { "name" => "John", "age" => 30, "email" => "john@example.com" }
+
+// Iterate Map entries
+personMap.forEach((value, key) => {
+    console.log(key + ": " + value);
+});
+
+// Get Map size
+console.log("Total properties: " + personMap.size);
+
+// Check if key exists
+console.log(personMap.has("name")); // true
+console.log(personMap.has("phone")); // false
+
+// Get value from Map
+console.log(personMap.get("age")); // 30
+
+// Convert Map back to Object
+const restored = Object.fromEntries(personMap);
+console.log(restored);
+// { name: "John", age: 30, email: "john@example.com" }</code></pre>
+                <button onclick="runMapConversion()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="example">
+                <div class="example-title">📊 Iteration Methods Comparison</div>
+                <div class="description">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Method</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Includes Inherited</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Best For</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">for...in</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Yes</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Quick iteration</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd;">Object.keys().forEach()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">No</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Only own properties</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Object.values().forEach()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">No</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Values only</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd;">Object.entries().forEach()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">No</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Recommended - key & value</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Iteration Methods | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runForIn() {
+            const person = {
+                name: "John",
+                age: 30,
+                email: "john@example.com",
+                city: "New York"
+            };
+            
+            let output = "Basic for...in loop:\n";
+            for (let key in person) {
+                output += key + ": " + person[key] + "\n";
+            }
+            
+            output += "\n--- With Prototype ---\n\n";
+            const proto = { country: "USA" };
+            const user = Object.create(proto);
+            user.name = "Alice";
+            user.age = 25;
+            
+            output += "All properties (including inherited):\n";
+            for (let key in user) {
+                output += key + "\n";
+            }
+            
+            output += "\nOnly own properties:\n";
+            for (let key in user) {
+                if (user.hasOwnProperty(key)) {
+                    output += key + "\n";
+                }
+            }
+            
+            displayOutput("output1", output);
+        }
+
+        function runKeysForEach() {
+            const person = {
+                name: "John",
+                age: 30,
+                email: "john@example.com"
+            };
+            
+            let output = "Object.keys().forEach():\n";
+            Object.keys(person).forEach(key => {
+                output += key + ": " + person[key] + "\n";
+            });
+            
+            output += "\nWith Index:\n";
+            Object.keys(person).forEach((key, index) => {
+                output += (index + 1) + ". " + key + ": " + person[key] + "\n";
+            });
+            
+            displayOutput("output2", output);
+        }
+
+        function runValuesForEach() {
+            const person = {
+                name: "John",
+                age: 30,
+                email: "john@example.com",
+                city: "New York"
+            };
+            
+            let output = "Object.values().forEach():\n";
+            Object.values(person).forEach(value => {
+                output += value + "\n";
+            });
+            
+            output += "\nWith Type Checking:\n";
+            Object.values(person).forEach(value => {
+                if (typeof value === "number") {
+                    output += value + " (number)\n";
+                } else if (typeof value === "string") {
+                    output += value + " (string)\n";
+                }
+            });
+            
+            displayOutput("output3", output);
+        }
+
+        function runEntriesForEach() {
+            const person = {
+                name: "John",
+                age: 30,
+                email: "john@example.com",
+                city: "New York"
+            };
+            
+            let output = "Object.entries().forEach():\n";
+            Object.entries(person).forEach(([key, value]) => {
+                output += key + ": " + value + "\n";
+            });
+            
+            output += "\nWith Index:\n";
+            Object.entries(person).forEach(([key, value], index) => {
+                output += (index + 1) + ". " + key + ": " + value + "\n";
+            });
+            
+            output += "\nFiltering (strings only):\n";
+            Object.entries(person).forEach(([key, value]) => {
+                if (typeof value === "string") {
+                    output += key + " = " + value + "\n";
+                }
+            });
+            
+            displayOutput("output4", output);
+        }
+
+        function runMapConversion() {
+            const person = {
+                name: "John",
+                age: 30,
+                email: "john@example.com"
+            };
+            
+            const personMap = new Map(Object.entries(person));
+            
+            let output = "Object:\n" + JSON.stringify(person, null, 2) + "\n\n";
+            output += "Converted to Map:\n";
+            personMap.forEach((value, key) => {
+                output += key + " => " + value + "\n";
+            });
+            
+            output += "\nMap properties:\n";
+            output += "Map size: " + personMap.size + "\n";
+            output += "personMap.has('name'): " + personMap.has("name") + "\n";
+            output += "personMap.has('phone'): " + personMap.has("phone") + "\n";
+            output += "personMap.get('age'): " + personMap.get("age") + "\n\n";
+            
+            const restored = Object.fromEntries(personMap);
+            output += "Converted back to Object:\n";
+            output += JSON.stringify(restored, null, 2);
+            
+            displayOutput("output5", output);
+        }
+    </script>
+</body>
+</html>

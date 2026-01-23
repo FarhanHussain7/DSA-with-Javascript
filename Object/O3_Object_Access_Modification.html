@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Access & Modification</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 10px;
+            margin-top: 10px;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Access & Modification</h1>
+            <p class="subtitle">Access, Add, Modify, and Delete Object Properties</p>
+        </header>
+
+        <div class="content">
+            <!-- Dot Notation vs Bracket Notation -->
+            <div class="example">
+                <div class="example-title">✅ Dot Notation vs Bracket Notation</div>
+                <div class="description">
+                    Two different ways to access object properties. Bracket notation is more flexible.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    age: 30,
+    "email-address": "john@email.com",
+    "phone number": "+1-555-1234"
+};
+
+// Dot Notation (simple property names only)
+console.log(person.name); // "John"
+console.log(person.age); // 30
+
+// Bracket Notation (works for all property names)
+console.log(person["name"]); // "John"
+console.log(person["age"]); // 30
+console.log(person["email-address"]); // "john@email.com"
+console.log(person["phone number"]); // "+1-555-1234"
+
+// Dynamic access with variable
+const key = "age";
+console.log(person[key]); // 30
+
+// Using expressions in bracket notation
+const index = "na" + "me";
+console.log(person[index]); // "John"</code></pre>
+                <button onclick="runDotVsBracket()">Run Example</button>
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Adding New Properties -->
+            <div class="example">
+                <div class="example-title">✅ Adding New Properties</div>
+                <div class="description">
+                    Multiple ways to add new properties to an existing object.
+                </div>
+                <pre><code>const obj = { name: "John" };
+console.log(obj); // { name: "John" }
+
+// Method 1: Dot notation
+obj.age = 30;
+console.log(obj); // { name: "John", age: 30 }
+
+// Method 2: Bracket notation
+obj["email"] = "john@email.com";
+console.log(obj); // { name: "John", age: 30, email: "john@email.com" }
+
+// Method 3: Object.assign()
+Object.assign(obj, { city: "NYC", country: "USA" });
+console.log(obj);
+// { name: "John", age: 30, email: "john@email.com", city: "NYC", country: "USA" }
+
+// Method 4: Spread operator
+const newObj = { ...obj, phone: "555-1234" };
+console.log(newObj);</code></pre>
+                <button onclick="runAddingProperties()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Modifying Properties -->
+            <div class="example">
+                <div class="example-title">✅ Modifying Existing Properties</div>
+                <div class="description">
+                    Update existing property values in different ways.
+                </div>
+                <pre><code>const user = {
+    name: "Alice",
+    age: 25,
+    email: "alice@email.com"
+};
+
+// Method 1: Dot notation
+user.name = "Bob";
+console.log(user.name); // "Bob"
+
+// Method 2: Bracket notation
+user["age"] = 30;
+console.log(user["age"]); // 30
+
+// Method 3: Using Object.defineProperty()
+Object.defineProperty(user, "phone", {
+    value: "555-1234",
+    writable: true,
+    enumerable: true,
+    configurable: true
+});
+
+// Method 4: Update with Object.assign()
+Object.assign(user, { email: "bob@email.com", city: "LA" });
+
+console.log(user);
+// { name: "Bob", age: 30, email: "bob@email.com", phone: "555-1234", city: "LA" }</code></pre>
+                <button onclick="runModifyingProperties()">Run Example</button>
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- Deleting Properties -->
+            <div class="example">
+                <div class="example-title">✅ Deleting Properties</div>
+                <div class="description">
+                    Remove properties from objects using the delete operator.
+                </div>
+                <pre><code>const obj = {
+    name: "John",
+    age: 30,
+    email: "john@email.com",
+    phone: "555-1234"
+};
+
+console.log(obj);
+// { name: "John", age: 30, email: "john@email.com", phone: "555-1234" }
+
+// Delete property
+delete obj.email;
+console.log(obj);
+// { name: "John", age: 30, phone: "555-1234" }
+
+console.log("email" in obj); // false
+console.log(obj.email); // undefined
+
+// Delete multiple properties
+delete obj.phone;
+delete obj.age;
+console.log(obj);
+// { name: "John" }
+
+// Check existence
+console.log(Object.hasOwn(obj, "name")); // true
+console.log(Object.hasOwn(obj, "email")); // false</code></pre>
+                <button onclick="runDeletingProperties()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- Property Descriptors -->
+            <div class="example">
+                <div class="example-title">✅ Using Object.defineProperty()</div>
+                <div class="description">
+                    Define properties with specific descriptors (writable, enumerable, configurable).
+                </div>
+                <pre><code>const obj = {};
+
+// Define a read-only property
+Object.defineProperty(obj, "name", {
+    value: "John",
+    writable: false,    // Cannot be modified
+    enumerable: true,   // Shows in Object.keys()
+    configurable: true  // Can be deleted/reconfigured
+});
+
+// Define multiple properties at once
+Object.defineProperties(obj, {
+    age: {
+        value: 30,
+        writable: true,
+        enumerable: true
+    },
+    email: {
+        value: "john@email.com",
+        writable: true,
+        enumerable: false  // Won't show in Object.keys()
+    }
+});
+
+console.log(obj.name); // "John"
+obj.name = "Bob"; // Fails silently (writable: false)
+console.log(obj.name); // "John" (unchanged)
+
+console.log(Object.keys(obj)); // ["name", "age"] (email excluded)
+console.log(obj.email); // "john@email.com" (still accessible)</code></pre>
+                <button onclick="runPropertyDescriptors()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- Dynamic Property Access -->
+            <div class="example">
+                <div class="example-title">✅ Dynamic Property Access</div>
+                <div class="description">
+                    Access and modify properties using variables and computed values.
+                </div>
+                <pre><code>const obj = {
+    firstName: "John",
+    lastName: "Doe",
+    email: "john@email.com"
+};
+
+// Using variable as key
+let key = "firstName";
+console.log(obj[key]); // "John"
+
+// Changing the key
+key = "email";
+console.log(obj[key]); // "john@email.com"
+
+// Using computed property names
+const prop = "last" + "Name";
+console.log(obj[prop]); // "Doe"
+
+// Using loop with dynamic access
+const keys = Object.keys(obj);
+for (let i = 0; i < keys.length; i++) {
+    console.log(keys[i] + ": " + obj[keys[i]]);
+}
+
+// Function to get property
+function getProperty(obj, propertyName) {
+    return obj[propertyName];
+}
+
+console.log(getProperty(obj, "firstName")); // "John"</code></pre>
+                <button onclick="runDynamicAccess()">Run Example</button>
+                <div id="output6" class="output"></div>
+            </div>
+
+            <!-- Checking Property Existence -->
+            <div class="example">
+                <div class="example-title">✅ Checking Property Existence</div>
+                <div class="description">
+                    Verify if a property exists in an object before accessing it.
+                </div>
+                <pre><code>const obj = { name: "John", age: 30 };
+
+// Method 1: 'in' operator
+console.log("name" in obj); // true
+console.log("email" in obj); // false
+
+// Method 2: hasOwnProperty()
+console.log(obj.hasOwnProperty("name")); // true
+console.log(obj.hasOwnProperty("age")); // true
+
+// Method 3: Object.hasOwn() (recommended)
+console.log(Object.hasOwn(obj, "name")); // true
+console.log(Object.hasOwn(obj, "email")); // false
+
+// Method 4: Undefined check
+console.log(obj.name !== undefined); // true
+console.log(obj.email !== undefined); // false
+
+// Difference: 'in' includes inherited properties
+const proto = { city: "NYC" };
+const user = Object.create(proto);
+user.name = "John";
+
+console.log("name" in user); // true
+console.log("city" in user); // true (inherited)
+console.log(user.hasOwnProperty("city")); // false</code></pre>
+                <button onclick="runPropertyExistence()">Run Example</button>
+                <div id="output7" class="output"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Access & Modification | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runDotVsBracket() {
+            const person = {
+                name: "John",
+                age: 30,
+                "email-address": "john@email.com",
+                "phone number": "+1-555-1234"
+            };
+            
+            let output = "Dot Notation:\n";
+            output += "person.name: " + person.name + "\n";
+            output += "person.age: " + person.age + "\n\n";
+            output += "Bracket Notation:\n";
+            output += "person['name']: " + person["name"] + "\n";
+            output += "person['age']: " + person["age"] + "\n";
+            output += "person['email-address']: " + person["email-address"] + "\n";
+            output += "person['phone number']: " + person["phone number"] + "\n\n";
+            output += "Dynamic Access:\n";
+            const key = "age";
+            output += "const key = 'age';\n";
+            output += "person[key]: " + person[key] + "\n\n";
+            output += "Using Expression:\n";
+            const index = "na" + "me";
+            output += "person['na' + 'me']: " + person[index];
+            
+            displayOutput("output1", output);
+        }
+
+        function runAddingProperties() {
+            const obj = { name: "John" };
+            
+            let output = "Initial object:\n";
+            output += JSON.stringify(obj) + "\n\n";
+            
+            obj.age = 30;
+            output += "After obj.age = 30:\n";
+            output += JSON.stringify(obj) + "\n\n";
+            
+            obj["email"] = "john@email.com";
+            output += "After obj['email'] = 'john@email.com':\n";
+            output += JSON.stringify(obj) + "\n\n";
+            
+            Object.assign(obj, { city: "NYC", country: "USA" });
+            output += "After Object.assign():\n";
+            output += JSON.stringify(obj, null, 2);
+            
+            displayOutput("output2", output);
+        }
+
+        function runModifyingProperties() {
+            const user = {
+                name: "Alice",
+                age: 25,
+                email: "alice@email.com"
+            };
+            
+            let output = "Initial object:\n";
+            output += JSON.stringify(user, null, 2) + "\n\n";
+            
+            user.name = "Bob";
+            output += "After user.name = 'Bob':\n";
+            output += "name: " + user.name + "\n\n";
+            
+            user["age"] = 30;
+            output += "After user['age'] = 30:\n";
+            output += "age: " + user["age"] + "\n\n";
+            
+            Object.assign(user, { email: "bob@email.com", city: "LA" });
+            output += "After Object.assign():\n";
+            output += JSON.stringify(user, null, 2);
+            
+            displayOutput("output3", output);
+        }
+
+        function runDeletingProperties() {
+            const obj = {
+                name: "John",
+                age: 30,
+                email: "john@email.com",
+                phone: "555-1234"
+            };
+            
+            let output = "Initial object:\n";
+            output += JSON.stringify(obj, null, 2) + "\n\n";
+            
+            delete obj.email;
+            output += "After delete obj.email:\n";
+            output += JSON.stringify(obj, null, 2) + "\n";
+            output += "'email' in obj: " + ("email" in obj) + "\n";
+            output += "obj.email: " + obj.email + "\n\n";
+            
+            delete obj.phone;
+            delete obj.age;
+            output += "After deleting phone and age:\n";
+            output += JSON.stringify(obj, null, 2) + "\n\n";
+            output += "Existence checks:\n";
+            output += "Object.hasOwn(obj, 'name'): " + Object.hasOwn(obj, "name") + "\n";
+            output += "Object.hasOwn(obj, 'email'): " + Object.hasOwn(obj, "email");
+            
+            displayOutput("output4", output);
+        }
+
+        function runPropertyDescriptors() {
+            const obj = {};
+            
+            Object.defineProperty(obj, "name", {
+                value: "John",
+                writable: false,
+                enumerable: true,
+                configurable: true
+            });
+            
+            Object.defineProperties(obj, {
+                age: {
+                    value: 30,
+                    writable: true,
+                    enumerable: true
+                },
+                email: {
+                    value: "john@email.com",
+                    writable: true,
+                    enumerable: false
+                }
+            });
+            
+            let output = "Object properties:\n";
+            output += "name: " + obj.name + "\n";
+            output += "age: " + obj.age + "\n";
+            output += "email: " + obj.email + "\n\n";
+            
+            output += "Attempting to modify read-only property:\n";
+            const oldName = obj.name;
+            obj.name = "Bob";
+            output += "obj.name = 'Bob' (attempted)\n";
+            output += "Result: " + obj.name + " (unchanged, writable: false)\n\n";
+            
+            output += "Object.keys() result:\n";
+            output += JSON.stringify(Object.keys(obj)) + "\n";
+            output += "(email excluded because enumerable: false)\n\n";
+            
+            output += "All properties still accessible:\n";
+            output += "obj.email: " + obj.email;
+            
+            displayOutput("output5", output);
+        }
+
+        function runDynamicAccess() {
+            const obj = {
+                firstName: "John",
+                lastName: "Doe",
+                email: "john@email.com"
+            };
+            
+            let output = "Initial object:\n";
+            output += JSON.stringify(obj, null, 2) + "\n\n";
+            
+            let key = "firstName";
+            output += "Dynamic access with variable:\n";
+            output += "let key = 'firstName';\n";
+            output += "obj[key]: " + obj[key] + "\n\n";
+            
+            key = "email";
+            output += "key = 'email';\n";
+            output += "obj[key]: " + obj[key] + "\n\n";
+            
+            const prop = "last" + "Name";
+            output += "Using computed values:\n";
+            output += "const prop = 'last' + 'Name';\n";
+            output += "obj[prop]: " + obj[prop] + "\n\n";
+            
+            output += "Loop through properties:\n";
+            const keys = Object.keys(obj);
+            keys.forEach(k => {
+                output += k + ": " + obj[k] + "\n";
+            });
+            
+            displayOutput("output6", output);
+        }
+
+        function runPropertyExistence() {
+            const obj = { name: "John", age: 30 };
+            
+            let output = "Object: " + JSON.stringify(obj) + "\n\n";
+            
+            output += "Method 1: 'in' operator\n";
+            output += "'name' in obj: " + ("name" in obj) + "\n";
+            output += "'email' in obj: " + ("email" in obj) + "\n\n";
+            
+            output += "Method 2: hasOwnProperty()\n";
+            output += "obj.hasOwnProperty('name'): " + obj.hasOwnProperty("name") + "\n";
+            output += "obj.hasOwnProperty('email'): " + obj.hasOwnProperty("email") + "\n\n";
+            
+            output += "Method 3: Object.hasOwn() (recommended)\n";
+            output += "Object.hasOwn(obj, 'name'): " + Object.hasOwn(obj, "name") + "\n";
+            output += "Object.hasOwn(obj, 'email'): " + Object.hasOwn(obj, "email") + "\n\n";
+            
+            output += "Method 4: Undefined check\n";
+            output += "obj.name !== undefined: " + (obj.name !== undefined) + "\n";
+            output += "obj.email !== undefined: " + (obj.email !== undefined) + "\n\n";
+            
+            output += "Checking inherited properties:\n";
+            const proto = { city: "NYC" };
+            const user = Object.create(proto);
+            user.name = "John";
+            output += "'name' in user: " + ("name" in user) + " (own property)\n";
+            output += "'city' in user: " + ("city" in user) + " (inherited property)\n";
+            output += "user.hasOwnProperty('city'): " + user.hasOwnProperty("city");
+            
+            displayOutput("output7", output);
+        }
+    </script>
+</body>
+</html>

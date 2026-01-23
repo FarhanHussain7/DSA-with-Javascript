@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Creation Methods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Creation Methods</h1>
+            <p class="subtitle">Learn Different Ways to Create Objects in JavaScript</p>
+        </header>
+
+        <div class="content">
+            <!-- Object Literal -->
+            <div class="example">
+                <div class="example-title">✅ Object Literal Notation</div>
+                <div class="description">
+                    The simplest way to create an object using curly braces and key-value pairs.
+                </div>
+                <pre><code>// Syntax
+const objectName = {
+    key1: value1,
+    key2: value2,
+    key3: value3
+};
+
+// Example
+const person = {
+    name: "John",
+    age: 30,
+    city: "New York",
+    email: "john@example.com"
+};
+
+console.log(person);
+console.log(person.name); // "John"</code></pre>
+                <button onclick="runObjectLiteral()">Run Example</button>
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Constructor Function -->
+            <div class="example">
+                <div class="example-title">✅ Constructor Function</div>
+                <div class="description">
+                    Create reusable object templates using a function called with the 'new' keyword.
+                </div>
+                <pre><code>// Define constructor function
+function Person(name, age, city) {
+    this.name = name;
+    this.age = age;
+    this.city = city;
+    this.greet = function() {
+        return "Hello, I'm " + this.name;
+    };
+}
+
+// Create instances
+const person1 = new Person("John", 30, "NYC");
+const person2 = new Person("Alice", 25, "LA");
+
+console.log(person1);
+console.log(person1.greet());
+console.log(person2);</code></pre>
+                <button onclick="runConstructor()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Object.create() -->
+            <div class="example">
+                <div class="example-title">✅ Object.create() Method</div>
+                <div class="description">
+                    Create an object with a specific prototype. Useful for inheritance patterns.
+                </div>
+                <pre><code>// Create prototype object
+const PersonProto = {
+    greet() {
+        return "Hello, I'm " + this.name;
+    },
+    introduce() {
+        return this.name + " is " + this.age + " years old";
+    }
+};
+
+// Create new object with PersonProto as prototype
+const person1 = Object.create(PersonProto);
+person1.name = "John";
+person1.age = 30;
+
+const person2 = Object.create(PersonProto);
+person2.name = "Alice";
+person2.age = 25;
+
+console.log(person1.name); // "John"
+console.log(person1.greet()); // "Hello, I'm John"
+console.log(person2.introduce()); // "Alice is 25 years old"</code></pre>
+                <button onclick="runObjectCreate()">Run Example</button>
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- Object.assign() -->
+            <div class="example">
+                <div class="example-title">✅ Object.assign() Method</div>
+                <div class="description">
+                    Copy properties from one or more source objects to a target object.
+                </div>
+                <pre><code>// Syntax: Object.assign(target, source1, source2, ...)
+
+const defaultSettings = {
+    theme: "light",
+    language: "en",
+    notifications: true
+};
+
+const userSettings = {
+    theme: "dark",
+    notifications: false
+};
+
+// Merge objects
+const finalSettings = Object.assign({}, defaultSettings, userSettings);
+
+console.log(finalSettings);
+// Output: { theme: "dark", language: "en", notifications: false }
+
+// Direct merge (modifies target)
+const config = Object.assign(defaultSettings, userSettings);
+console.log(config);
+console.log(config === defaultSettings); // true (same object)</code></pre>
+                <button onclick="runObjectAssign()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- ES6 Class Syntax -->
+            <div class="example">
+                <div class="example-title">✅ ES6 Class Syntax</div>
+                <div class="description">
+                    Modern syntax for creating objects with constructor and methods.
+                </div>
+                <pre><code>// Class definition
+class Car {
+    constructor(brand, model, year) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+    }
+    
+    // Instance method
+    getInfo() {
+        return this.year + " " + this.brand + " " + this.model;
+    }
+    
+    // Static method
+    static compare(car1, car2) {
+        return car1.year - car2.year;
+    }
+}
+
+// Create instances
+const car1 = new Car("Toyota", "Camry", 2020);
+const car2 = new Car("Honda", "Civic", 2022);
+
+console.log(car1.getInfo()); // "2020 Toyota Camry"
+console.log(car2.getInfo()); // "2022 Honda Civic"
+console.log(Car.compare(car1, car2)); // -2</code></pre>
+                <button onclick="runClass()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- Singleton Pattern -->
+            <div class="example">
+                <div class="example-title">✅ Singleton Pattern</div>
+                <div class="description">
+                    Create only one instance of an object and reuse it throughout the application.
+                </div>
+                <pre><code>// Singleton implementation
+const DatabaseConnection = (() => {
+    let instance;
+    
+    return {
+        getInstance() {
+            if (!instance) {
+                instance = {
+                    connectionId: Math.random(),
+                    connect() { return "Connected"; },
+                    disconnect() { return "Disconnected"; }
+                };
+            }
+            return instance;
+        }
+    };
+})();
+
+const db1 = DatabaseConnection.getInstance();
+const db2 = DatabaseConnection.getInstance();
+
+console.log(db1 === db2); // true (same instance)
+console.log(db1.connectionId === db2.connectionId); // true</code></pre>
+                <button onclick="runSingleton()">Run Example</button>
+                <div id="output6" class="output"></div>
+            </div>
+
+            <!-- Factory Function -->
+            <div class="example">
+                <div class="example-title">✅ Factory Function</div>
+                <div class="description">
+                    Use a function to create and configure objects based on parameters.
+                </div>
+                <pre><code>// Factory function
+function createUser(name, role) {
+    return {
+        name: name,
+        role: role,
+        permissions: getPermissions(role),
+        getInfo() {
+            return this.name + " is a " + this.role;
+        }
+    };
+}
+
+function getPermissions(role) {
+    switch(role) {
+        case "admin": return ["read", "write", "delete"];
+        case "user": return ["read", "write"];
+        case "guest": return ["read"];
+        default: return [];
+    }
+}
+
+const admin = createUser("John", "admin");
+const user = createUser("Alice", "user");
+const guest = createUser("Bob", "guest");
+
+console.log(admin);
+console.log(admin.getInfo());
+console.log(user.permissions);</code></pre>
+                <button onclick="runFactory()">Run Example</button>
+                <div id="output7" class="output"></div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="example">
+                <div class="example-title">📊 Comparison: When to Use Each Method</div>
+                <div class="description">
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Method</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Best For</th>
+                            <th style="padding: 10px; text-align: left; border: 1px solid #ddd;">Performance</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Object Literal</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Single objects, config</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Fastest</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">Constructor</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Multiple instances</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Fast</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Object.create()</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Inheritance patterns</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Medium</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 10px; border: 1px solid #ddd;">Class (ES6)</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Modern apps, OOP</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Fast</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Factory</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Complex logic</td>
+                            <td style="padding: 10px; border: 1px solid #ddd;">Medium</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Creation Methods | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runObjectLiteral() {
+            const person = {
+                name: "John",
+                age: 30,
+                city: "New York",
+                email: "john@example.com"
+            };
+            
+            let output = "Object Created:\n";
+            output += JSON.stringify(person, null, 2) + "\n\n";
+            output += "Accessing properties:\n";
+            output += "person.name: " + person.name + "\n";
+            output += "person['age']: " + person["age"] + "\n";
+            
+            displayOutput("output1", output);
+        }
+
+        function runConstructor() {
+            function Person(name, age, city) {
+                this.name = name;
+                this.age = age;
+                this.city = city;
+                this.greet = function() {
+                    return "Hello, I'm " + this.name;
+                };
+            }
+            
+            const person1 = new Person("John", 30, "NYC");
+            const person2 = new Person("Alice", 25, "LA");
+            
+            let output = "Person 1:\n";
+            output += JSON.stringify(person1, null, 2) + "\n";
+            output += "person1.greet(): " + person1.greet() + "\n\n";
+            output += "Person 2:\n";
+            output += JSON.stringify(person2, null, 2) + "\n";
+            output += "person2.greet(): " + person2.greet() + "\n";
+            output += "person1 instanceof Person: " + (person1 instanceof Person);
+            
+            displayOutput("output2", output);
+        }
+
+        function runObjectCreate() {
+            const PersonProto = {
+                greet() {
+                    return "Hello, I'm " + this.name;
+                },
+                introduce() {
+                    return this.name + " is " + this.age + " years old";
+                }
+            };
+            
+            const person1 = Object.create(PersonProto);
+            person1.name = "John";
+            person1.age = 30;
+            
+            const person2 = Object.create(PersonProto);
+            person2.name = "Alice";
+            person2.age = 25;
+            
+            let output = "Person 1:\n";
+            output += "name: " + person1.name + "\n";
+            output += "age: " + person1.age + "\n";
+            output += "greet(): " + person1.greet() + "\n";
+            output += "introduce(): " + person1.introduce() + "\n\n";
+            output += "Person 2:\n";
+            output += "name: " + person2.name + "\n";
+            output += "introduce(): " + person2.introduce() + "\n\n";
+            output += "Prototype check:\n";
+            output += "Object.getPrototypeOf(person1) === PersonProto: " + (Object.getPrototypeOf(person1) === PersonProto);
+            
+            displayOutput("output3", output);
+        }
+
+        function runObjectAssign() {
+            const defaultSettings = {
+                theme: "light",
+                language: "en",
+                notifications: true
+            };
+            
+            const userSettings = {
+                theme: "dark",
+                notifications: false
+            };
+            
+            const finalSettings = Object.assign({}, defaultSettings, userSettings);
+            
+            let output = "Default Settings:\n";
+            output += JSON.stringify(defaultSettings, null, 2) + "\n\n";
+            output += "User Settings:\n";
+            output += JSON.stringify(userSettings, null, 2) + "\n\n";
+            output += "Merged Settings:\n";
+            output += JSON.stringify(finalSettings, null, 2) + "\n\n";
+            output += "Direct merge example:\n";
+            const config = Object.assign(defaultSettings, userSettings);
+            output += "config === defaultSettings: " + (config === defaultSettings);
+            
+            displayOutput("output4", output);
+        }
+
+        function runClass() {
+            class Car {
+                constructor(brand, model, year) {
+                    this.brand = brand;
+                    this.model = model;
+                    this.year = year;
+                }
+                
+                getInfo() {
+                    return this.year + " " + this.brand + " " + this.model;
+                }
+                
+                static compare(car1, car2) {
+                    return car1.year - car2.year;
+                }
+            }
+            
+            const car1 = new Car("Toyota", "Camry", 2020);
+            const car2 = new Car("Honda", "Civic", 2022);
+            
+            let output = "Car 1:\n";
+            output += JSON.stringify(car1, null, 2) + "\n";
+            output += "getInfo(): " + car1.getInfo() + "\n\n";
+            output += "Car 2:\n";
+            output += JSON.stringify(car2, null, 2) + "\n";
+            output += "getInfo(): " + car2.getInfo() + "\n\n";
+            output += "Static method:\n";
+            output += "Car.compare(car1, car2): " + Car.compare(car1, car2) + " (year difference)";
+            
+            displayOutput("output5", output);
+        }
+
+        function runSingleton() {
+            const DatabaseConnection = (() => {
+                let instance;
+                
+                return {
+                    getInstance() {
+                        if (!instance) {
+                            instance = {
+                                connectionId: Math.random(),
+                                connect() { return "Connected"; },
+                                disconnect() { return "Disconnected"; }
+                            };
+                        }
+                        return instance;
+                    }
+                };
+            })();
+            
+            const db1 = DatabaseConnection.getInstance();
+            const db2 = DatabaseConnection.getInstance();
+            const db3 = DatabaseConnection.getInstance();
+            
+            let output = "First instance:\n";
+            output += "connectionId: " + db1.connectionId + "\n";
+            output += "connect(): " + db1.connect() + "\n\n";
+            output += "Second instance:\n";
+            output += "connectionId: " + db2.connectionId + "\n\n";
+            output += "Third instance:\n";
+            output += "connectionId: " + db3.connectionId + "\n\n";
+            output += "All instances are the same:\n";
+            output += "db1 === db2: " + (db1 === db2) + "\n";
+            output += "db2 === db3: " + (db2 === db3) + "\n";
+            output += "All connectionIds match: " + (db1.connectionId === db2.connectionId && db2.connectionId === db3.connectionId);
+            
+            displayOutput("output6", output);
+        }
+
+        function runFactory() {
+            function createUser(name, role) {
+                return {
+                    name: name,
+                    role: role,
+                    permissions: getPermissions(role),
+                    getInfo() {
+                        return this.name + " is a " + this.role;
+                    }
+                };
+            }
+            
+            function getPermissions(role) {
+                switch(role) {
+                    case "admin": return ["read", "write", "delete"];
+                    case "user": return ["read", "write"];
+                    case "guest": return ["read"];
+                    default: return [];
+                }
+            }
+            
+            const admin = createUser("John", "admin");
+            const user = createUser("Alice", "user");
+            const guest = createUser("Bob", "guest");
+            
+            let output = "Admin User:\n";
+            output += JSON.stringify(admin, null, 2) + "\n";
+            output += "getInfo(): " + admin.getInfo() + "\n\n";
+            output += "Regular User:\n";
+            output += "name: " + user.name + "\n";
+            output += "permissions: " + JSON.stringify(user.permissions) + "\n\n";
+            output += "Guest User:\n";
+            output += "name: " + guest.name + "\n";
+            output += "permissions: " + JSON.stringify(guest.permissions);
+            
+            displayOutput("output7", output);
+        }
+    </script>
+</body>
+</html>

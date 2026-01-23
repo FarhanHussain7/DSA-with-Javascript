@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Methods & Functions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Methods & Functions</h1>
+            <p class="subtitle">Methods, call(), apply(), bind(), and Method Chaining</p>
+        </header>
+
+        <div class="content">
+            <!-- Adding Methods to Objects -->
+            <div class="example">
+                <div class="example-title">✅ Adding Methods to Objects</div>
+                <div class="description">
+                    Functions stored in objects are called methods. They can access object properties via 'this'.
+                </div>
+                <pre><code>// Method 1: Function declaration in object
+const user = {
+    name: "John",
+    age: 30,
+    email: "john@email.com",
+    
+    // Method 1: Function shorthand
+    greet() {
+        return "Hello, I'm " + this.name;
+    },
+    
+    // Method 2: Function expression
+    getInfo: function() {
+        return this.name + " is " + this.age + " years old";
+    },
+    
+    // Method with parameter
+    sendEmail: function(message) {
+        return "Email sent to " + this.email + ": " + message;
+    }
+};
+
+console.log(user.greet());
+// "Hello, I'm John"
+
+console.log(user.getInfo());
+// "John is 30 years old"
+
+console.log(user.sendEmail("Hello!"));
+// "Email sent to john@email.com: Hello!"</code></pre>
+                <button onclick="runObjectMethods()">Run Example</button>
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Method Chaining -->
+            <div class="example">
+                <div class="example-title">✅ Method Chaining</div>
+                <div class="description">
+                    Return 'this' from methods to enable chaining multiple method calls.
+                </div>
+                <pre><code>const calculator = {
+    value: 0,
+    
+    add(n) {
+        this.value += n;
+        return this;
+    },
+    
+    subtract(n) {
+        this.value -= n;
+        return this;
+    },
+    
+    multiply(n) {
+        this.value *= n;
+        return this;
+    },
+    
+    divide(n) {
+        this.value /= n;
+        return this;
+    },
+    
+    getResult() {
+        return this.value;
+    }
+};
+
+// Chain multiple operations
+const result = calculator
+    .add(10)          // value = 10
+    .multiply(2)      // value = 20
+    .subtract(5)      // value = 15
+    .divide(3)        // value = 5
+    .getResult();
+
+console.log(result); // 5
+
+// Another example
+const stringBuilder = {
+    text: "",
+    
+    append(str) {
+        this.text += str;
+        return this;
+    },
+    
+    uppercase() {
+        this.text = this.text.toUpperCase();
+        return this;
+    },
+    
+    reverse() {
+        this.text = this.text.split("").reverse().join("");
+        return this;
+    },
+    
+    getResult() {
+        return this.text;
+    }
+};
+
+const result2 = stringBuilder
+    .append("hello")
+    .append(" world")
+    .uppercase()
+    .reverse()
+    .getResult();
+
+console.log(result2); // "DLROW OLEH"</code></pre>
+                <button onclick="runMethodChaining()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- call() Method -->
+            <div class="example">
+                <div class="example-title">✅ Function.prototype.call()</div>
+                <div class="description">
+                    Call a function with a specific 'this' context. Useful for inheritance and context switching.
+                </div>
+                <pre><code>function greet(greeting, punctuation) {
+    return greeting + ", " + this.name + punctuation;
+}
+
+function farewell(punctuation) {
+    return "Goodbye " + this.name + punctuation;
+}
+
+const person1 = { name: "John" };
+const person2 = { name: "Alice" };
+
+// Using call()
+console.log(greet.call(person1, "Hello", "!"));
+// "Hello, John!"
+
+console.log(greet.call(person2, "Hi", "?"));
+// "Hi, Alice?"
+
+console.log(farewell.call(person1, "~"));
+// "Goodbye John~"
+
+// Practical example: Array methods on objects
+const arrayLike = {
+    0: "a",
+    1: "b",
+    2: "c",
+    length: 3
+};
+
+// Use Array methods on array-like object
+Array.prototype.forEach.call(arrayLike, (item, index) => {
+    console.log(index + ": " + item);
+});</code></pre>
+                <button onclick="runCall()">Run Example</button>
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- apply() Method -->
+            <div class="example">
+                <div class="example-title">✅ Function.prototype.apply()</div>
+                <div class="description">
+                    Similar to call(), but arguments are passed as an array.
+                </div>
+                <pre><code>function calculate(a, b, c) {
+    return this.multiplier * (a + b + c);
+}
+
+const calculator = { multiplier: 2 };
+const calculator2 = { multiplier: 3 };
+
+// Using apply() - pass arguments as array
+console.log(calculate.apply(calculator, [10, 20, 30]));
+// 2 * (10 + 20 + 30) = 120
+
+console.log(calculate.apply(calculator2, [10, 20, 30]));
+// 3 * (10 + 20 + 30) = 180
+
+// Practical example: Find max value
+const numbers = [5, 10, 3, 20, 2];
+const max = Math.max.apply(null, numbers);
+console.log(max); // 20
+
+// Find min value
+const min = Math.min.apply(null, numbers);
+console.log(min); // 2
+
+// Merging arrays
+const arr1 = [1, 2];
+const arr2 = [3, 4];
+Array.prototype.push.apply(arr1, arr2);
+console.log(arr1); // [1, 2, 3, 4]</code></pre>
+                <button onclick="runApply()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- bind() Method -->
+            <div class="example">
+                <div class="example-title">✅ Function.prototype.bind()</div>
+                <div class="description">
+                    Create a new function with fixed 'this' context. Essential for event handlers and callbacks.
+                </div>
+                <pre><code>const person = {
+    name: "John",
+    greet(greeting) {
+        console.log(greeting + ", " + this.name);
+        return greeting + " " + this.name;
+    }
+};
+
+// Without bind - 'this' is lost
+const greetFunc = person.greet;
+greetFunc("Hello"); // "Hello, undefined" (this is window/global)
+
+// With bind - 'this' is fixed
+const boundGreet = person.greet.bind(person);
+boundGreet("Hello"); // "Hello, John"
+
+// Practical example: Event handler
+class Button {
+    constructor(label) {
+        this.label = label;
+    }
+    
+    onClick() {
+        console.log("Button '" + this.label + "' clicked!");
+    }
+}
+
+const btn = new Button("Submit");
+
+// Without bind - 'this' is lost in event handler
+// document.addEventListener("click", btn.onClick); // Error
+
+// With bind - 'this' is preserved
+const handleClick = btn.onClick.bind(btn);
+// document.addEventListener("click", handleClick); // Works!
+
+// Partial application with bind
+function multiply(a, b, c) {
+    return a * b * c;
+}
+
+const multiplyBy2 = multiply.bind(null, 2);
+console.log(multiplyBy2(5, 3)); // 2 * 5 * 3 = 30
+
+const multiplyBy2And3 = multiply.bind(null, 2, 3);
+console.log(multiplyBy2And3(4)); // 2 * 3 * 4 = 24</code></pre>
+                <button onclick="runBind()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- call() vs apply() vs bind() -->
+            <div class="example">
+                <div class="example-title">📊 call() vs apply() vs bind() Comparison</div>
+                <div class="description">
+                    <pre style="background: white; color: #333; border: 1px solid #ddd;">function introduce(country, city) {
+    return this.name + " is from " + country + ", " + city;
+}
+
+const person = { name: "John" };
+
+// call() - arguments individually
+introduce.call(person, "USA", "NYC");
+
+// apply() - arguments as array
+introduce.apply(person, ["USA", "NYC"]);
+
+// bind() - returns new function
+const boundFunc = introduce.bind(person, "USA", "NYC");
+boundFunc();
+</pre>
+
+<table style="width: 100%; border-collapse: collapse; margin-top: 10px;">
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Method</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Arguments</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Executes</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Use Case</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">call()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Individual args</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Immediately</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Quick execution</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd;">apply()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Array of args</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Immediately</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Array/dynamic args</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">bind()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Individual args</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Later (returns fn)</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Event handlers, callbacks</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Getters and Setters -->
+            <div class="example">
+                <div class="example-title">✅ Getters and Setters</div>
+                <div class="description">
+                    Special methods to get and set property values with custom logic.
+                </div>
+                <pre><code>const user = {
+    firstName: "John",
+    lastName: "Doe",
+    
+    // Getter
+    get fullName() {
+        return this.firstName + " " + this.lastName;
+    },
+    
+    // Setter with validation
+    set fullName(name) {
+        const parts = name.split(" ");
+        if (parts.length === 2) {
+            this.firstName = parts[0];
+            this.lastName = parts[1];
+        } else {
+            console.log("Please provide first and last name");
+        }
+    }
+};
+
+// Use like regular properties
+console.log(user.fullName); // "John Doe" (getter called)
+
+user.fullName = "Alice Smith"; // Setter called
+console.log(user.firstName); // "Alice"
+console.log(user.lastName); // "Smith"
+
+// Invalid assignment
+user.fullName = "OnlyFirstName"; // "Please provide first and last name"
+
+// In Classes
+class Circle {
+    constructor(radius) {
+        this._radius = radius;
+    }
+    
+    get radius() {
+        return this._radius;
+    }
+    
+    set radius(value) {
+        if (value <= 0) {
+            console.log("Radius must be positive");
+            return;
+        }
+        this._radius = value;
+    }
+    
+    get area() {
+        return Math.PI * this._radius ** 2;
+    }
+}
+
+const circle = new Circle(5);
+console.log(circle.radius); // 5
+console.log(circle.area); // 78.53981633974483
+
+circle.radius = 10;
+console.log(circle.area); // 314.159...</code></pre>
+                <button onclick="runGettersSetter()">Run Example</button>
+                <div id="output6" class="output"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Methods & Functions | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runObjectMethods() {
+            const user = {
+                name: "John",
+                age: 30,
+                email: "john@email.com",
+                
+                greet() {
+                    return "Hello, I'm " + this.name;
+                },
+                
+                getInfo: function() {
+                    return this.name + " is " + this.age + " years old";
+                },
+                
+                sendEmail: function(message) {
+                    return "Email sent to " + this.email + ": " + message;
+                }
+            };
+            
+            let output = "Object Methods:\n\n";
+            output += "user.greet():\n" + user.greet() + "\n\n";
+            output += "user.getInfo():\n" + user.getInfo() + "\n\n";
+            output += "user.sendEmail('Hello!'):\n" + user.sendEmail("Hello!");
+            
+            displayOutput("output1", output);
+        }
+
+        function runMethodChaining() {
+            const calculator = {
+                value: 0,
+                add(n) { this.value += n; return this; },
+                subtract(n) { this.value -= n; return this; },
+                multiply(n) { this.value *= n; return this; },
+                divide(n) { this.value /= n; return this; },
+                getResult() { return this.value; }
+            };
+            
+            const result = calculator
+                .add(10).multiply(2).subtract(5).divide(3).getResult();
+            
+            let output = "Method Chaining Example:\n";
+            output += "calculator.add(10).multiply(2).subtract(5).divide(3).getResult()\n\n";
+            output += "Step by step:\n";
+            output += "1. value = 0, add(10) = 10\n";
+            output += "2. value = 10, multiply(2) = 20\n";
+            output += "3. value = 20, subtract(5) = 15\n";
+            output += "4. value = 15, divide(3) = 5\n";
+            output += "5. Result: " + result + "\n\n";
+            
+            const stringBuilder = {
+                text: "",
+                append(str) { this.text += str; return this; },
+                uppercase() { this.text = this.text.toUpperCase(); return this; },
+                reverse() { this.text = this.text.split("").reverse().join(""); return this; },
+                getResult() { return this.text; }
+            };
+            
+            const result2 = stringBuilder
+                .append("hello").append(" world").uppercase().reverse().getResult();
+            
+            output += "String Building Chain:\n";
+            output += ".append('hello').append(' world').uppercase().reverse()\n";
+            output += "Result: " + result2;
+            
+            displayOutput("output2", output);
+        }
+
+        function runCall() {
+            function greet(greeting, punctuation) {
+                return greeting + ", " + this.name + punctuation;
+            }
+            
+            const person1 = { name: "John" };
+            const person2 = { name: "Alice" };
+            
+            let output = "Using call():\n\n";
+            output += "greet.call(person1, 'Hello', '!'):\n";
+            output += greet.call(person1, "Hello", "!") + "\n\n";
+            
+            output += "greet.call(person2, 'Hi', '?'):\n";
+            output += greet.call(person2, "Hi", "?") + "\n\n";
+            
+            const arrayLike = { 0: "a", 1: "b", 2: "c", length: 3 };
+            output += "Using Array methods on array-like object:\n";
+            Array.prototype.forEach.call(arrayLike, (item, index) => {
+                output += index + ": " + item + "\n";
+            });
+            
+            displayOutput("output3", output);
+        }
+
+        function runApply() {
+            function calculate(a, b, c) {
+                return this.multiplier * (a + b + c);
+            }
+            
+            const calculator = { multiplier: 2 };
+            const calculator2 = { multiplier: 3 };
+            
+            let output = "Using apply():\n\n";
+            output += "calculate.apply(calculator, [10, 20, 30]):\n";
+            output += calculate.apply(calculator, [10, 20, 30]) + "\n";
+            output += "(2 * (10 + 20 + 30) = 120)\n\n";
+            
+            output += "calculate.apply(calculator2, [10, 20, 30]):\n";
+            output += calculate.apply(calculator2, [10, 20, 30]) + "\n";
+            output += "(3 * (10 + 20 + 30) = 180)\n\n";
+            
+            const numbers = [5, 10, 3, 20, 2];
+            output += "Find max/min:\n";
+            output += "Math.max.apply(null, [5,10,3,20,2]): " + Math.max.apply(null, numbers) + "\n";
+            output += "Math.min.apply(null, [5,10,3,20,2]): " + Math.min.apply(null, numbers);
+            
+            displayOutput("output4", output);
+        }
+
+        function runBind() {
+            const person = {
+                name: "John",
+                greet(greeting) {
+                    return greeting + ", " + this.name;
+                }
+            };
+            
+            let output = "Using bind():\n\n";
+            
+            // Without bind
+            const greetFunc = person.greet;
+            output += "Without bind:\n";
+            output += "const greetFunc = person.greet;\n";
+            output += "greetFunc('Hello'): " + greetFunc("Hello") + "\n";
+            output += "(this.name is undefined - lost context)\n\n";
+            
+            // With bind
+            const boundGreet = person.greet.bind(person);
+            output += "With bind:\n";
+            output += "const boundGreet = person.greet.bind(person);\n";
+            output += "boundGreet('Hello'): " + boundGreet("Hello") + "\n\n";
+            
+            // Partial application
+            function multiply(a, b, c) {
+                return a * b * c;
+            }
+            
+            const multiplyBy2 = multiply.bind(null, 2);
+            output += "Partial Application:\n";
+            output += "const multiplyBy2 = multiply.bind(null, 2);\n";
+            output += "multiplyBy2(5, 3): " + multiplyBy2(5, 3) + "\n";
+            output += "(2 * 5 * 3 = 30)";
+            
+            displayOutput("output5", output);
+        }
+
+        function runGettersSetter() {
+            const user = {
+                firstName: "John",
+                lastName: "Doe",
+                get fullName() {
+                    return this.firstName + " " + this.lastName;
+                },
+                set fullName(name) {
+                    const parts = name.split(" ");
+                    if (parts.length === 2) {
+                        this.firstName = parts[0];
+                        this.lastName = parts[1];
+                    }
+                }
+            };
+            
+            let output = "Object Getters & Setters:\n\n";
+            output += "user.fullName (getter): " + user.fullName + "\n\n";
+            
+            user.fullName = "Alice Smith";
+            output += "user.fullName = 'Alice Smith' (setter called)\n";
+            output += "user.firstName: " + user.firstName + "\n";
+            output += "user.lastName: " + user.lastName + "\n";
+            output += "user.fullName: " + user.fullName + "\n\n";
+            
+            class Circle {
+                constructor(radius) { this._radius = radius; }
+                get radius() { return this._radius; }
+                set radius(value) {
+                    if (value <= 0) { return; }
+                    this._radius = value;
+                }
+                get area() { return Math.PI * this._radius ** 2; }
+            }
+            
+            const circle = new Circle(5);
+            output += "Class with Getters:\n";
+            output += "circle.radius: " + circle.radius + "\n";
+            output += "circle.area: " + circle.area.toFixed(2) + "\n\n";
+            
+            circle.radius = 10;
+            output += "circle.radius = 10\n";
+            output += "circle.area: " + circle.area.toFixed(2);
+            
+            displayOutput("output6", output);
+        }
+    </script>
+</body>
+</html>

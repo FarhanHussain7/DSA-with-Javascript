@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Static Methods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Static Methods</h1>
+            <p class="subtitle">Object.keys(), values(), entries(), freeze(), seal() and more</p>
+        </header>
+
+        <div class="content">
+            <!-- Object.keys(), values(), entries() -->
+            <div class="example">
+                <div class="example-title">✅ Object.keys(), Object.values(), Object.entries()</div>
+                <div class="description">
+                    Extract keys, values, or key-value pairs from an object as arrays.
+                </div>
+                <pre><code>const user = {
+    name: "John",
+    age: 30,
+    city: "New York",
+    email: "john@example.com"
+};
+
+// Get all keys
+const keys = Object.keys(user);
+console.log(keys);
+// ["name", "age", "city", "email"]
+
+// Get all values
+const values = Object.values(user);
+console.log(values);
+// ["John", 30, "New York", "john@example.com"]
+
+// Get key-value pairs
+const entries = Object.entries(user);
+console.log(entries);
+// [["name", "John"], ["age", 30], ["city", "New York"], ["email", "john@example.com"]]
+
+// Practical usage
+entries.forEach(([key, value]) => {
+    console.log(key + ": " + value);
+});</code></pre>
+                <button onclick="runKeysValuesEntries()">Run Example</button>
+                <div id="output1" class="output"></div>
+            </div>
+
+            <!-- Object.freeze() -->
+            <div class="example">
+                <div class="example-title">✅ Object.freeze() - Prevent All Modifications</div>
+                <div class="description">
+                    Make an object immutable - cannot add, delete, or modify properties.
+                </div>
+                <pre><code>const user = {
+    name: "John",
+    age: 30,
+    email: "john@example.com"
+};
+
+// Freeze the object
+const frozenUser = Object.freeze(user);
+
+console.log(Object.isFrozen(frozenUser)); // true
+
+// Try to modify
+frozenUser.name = "Bob"; // Fails silently
+console.log(frozenUser.name); // "John" (unchanged)
+
+// Try to add new property
+frozenUser.phone = "555-1234"; // Fails silently
+console.log(frozenUser.phone); // undefined
+
+// Try to delete property
+delete frozenUser.age; // Fails silently
+console.log(frozenUser.age); // 30 (still exists)
+
+// In strict mode: throws error
+"use strict";
+frozenUser.city = "NYC"; // TypeError: Cannot assign to read only property</code></pre>
+                <button onclick="runFreeze()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Object.seal() -->
+            <div class="example">
+                <div class="example-title">✅ Object.seal() - Prevent Add/Delete</div>
+                <div class="description">
+                    Can modify existing properties but cannot add or delete properties.
+                </div>
+                <pre><code>const user = {
+    name: "John",
+    age: 30
+};
+
+// Seal the object
+const sealedUser = Object.seal(user);
+
+console.log(Object.isSealed(sealedUser)); // true
+console.log(Object.isFrozen(sealedUser)); // false
+
+// ✓ Can modify existing properties
+sealedUser.name = "Bob";
+sealedUser.age = 31;
+console.log(sealedUser.name); // "Bob"
+console.log(sealedUser.age); // 31
+
+// ✗ Cannot add new properties
+sealedUser.email = "bob@example.com"; // Fails silently
+console.log(sealedUser.email); // undefined
+
+// ✗ Cannot delete properties
+delete sealedUser.age; // Fails silently
+console.log(sealedUser.age); // 31 (still exists)</code></pre>
+                <button onclick="runSeal()">Run Example</button>
+                <div id="output3" class="output"></div>
+            </div>
+
+            <!-- Object.preventExtensions() -->
+            <div class="example">
+                <div class="example-title">✅ Object.preventExtensions() - Prevent Add Only</div>
+                <div class="description">
+                    Cannot add new properties, but can modify and delete existing ones.
+                </div>
+                <pre><code>const user = {
+    name: "John",
+    age: 30
+};
+
+// Prevent extensions
+Object.preventExtensions(user);
+
+console.log(Object.isExtensible(user)); // false
+
+// ✓ Can modify existing properties
+user.name = "Bob";
+console.log(user.name); // "Bob"
+
+// ✓ Can delete properties
+delete user.age;
+console.log("age" in user); // false
+
+// ✗ Cannot add new properties
+user.email = "bob@example.com"; // Fails silently
+console.log(user.email); // undefined
+console.log(Object.keys(user)); // ["name"]</code></pre>
+                <button onclick="runPreventExtensions()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- Object.assign() -->
+            <div class="example">
+                <div class="example-title">✅ Object.assign() - Copy Properties</div>
+                <div class="description">
+                    Copy all enumerable properties from one or more source objects to a target object.
+                </div>
+                <pre><code>// Syntax: Object.assign(target, source1, source2, ...)
+
+const defaults = {
+    theme: "light",
+    language: "en",
+    notifications: true,
+    fontSize: 14
+};
+
+const userPreferences = {
+    theme: "dark",
+    notifications: false
+};
+
+// Merge into new object
+const settings = Object.assign({}, defaults, userPreferences);
+console.log(settings);
+// { theme: "dark", language: "en", notifications: false, fontSize: 14 }
+
+// Copy into existing object (modifies it)
+const config = Object.assign(defaults, userPreferences);
+console.log(config === defaults); // true (same object)
+
+// Multiple sources
+const obj1 = { a: 1 };
+const obj2 = { b: 2 };
+const obj3 = { c: 3 };
+const merged = Object.assign({}, obj1, obj2, obj3);
+console.log(merged); // { a: 1, b: 2, c: 3 }</code></pre>
+                <button onclick="runAssign()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- Object.getOwnPropertyNames() -->
+            <div class="example">
+                <div class="example-title">✅ Object.getOwnPropertyNames() & getOwnPropertyDescriptor()</div>
+                <div class="description">
+                    Get property names and their descriptors (writable, enumerable, configurable).
+                </div>
+                <pre><code>const obj = {};
+
+Object.defineProperty(obj, "name", {
+    value: "John",
+    writable: true,
+    enumerable: true,
+    configurable: true
+});
+
+Object.defineProperty(obj, "secret", {
+    value: "hidden",
+    writable: false,
+    enumerable: false,
+    configurable: false
+});
+
+// Get all own property names
+const names = Object.getOwnPropertyNames(obj);
+console.log(names); // ["name", "secret"]
+
+// Get descriptor for single property
+const nameDescriptor = Object.getOwnPropertyDescriptor(obj, "name");
+console.log(nameDescriptor);
+// { value: "John", writable: true, enumerable: true, configurable: true }
+
+// Get all descriptors
+const descriptors = Object.getOwnPropertyDescriptors(obj);
+console.log(descriptors);
+// Shows all properties with their descriptors
+
+// Object.keys() vs getOwnPropertyNames()
+console.log(Object.keys(obj)); // ["name"] (enumerable only)
+console.log(Object.getOwnPropertyNames(obj)); // ["name", "secret"] (all)</code></pre>
+                <button onclick="runPropertyDescriptors()">Run Example</button>
+                <div id="output6" class="output"></div>
+            </div>
+
+            <!-- Object.is() -->
+            <div class="example">
+                <div class="example-title">✅ Object.is() - Strict Equality Check</div>
+                <div class="description">
+                    Compare two values for equality. Similar to === but handles NaN and ±0 differently.
+                </div>
+                <pre><code>// Normal === comparisons
+console.log(5 === 5); // true
+console.log("5" === 5); // false
+console.log(NaN === NaN); // false ✗ (counterintuitive)
+console.log(+0 === -0); // true ✗ (not strictly equal)
+
+// Object.is() comparisons
+console.log(Object.is(5, 5)); // true
+console.log(Object.is("5", 5)); // false
+console.log(Object.is(NaN, NaN)); // true ✓ (correct)
+console.log(Object.is(+0, -0)); // false ✓ (correct)
+
+// More examples
+console.log(Object.is(undefined, undefined)); // true
+console.log(Object.is(null, null)); // true
+console.log(Object.is({}, {})); // false (different objects)
+
+const obj = {};
+console.log(Object.is(obj, obj)); // true (same object)</code></pre>
+                <button onclick="runObjectIs()">Run Example</button>
+                <div id="output7" class="output"></div>
+            </div>
+
+            <!-- Object.create() with Prototypes -->
+            <div class="example">
+                <div class="example-title">✅ Object.getPrototypeOf() & Object.setPrototypeOf()</div>
+                <div class="description">
+                    Get or set the prototype of an object for inheritance.
+                </div>
+                <pre><code>// Create prototype object
+const animalProto = {
+    speak() { return this.name + " makes a sound"; }
+};
+
+// Create object with prototype
+const dog = Object.create(animalProto);
+dog.name = "Buddy";
+
+// Get prototype
+console.log(Object.getPrototypeOf(dog) === animalProto); // true
+
+// Use inherited method
+console.log(dog.speak()); // "Buddy makes a sound"
+
+// Create new prototype
+const dogProto = {
+    speak() { return this.name + " barks"; },
+    wagTail() { return this.name + " wags tail"; }
+};
+
+// Set new prototype
+Object.setPrototypeOf(dog, dogProto);
+console.log(Object.getPrototypeOf(dog) === dogProto); // true
+console.log(dog.speak()); // "Buddy barks"
+console.log(dog.wagTail()); // "Buddy wags tail"</code></pre>
+                <button onclick="runPrototype()">Run Example</button>
+                <div id="output8" class="output"></div>
+            </div>
+
+            <!-- Object.fromEntries() -->
+            <div class="example">
+                <div class="example-title">✅ Object.fromEntries() - Convert Entries to Object</div>
+                <div class="description">
+                    Create an object from key-value pairs (reverse of Object.entries()).
+                </div>
+                <pre><code>// From array of entries
+const entries = [
+    ["name", "John"],
+    ["age", 30],
+    ["city", "New York"]
+];
+
+const obj = Object.fromEntries(entries);
+console.log(obj);
+// { name: "John", age: 30, city: "New York" }
+
+// From Map
+const map = new Map([
+    ["firstName", "John"],
+    ["lastName", "Doe"]
+]);
+
+const user = Object.fromEntries(map);
+console.log(user);
+// { firstName: "John", lastName: "Doe" }
+
+// Converting Object to Map and back
+const original = { x: 10, y: 20 };
+const m = new Map(Object.entries(original));
+const restored = Object.fromEntries(m);
+console.log(original);
+console.log(restored);
+console.log(JSON.stringify(original) === JSON.stringify(restored)); // true</code></pre>
+                <button onclick="runFromEntries()">Run Example</button>
+                <div id="output9" class="output"></div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Static Methods | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runKeysValuesEntries() {
+            const user = {
+                name: "John",
+                age: 30,
+                city: "New York",
+                email: "john@example.com"
+            };
+            
+            const keys = Object.keys(user);
+            const values = Object.values(user);
+            const entries = Object.entries(user);
+            
+            let output = "Object:\n" + JSON.stringify(user, null, 2) + "\n\n";
+            output += "Object.keys():\n" + JSON.stringify(keys) + "\n\n";
+            output += "Object.values():\n" + JSON.stringify(values) + "\n\n";
+            output += "Object.entries():\n";
+            entries.forEach(([key, value]) => {
+                output += "  " + key + ": " + value + "\n";
+            });
+            
+            displayOutput("output1", output);
+        }
+
+        function runFreeze() {
+            const user = { name: "John", age: 30, email: "john@example.com" };
+            const frozenUser = Object.freeze(user);
+            
+            let output = "Original object:\n" + JSON.stringify(frozenUser, null, 2) + "\n\n";
+            output += "Object.isFrozen(): " + Object.isFrozen(frozenUser) + "\n\n";
+            
+            output += "Trying modifications:\n";
+            frozenUser.name = "Bob";
+            output += "frozenUser.name = 'Bob' (attempted)\n";
+            output += "Result: " + frozenUser.name + " (unchanged)\n\n";
+            
+            frozenUser.phone = "555-1234";
+            output += "frozenUser.phone = '555-1234' (attempted)\n";
+            output += "Result: " + frozenUser.phone + " (undefined)\n\n";
+            
+            delete frozenUser.age;
+            output += "delete frozenUser.age (attempted)\n";
+            output += "Result: " + frozenUser.age + " (still exists)\n\n";
+            
+            output += "Final object:\n" + JSON.stringify(frozenUser, null, 2);
+            
+            displayOutput("output2", output);
+        }
+
+        function runSeal() {
+            const user = { name: "John", age: 30 };
+            const sealedUser = Object.seal(user);
+            
+            let output = "Original object:\n" + JSON.stringify(sealedUser, null, 2) + "\n\n";
+            output += "Object.isSealed(): " + Object.isSealed(sealedUser) + "\n";
+            output += "Object.isFrozen(): " + Object.isFrozen(sealedUser) + "\n\n";
+            
+            sealedUser.name = "Bob";
+            sealedUser.age = 31;
+            output += "✓ Modified existing properties:\n";
+            output += "  name: " + sealedUser.name + "\n";
+            output += "  age: " + sealedUser.age + "\n\n";
+            
+            sealedUser.email = "bob@example.com";
+            output += "✗ Tried to add email (failed silently)\n";
+            output += "  email: " + sealedUser.email + " (undefined)\n\n";
+            
+            delete sealedUser.age;
+            output += "✗ Tried to delete age (failed silently)\n";
+            output += "  age still exists: " + sealedUser.age + "\n\n";
+            
+            output += "Final object:\n" + JSON.stringify(sealedUser, null, 2);
+            
+            displayOutput("output3", output);
+        }
+
+        function runPreventExtensions() {
+            const user = { name: "John", age: 30 };
+            Object.preventExtensions(user);
+            
+            let output = "Original object:\n" + JSON.stringify(user, null, 2) + "\n\n";
+            output += "Object.isExtensible(): " + Object.isExtensible(user) + "\n\n";
+            
+            user.name = "Bob";
+            output += "✓ Modified existing property:\n";
+            output += "  name: " + user.name + "\n\n";
+            
+            delete user.age;
+            output += "✓ Deleted existing property:\n";
+            output += "  age deleted, 'age' in user: " + ("age" in user) + "\n\n";
+            
+            user.email = "bob@example.com";
+            output += "✗ Tried to add email (failed silently)\n";
+            output += "  email: " + user.email + " (undefined)\n\n";
+            
+            output += "Object.keys(): " + JSON.stringify(Object.keys(user));
+            
+            displayOutput("output4", output);
+        }
+
+        function runAssign() {
+            const defaults = {
+                theme: "light",
+                language: "en",
+                notifications: true,
+                fontSize: 14
+            };
+            
+            const userPreferences = {
+                theme: "dark",
+                notifications: false
+            };
+            
+            const settings = Object.assign({}, defaults, userPreferences);
+            
+            let output = "Defaults:\n" + JSON.stringify(defaults, null, 2) + "\n\n";
+            output += "User Preferences:\n" + JSON.stringify(userPreferences, null, 2) + "\n\n";
+            output += "Merged (into new object):\n" + JSON.stringify(settings, null, 2) + "\n\n";
+            
+            const config = Object.assign(defaults, userPreferences);
+            output += "Direct merge: config === defaults: " + (config === defaults);
+            
+            displayOutput("output5", output);
+        }
+
+        function runPropertyDescriptors() {
+            const obj = {};
+            
+            Object.defineProperty(obj, "name", {
+                value: "John",
+                writable: true,
+                enumerable: true,
+                configurable: true
+            });
+            
+            Object.defineProperty(obj, "secret", {
+                value: "hidden",
+                writable: false,
+                enumerable: false,
+                configurable: false
+            });
+            
+            const names = Object.getOwnPropertyNames(obj);
+            const nameDesc = Object.getOwnPropertyDescriptor(obj, "name");
+            const allDesc = Object.getOwnPropertyDescriptors(obj);
+            
+            let output = "Object.getOwnPropertyNames():\n" + JSON.stringify(names) + "\n\n";
+            output += "Descriptor for 'name':\n" + JSON.stringify(nameDesc, null, 2) + "\n\n";
+            output += "All Descriptors:\n" + JSON.stringify(allDesc, null, 2) + "\n\n";
+            output += "Comparison:\n";
+            output += "Object.keys(): " + JSON.stringify(Object.keys(obj)) + " (enumerable only)\n";
+            output += "getOwnPropertyNames(): " + JSON.stringify(Object.getOwnPropertyNames(obj)) + " (all)";
+            
+            displayOutput("output6", output);
+        }
+
+        function runObjectIs() {
+            let output = "=== vs Object.is():\n\n";
+            output += "Object.is(5, 5): " + Object.is(5, 5) + " (vs 5===5: " + (5 === 5) + ")\n";
+            output += "Object.is('5', 5): " + Object.is("5", 5) + " (vs '5'===5: " + ("5" === 5) + ")\n";
+            output += "Object.is(NaN, NaN): " + Object.is(NaN, NaN) + " ✓ (vs NaN===NaN: " + (NaN === NaN) + ") ✗\n";
+            output += "Object.is(+0, -0): " + Object.is(+0, -0) + " ✓ (vs +0===-0: " + (+0 === -0) + ") ✗\n\n";
+            output += "More examples:\n";
+            output += "Object.is(undefined, undefined): " + Object.is(undefined, undefined) + "\n";
+            output += "Object.is(null, null): " + Object.is(null, null) + "\n";
+            output += "Object.is({}, {}): " + Object.is({}, {}) + "\n";
+            const obj = {};
+            output += "Object.is(obj, obj): " + Object.is(obj, obj);
+            
+            displayOutput("output7", output);
+        }
+
+        function runPrototype() {
+            const animalProto = {
+                speak() { return this.name + " makes a sound"; }
+            };
+            
+            const dog = Object.create(animalProto);
+            dog.name = "Buddy";
+            
+            let output = "Initial prototype:\n";
+            output += "Object.getPrototypeOf(dog) === animalProto: " + (Object.getPrototypeOf(dog) === animalProto) + "\n";
+            output += "dog.speak(): " + dog.speak() + "\n\n";
+            
+            const dogProto = {
+                speak() { return this.name + " barks"; },
+                wagTail() { return this.name + " wags tail"; }
+            };
+            
+            Object.setPrototypeOf(dog, dogProto);
+            output += "After setPrototypeOf():\n";
+            output += "Object.getPrototypeOf(dog) === dogProto: " + (Object.getPrototypeOf(dog) === dogProto) + "\n";
+            output += "dog.speak(): " + dog.speak() + "\n";
+            output += "dog.wagTail(): " + dog.wagTail();
+            
+            displayOutput("output8", output);
+        }
+
+        function runFromEntries() {
+            const entries = [
+                ["name", "John"],
+                ["age", 30],
+                ["city", "New York"]
+            ];
+            
+            const obj = Object.fromEntries(entries);
+            
+            let output = "From array of entries:\n";
+            output += JSON.stringify(entries, null, 2) + "\n\n";
+            output += "Object.fromEntries():\n" + JSON.stringify(obj, null, 2) + "\n\n";
+            
+            const map = new Map([
+                ["firstName", "John"],
+                ["lastName", "Doe"]
+            ]);
+            
+            const user = Object.fromEntries(map);
+            output += "From Map:\n";
+            output += JSON.stringify(user, null, 2) + "\n\n";
+            
+            const original = { x: 10, y: 20 };
+            const m = new Map(Object.entries(original));
+            const restored = Object.fromEntries(m);
+            output += "Object -> Map -> Object:\n";
+            output += "Original: " + JSON.stringify(original) + "\n";
+            output += "Restored: " + JSON.stringify(restored) + "\n";
+            output += "Are they equal: " + (JSON.stringify(original) === JSON.stringify(restored));
+            
+            displayOutput("output9", output);
+        }
+    </script>
+</body>
+</html>

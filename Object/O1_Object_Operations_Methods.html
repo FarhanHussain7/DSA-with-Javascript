@@ -1,0 +1,1457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object - All Operations & Methods</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        section {
+            margin-bottom: 40px;
+            border-left: 5px solid #667eea;
+            padding-left: 20px;
+        }
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            border-left: 3px solid #764ba2;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 20px;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 15px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 0.95em;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 JavaScript Object Operations</h1>
+            <p class="subtitle">Complete Guide - Methods, Operations & Functions</p>
+        </header>
+
+        <div class="content">
+            <!-- Object Creation -->
+            <section>
+                <h2>1. Object Creation Methods</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Literal Notation</div>
+                    <pre><code>// Object Literal
+const person = {
+    name: "John",
+    age: 30,
+    city: "New York"
+};
+console.log(person); // { name: "John", age: 30, city: "New York" }</code></pre>
+                    <button onclick="demonstrateObjectLiteral()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Constructor Function</div>
+                    <pre><code>// Constructor Function
+function Person(name, age) {
+    this.name = name;
+    this.age = age;
+}
+const person1 = new Person("Alice", 25);
+console.log(person1); // Person { name: "Alice", age: 25 }</code></pre>
+                    <button onclick="demonstrateConstructor()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.create()</div>
+                    <pre><code>// Using Object.create()
+const proto = { greet() { return "Hello"; } };
+const obj = Object.create(proto);
+obj.name = "John";
+console.log(obj.name); // "John"
+console.log(obj.greet()); // "Hello"</code></pre>
+                    <button onclick="demonstrateObjectCreate()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.assign()</div>
+                    <pre><code>// Using Object.assign()
+const defaults = { name: "", age: 0 };
+const user = { name: "Bob", age: 30 };
+const merged = Object.assign({}, defaults, user);
+console.log(merged); // { name: "Bob", age: 30 }</code></pre>
+                    <button onclick="demonstrateObjectAssign()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ ES6 Class Syntax</div>
+                    <pre><code>// Class Declaration
+class Car {
+    constructor(brand, color) {
+        this.brand = brand;
+        this.color = color;
+    }
+}
+const car1 = new Car("Toyota", "Red");
+console.log(car1); // Car { brand: "Toyota", color: "Red" }</code></pre>
+                    <button onclick="demonstrateClass()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Access & Modification -->
+            <section>
+                <h2>2. Object Access & Modification Operations</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Dot Notation vs Bracket Notation</div>
+                    <pre><code>const obj = { name: "John", age: 30, "email-id": "john@email.com" };
+
+// Dot Notation
+console.log(obj.name); // "John"
+
+// Bracket Notation
+console.log(obj["age"]); // 30
+console.log(obj["email-id"]); // "john@email.com"
+
+// Dynamic access
+const key = "name";
+console.log(obj[key]); // "John"</code></pre>
+                    <button onclick="demonstrateAccess()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Adding Properties</div>
+                    <pre><code>const obj = { name: "John" };
+
+// Add property using dot notation
+obj.age = 30;
+
+// Add property using bracket notation
+obj["email"] = "john@email.com";
+
+// Add multiple properties
+Object.assign(obj, { city: "NYC", country: "USA" });
+
+console.log(obj);
+// { name: "John", age: 30, email: "john@email.com", city: "NYC", country: "USA" }</code></pre>
+                    <button onclick="demonstrateAddProperty()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Modifying Properties</div>
+                    <pre><code>const user = { name: "Alice", age: 25 };
+
+// Modify existing properties
+user.name = "Bob";
+user["age"] = 30;
+
+// Using Object.defineProperty()
+Object.defineProperty(user, "email", {
+    value: "bob@email.com",
+    writable: true,
+    enumerable: true
+});
+
+console.log(user);
+// { name: "Bob", age: 30, email: "bob@email.com" }</code></pre>
+                    <button onclick="demonstrateModify()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Deleting Properties</div>
+                    <pre><code>const obj = { name: "John", age: 30, email: "john@email.com" };
+
+// Delete property
+delete obj.email;
+
+console.log(obj); // { name: "John", age: 30 }
+console.log("email" in obj); // false
+console.log(obj.email); // undefined</code></pre>
+                    <button onclick="demonstrateDelete()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Static Methods -->
+            <section>
+                <h2>3. Object Static Methods</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Object.keys(), Object.values(), Object.entries()</div>
+                    <pre><code>const user = { name: "John", age: 30, city: "NYC" };
+
+// Get all keys
+console.log(Object.keys(user));
+// ["name", "age", "city"]
+
+// Get all values
+console.log(Object.values(user));
+// ["John", 30, "NYC"]
+
+// Get key-value pairs
+console.log(Object.entries(user));
+// [["name", "John"], ["age", 30], ["city", "NYC"]]</code></pre>
+                    <button onclick="demonstrateKeysValuesEntries()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.getOwnPropertyNames() & Object.getOwnPropertySymbols()</div>
+                    <pre><code>const sym = Symbol("id");
+const obj = { name: "John", age: 30, [sym]: 123 };
+
+// Get property names (strings and symbols excluded)
+console.log(Object.getOwnPropertyNames(obj));
+// ["name", "age"]
+
+// Get symbol properties
+console.log(Object.getOwnPropertySymbols(obj));
+// [Symbol(id)]</code></pre>
+                    <button onclick="demonstrateGetOwnProperty()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.freeze(), Object.seal(), Object.preventExtensions()</div>
+                    <pre><code>// Object.freeze() - Cannot add, delete, or modify
+const frozen = Object.freeze({ name: "John" });
+frozen.age = 30; // Silently fails (strict mode: Error)
+
+// Object.seal() - Cannot add or delete, but can modify
+const sealed = Object.seal({ name: "John" });
+sealed.name = "Bob"; // ✓ Works
+sealed.age = 30; // Silently fails
+
+// Object.preventExtensions() - Cannot add, but can delete/modify
+const restricted = Object.preventExtensions({ name: "John" });
+restricted.name = "Bob"; // ✓ Works
+delete restricted.name; // ✓ Works
+restricted.age = 30; // Silently fails</code></pre>
+                    <button onclick="demonstrateFreezeSeals()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.isFrozen(), Object.isSealed(), Object.isExtensible()</div>
+                    <pre><code>const obj = {};
+console.log(Object.isExtensible(obj)); // true
+
+Object.seal(obj);
+console.log(Object.isSealed(obj)); // true
+console.log(Object.isFrozen(obj)); // false
+
+const frozen = Object.freeze({});
+console.log(Object.isFrozen(frozen)); // true</code></pre>
+                    <button onclick="demonstrateObjectChecks()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.getPrototypeOf() & Object.setPrototypeOf()</div>
+                    <pre><code>const proto = { greet() { return "Hello"; } };
+const obj = Object.create(proto);
+
+// Get prototype
+console.log(Object.getPrototypeOf(obj) === proto); // true
+
+// Set prototype
+const newProto = { sayBye() { return "Bye"; } };
+Object.setPrototypeOf(obj, newProto);
+console.log(Object.getPrototypeOf(obj) === newProto); // true</code></pre>
+                    <button onclick="demonstratePrototype()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.getOwnPropertyDescriptor() & Object.getOwnPropertyDescriptors()</div>
+                    <pre><code>const obj = { name: "John" };
+
+// Get descriptor for single property
+const descriptor = Object.getOwnPropertyDescriptor(obj, "name");
+console.log(descriptor);
+// { value: "John", writable: true, enumerable: true, configurable: true }
+
+// Get descriptors for all properties
+const descriptors = Object.getOwnPropertyDescriptors(obj);
+console.log(descriptors);
+// { name: { value: "John", writable: true, enumerable: true, configurable: true } }</code></pre>
+                    <button onclick="demonstrateDescriptors()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.defineProperty() & Object.defineProperties()</div>
+                    <pre><code>const obj = {};
+
+// Define single property
+Object.defineProperty(obj, "name", {
+    value: "John",
+    writable: false,
+    enumerable: true,
+    configurable: true
+});
+
+// Define multiple properties
+Object.defineProperties(obj, {
+    age: {
+        value: 30,
+        writable: true,
+        enumerable: true
+    },
+    email: {
+        value: "john@email.com",
+        writable: true
+    }
+});
+
+console.log(obj); // { name: "John", age: 30, email: "john@email.com" }
+obj.name = "Bob"; // Fails silently (writable: false)</code></pre>
+                    <button onclick="demonstrateDefineProperty()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.is() - Strict Equality Check</div>
+                    <pre><code>// Object.is() vs ===
+console.log(Object.is(5, 5)); // true
+console.log(Object.is("5", 5)); // false
+console.log(Object.is(NaN, NaN)); // true ✓ (Diff from ===)
+console.log(NaN === NaN); // false
+console.log(Object.is(+0, -0)); // false ✓ (Diff from ===)
+console.log(+0 === -0); // true</code></pre>
+                    <button onclick="demonstrateObjectIs()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.hasOwn() vs hasOwnProperty()</div>
+                    <pre><code>const obj = { name: "John" };
+const proto = { age: 30 };
+Object.setPrototypeOf(obj, proto);
+
+// Object.hasOwn() - Recommended
+console.log(Object.hasOwn(obj, "name")); // true
+console.log(Object.hasOwn(obj, "age")); // false
+console.log(Object.hasOwn(obj, "toString")); // false
+
+// hasOwnProperty() - Legacy
+console.log(obj.hasOwnProperty("name")); // true
+console.log(obj.hasOwnProperty("age")); // false</code></pre>
+                    <button onclick="demonstrateHasOwn()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Iteration Methods -->
+            <section>
+                <h2>4. Object Iteration Methods</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ for...in Loop</div>
+                    <pre><code>const obj = { name: "John", age: 30, email: "john@email.com" };
+
+// Iterate over enumerable properties
+for (let key in obj) {
+    console.log(key + ": " + obj[key]);
+}
+// Output:
+// name: John
+// age: 30
+// email: john@email.com</code></pre>
+                    <button onclick="demonstrateForIn()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.keys().forEach()</div>
+                    <pre><code>const obj = { name: "John", age: 30, email: "john@email.com" };
+
+Object.keys(obj).forEach(key => {
+    console.log(key + ": " + obj[key]);
+});
+// Output:
+// name: John
+// age: 30
+// email: john@email.com</code></pre>
+                    <button onclick="demonstrateKeysForEach()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.entries().forEach()</div>
+                    <pre><code>const obj = { name: "John", age: 30, email: "john@email.com" };
+
+Object.entries(obj).forEach(([key, value]) => {
+    console.log(key + ": " + value);
+});
+// Output:
+// name: John
+// age: 30
+// email: john@email.com</code></pre>
+                    <button onclick="demonstrateEntriesForEach()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Object.entries() with Map Conversion</div>
+                    <pre><code>const obj = { name: "John", age: 30 };
+
+// Convert to Map
+const map = new Map(Object.entries(obj));
+console.log(map);
+// Map { "name" => "John", "age" => 30 }
+
+// Convert back to Object
+const newObj = Object.fromEntries(map);
+console.log(newObj); // { name: "John", age: 30 }</code></pre>
+                    <button onclick="demonstrateFromEntries()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Cloning & Merging -->
+            <section>
+                <h2>5. Object Cloning & Merging</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Shallow Copy - Spread Operator</div>
+                    <pre><code>const original = { name: "John", age: 30 };
+
+// Shallow copy using spread operator
+const copy = { ...original };
+copy.name = "Bob";
+
+console.log(original); // { name: "John", age: 30 }
+console.log(copy); // { name: "Bob", age: 30 }
+
+// ⚠️ Nested objects are still referenced
+const user = { name: "John", address: { city: "NYC" } };
+const shallowCopy = { ...user };
+shallowCopy.address.city = "LA";
+console.log(user.address.city); // "LA" (Original affected!)</code></pre>
+                    <button onclick="demonstrateShallowCopy()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Shallow Copy - Object.assign()</div>
+                    <pre><code>const original = { name: "John", age: 30 };
+
+// Shallow copy
+const copy = Object.assign({}, original);
+copy.name = "Bob";
+
+console.log(original); // { name: "John", age: 30 }
+console.log(copy); // { name: "Bob", age: 30 }</code></pre>
+                    <button onclick="demonstrateAssignCopy()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Deep Copy - JSON Method</div>
+                    <pre><code>const original = { name: "John", address: { city: "NYC" } };
+
+// Deep copy (works for serializable objects)
+const deepCopy = JSON.parse(JSON.stringify(original));
+deepCopy.address.city = "LA";
+
+console.log(original.address.city); // "NYC" (Original NOT affected)
+console.log(deepCopy.address.city); // "LA"
+
+// ⚠️ Issues: Functions, Symbols, undefined are lost
+const obj = { fn: () => {}, val: undefined };
+const copy = JSON.parse(JSON.stringify(obj));
+console.log(copy); // {} (Function and undefined lost)</code></pre>
+                    <button onclick="demonstrateDeepCopyJSON()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Deep Copy - Recursive Function</div>
+                    <pre><code>function deepClone(obj) {
+    if (obj === null || typeof obj !== "object") return obj;
+    if (obj instanceof Date) return new Date(obj);
+    if (obj instanceof Array) return obj.map(item => deepClone(item));
+    
+    const cloned = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            cloned[key] = deepClone(obj[key]);
+        }
+    }
+    return cloned;
+}
+
+const original = { name: "John", address: { city: "NYC" } };
+const copy = deepClone(original);
+copy.address.city = "LA";
+
+console.log(original.address.city); // "NYC"</code></pre>
+                    <button onclick="demonstrateDeepCloneFunc()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Merging Objects</div>
+                    <pre><code>const obj1 = { a: 1, b: 2 };
+const obj2 = { b: 3, c: 4 };
+const obj3 = { d: 5 };
+
+// Using Object.assign()
+const merged1 = Object.assign({}, obj1, obj2, obj3);
+console.log(merged1); // { a: 1, b: 3, c: 4, d: 5 }
+
+// Using spread operator
+const merged2 = { ...obj1, ...obj2, ...obj3 };
+console.log(merged2); // { a: 1, b: 3, c: 4, d: 5 }
+
+// Note: Later values override earlier ones
+const merged3 = { ...obj1, ...obj2 }; // obj2.b overrides obj1.b</code></pre>
+                    <button onclick="demonstrateMerge()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Getters & Setters -->
+            <section>
+                <h2>6. Getters & Setters</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Getter & Setter Syntax</div>
+                    <pre><code>const user = {
+    _name: "",
+    
+    get name() {
+        return this._name;
+    },
+    
+    set name(value) {
+        if (typeof value !== "string") {
+            console.log("Name must be a string");
+            return;
+        }
+        this._name = value;
+    }
+};
+
+user.name = "John";
+console.log(user.name); // "John"
+
+user.name = 123; // Validation fails
+console.log(user.name); // "John" (Not changed)</code></pre>
+                    <button onclick="demonstrateGetterSetter()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Getter & Setter in Class</div>
+                    <pre><code>class Circle {
+    constructor(radius) {
+        this._radius = radius;
+    }
+    
+    get radius() {
+        return this._radius;
+    }
+    
+    set radius(value) {
+        if (value <= 0) {
+            console.log("Radius must be positive");
+            return;
+        }
+        this._radius = value;
+    }
+    
+    get area() {
+        return Math.PI * this._radius ** 2;
+    }
+}
+
+const circle = new Circle(5);
+console.log(circle.radius); // 5
+console.log(circle.area); // 78.54
+
+circle.radius = 10;
+console.log(circle.area); // 314.16</code></pre>
+                    <button onclick="demonstrateClassGetterSetter()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Methods -->
+            <section>
+                <h2>7. Object Methods</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Adding Methods to Objects</div>
+                    <pre><code>const user = {
+    name: "John",
+    age: 30,
+    
+    // Method 1: Function Declaration
+    greet() {
+        return "Hello, I'm " + this.name;
+    },
+    
+    // Method 2: Function Expression
+    sayAge: function() {
+        return "I'm " + this.age + " years old";
+    }
+};
+
+console.log(user.greet()); // "Hello, I'm John"
+console.log(user.sayAge()); // "I'm 30 years old"</code></pre>
+                    <button onclick="demonstrateObjectMethods()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Method Chaining</div>
+                    <pre><code>const calculator = {
+    value: 0,
+    
+    add(n) {
+        this.value += n;
+        return this;
+    },
+    
+    subtract(n) {
+        this.value -= n;
+        return this;
+    },
+    
+    multiply(n) {
+        this.value *= n;
+        return this;
+    },
+    
+    getResult() {
+        return this.value;
+    }
+};
+
+const result = calculator.add(10).multiply(2).subtract(5).getResult();
+console.log(result); // 15</code></pre>
+                    <button onclick="demonstrateMethodChaining()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ call(), apply(), bind()</div>
+                    <pre><code>function greet(greeting, punctuation) {
+    return greeting + ", " + this.name + punctuation;
+}
+
+const person1 = { name: "John" };
+const person2 = { name: "Alice" };
+
+// call() - pass arguments individually
+console.log(greet.call(person1, "Hello", "!")); 
+// "Hello, John!"
+
+// apply() - pass arguments as array
+console.log(greet.apply(person2, ["Hi", "?"])); 
+// "Hi, Alice?"
+
+// bind() - creates new function with bound context
+const greetJohn = greet.bind(person1);
+console.log(greetJohn("Hey", "~")); 
+// "Hey, John~"</code></pre>
+                    <button onclick="demonstrateCallApplyBind()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Object Property Checking -->
+            <section>
+                <h2>8. Object Property Checking</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Checking Property Existence</div>
+                    <pre><code>const obj = { name: "John", age: 30 };
+
+// Method 1: in operator
+console.log("name" in obj); // true
+console.log("email" in obj); // false
+
+// Method 2: hasOwnProperty()
+console.log(obj.hasOwnProperty("name")); // true
+
+// Method 3: Object.hasOwn()
+console.log(Object.hasOwn(obj, "name")); // true
+
+// Method 4: Direct comparison
+console.log(obj.name !== undefined); // true
+
+// ⚠️ Difference with prototypes
+const proto = { city: "NYC" };
+const user = Object.create(proto);
+user.name = "John";
+
+console.log("name" in user); // true
+console.log("city" in user); // true (inherited)
+console.log(user.hasOwnProperty("city")); // false</code></pre>
+                    <button onclick="demonstratePropertyChecking()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Checking for Empty Object</div>
+                    <pre><code>function isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+}
+
+const empty = {};
+const notEmpty = { name: "John" };
+
+console.log(isEmpty(empty)); // true
+console.log(isEmpty(notEmpty)); // false
+
+// Alternative methods
+console.log(JSON.stringify({}) === "{}"); // true
+console.log(Object.entries({}).length === 0); // true</code></pre>
+                    <button onclick="demonstrateEmptyCheck()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Symbol Properties -->
+            <section>
+                <h2>9. Symbol Properties</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Using Symbols as Keys</div>
+                    <pre><code>// Create unique symbols
+const id = Symbol("id");
+const email = Symbol("email");
+
+const user = {
+    name: "John",
+    [id]: 12345,
+    [email]: "john@email.com"
+};
+
+// Access symbol properties
+console.log(user[id]); // 12345
+console.log(user[email]); // "john@email.com"
+
+// Symbols don't appear in Object.keys()
+console.log(Object.keys(user)); // ["name"]
+
+// Get symbol properties
+console.log(Object.getOwnPropertySymbols(user));
+// [Symbol(id), Symbol(email)]</code></pre>
+                    <button onclick="demonstrateSymbols()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Symbol.for() & Symbol.keyFor()</div>
+                    <pre><code>// Symbol.for() creates global symbols
+const globalSym1 = Symbol.for("app.id");
+const globalSym2 = Symbol.for("app.id");
+
+console.log(globalSym1 === globalSym2); // true (Same symbol)
+
+// Symbol.keyFor() gets the key
+console.log(Symbol.keyFor(globalSym1)); // "app.id"
+
+// Local symbols vs Global symbols
+const localSym = Symbol("id");
+console.log(Symbol.keyFor(localSym)); // undefined</code></pre>
+                    <button onclick="demonstrateSymbolFor()">Run Example</button>
+                </div>
+            </section>
+
+            <!-- Advanced Patterns -->
+            <section>
+                <h2>10. Advanced Patterns</h2>
+                
+                <div class="example">
+                    <div class="example-title">✅ Private Fields</div>
+                    <pre><code>class BankAccount {
+    #balance = 0; // Private field
+    
+    constructor(initialBalance) {
+        this.#balance = initialBalance;
+    }
+    
+    deposit(amount) {
+        this.#balance += amount;
+    }
+    
+    getBalance() {
+        return this.#balance;
+    }
+}
+
+const account = new BankAccount(1000);
+console.log(account.getBalance()); // 1000
+account.deposit(500);
+console.log(account.getBalance()); // 1500
+console.log(account.#balance); // Error: Private field</code></pre>
+                    <button onclick="demonstratePrivateFields()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Singleton Pattern</div>
+                    <pre><code>const Singleton = (() => {
+    let instance;
+    
+    return {
+        getInstance() {
+            if (!instance) {
+                instance = {
+                    name: "Singleton",
+                    value: Math.random()
+                };
+            }
+            return instance;
+        }
+    };
+})();
+
+const obj1 = Singleton.getInstance();
+const obj2 = Singleton.getInstance();
+console.log(obj1 === obj2); // true (Same instance)</code></pre>
+                    <button onclick="demonstrateSingleton()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Factory Pattern</div>
+                    <pre><code>function createUser(name, role) {
+    return {
+        name,
+        role,
+        getPermissions() {
+            if (role === "admin") return ["read", "write", "delete"];
+            if (role === "user") return ["read", "write"];
+            return ["read"];
+        }
+    };
+}
+
+const admin = createUser("John", "admin");
+const user = createUser("Alice", "user");
+
+console.log(admin.getPermissions());
+// ["read", "write", "delete"]
+console.log(user.getPermissions());
+// ["read", "write"]</code></pre>
+                    <button onclick="demonstrateFactory()">Run Example</button>
+                </div>
+
+                <div class="example">
+                    <div class="example-title">✅ Module Pattern</div>
+                    <pre><code>const UserModule = (() => {
+    let users = []; // Private
+    
+    return {
+        addUser(user) {
+            users.push(user);
+        },
+        
+        getUsers() {
+            return [...users]; // Return copy
+        },
+        
+        removeUser(id) {
+            users = users.filter(u => u.id !== id);
+        }
+    };
+})();
+
+UserModule.addUser({ id: 1, name: "John" });
+UserModule.addUser({ id: 2, name: "Alice" });
+console.log(UserModule.getUsers());
+// [{ id: 1, name: "John" }, { id: 2, name: "Alice" }]</code></pre>
+                    <button onclick="demonstrateModule()">Run Example</button>
+                </div>
+            </section>
+
+        </div>
+
+        <footer>
+            <p>📚 Complete JavaScript Object Operations Guide | All Examples Interactive</p>
+        </footer>
+    </div>
+
+    <script>
+        function showOutput(result) {
+            alert(result);
+        }
+
+        // 1. Object Creation
+        function demonstrateObjectLiteral() {
+            const person = { name: "John", age: 30, city: "New York" };
+            showOutput("Object Literal:\n" + JSON.stringify(person, null, 2));
+        }
+
+        function demonstrateConstructor() {
+            function Person(name, age) {
+                this.name = name;
+                this.age = age;
+            }
+            const person1 = new Person("Alice", 25);
+            showOutput("Constructor:\n" + JSON.stringify(person1, null, 2));
+        }
+
+        function demonstrateObjectCreate() {
+            const proto = { greet() { return "Hello"; } };
+            const obj = Object.create(proto);
+            obj.name = "John";
+            showOutput("Object.create():\nName: " + obj.name + "\nGreet: " + obj.greet());
+        }
+
+        function demonstrateObjectAssign() {
+            const defaults = { name: "", age: 0 };
+            const user = { name: "Bob", age: 30 };
+            const merged = Object.assign({}, defaults, user);
+            showOutput("Object.assign():\n" + JSON.stringify(merged, null, 2));
+        }
+
+        function demonstrateClass() {
+            class Car {
+                constructor(brand, color) {
+                    this.brand = brand;
+                    this.color = color;
+                }
+            }
+            const car1 = new Car("Toyota", "Red");
+            showOutput("ES6 Class:\n" + JSON.stringify(car1, null, 2));
+        }
+
+        // 2. Access & Modification
+        function demonstrateAccess() {
+            const obj = { name: "John", age: 30, "email-id": "john@email.com" };
+            let result = "Dot Notation:\nname: " + obj.name + "\n\nBracket Notation:\nage: " + obj["age"] + "\nemail-id: " + obj["email-id"];
+            showOutput(result);
+        }
+
+        function demonstrateAddProperty() {
+            const obj = { name: "John" };
+            obj.age = 30;
+            obj["email"] = "john@email.com";
+            Object.assign(obj, { city: "NYC", country: "USA" });
+            showOutput("Adding Properties:\n" + JSON.stringify(obj, null, 2));
+        }
+
+        function demonstrateModify() {
+            const user = { name: "Alice", age: 25 };
+            user.name = "Bob";
+            user["age"] = 30;
+            Object.defineProperty(user, "email", {
+                value: "bob@email.com",
+                writable: true,
+                enumerable: true
+            });
+            showOutput("Modified Object:\n" + JSON.stringify(user, null, 2));
+        }
+
+        function demonstrateDelete() {
+            const obj = { name: "John", age: 30, email: "john@email.com" };
+            delete obj.email;
+            showOutput("After Delete:\n" + JSON.stringify(obj, null, 2) + "\n\nemail in obj: " + ("email" in obj));
+        }
+
+        // 3. Object Static Methods
+        function demonstrateKeysValuesEntries() {
+            const user = { name: "John", age: 30, city: "NYC" };
+            let result = "Keys: " + JSON.stringify(Object.keys(user)) + 
+                        "\nValues: " + JSON.stringify(Object.values(user)) +
+                        "\nEntries: " + JSON.stringify(Object.entries(user));
+            showOutput(result);
+        }
+
+        function demonstrateGetOwnProperty() {
+            const sym = Symbol("id");
+            const obj = { name: "John", age: 30, [sym]: 123 };
+            let result = "Property Names: " + JSON.stringify(Object.getOwnPropertyNames(obj)) +
+                        "\nProperty Symbols: " + Object.getOwnPropertySymbols(obj).length + " symbol(s)";
+            showOutput(result);
+        }
+
+        function demonstrateFreezeSeals() {
+            const frozen = Object.freeze({ name: "John" });
+            frozen.age = 30;
+            
+            const sealed = Object.seal({ name: "John" });
+            sealed.name = "Bob";
+            sealed.age = 30;
+            
+            showOutput("Freeze Test:\n" + JSON.stringify(frozen) + "\n(age property failed)\n\nSeal Test:\n" + JSON.stringify(sealed) + "\n(age property failed)");
+        }
+
+        function demonstrateObjectChecks() {
+            const obj = {};
+            let result = "Before seal - isExtensible: " + Object.isExtensible(obj);
+            Object.seal(obj);
+            result += "\nAfter seal - isSealed: " + Object.isSealed(obj);
+            result += "\nAfter seal - isFrozen: " + Object.isFrozen(obj);
+            const frozen = Object.freeze({});
+            result += "\nFrozen object - isFrozen: " + Object.isFrozen(frozen);
+            showOutput(result);
+        }
+
+        function demonstratePrototype() {
+            const proto = { greet() { return "Hello"; } };
+            const obj = Object.create(proto);
+            let result = "Prototype check: " + (Object.getPrototypeOf(obj) === proto);
+            const newProto = { sayBye() { return "Bye"; } };
+            Object.setPrototypeOf(obj, newProto);
+            result += "\nAfter setPrototype: " + (Object.getPrototypeOf(obj) === newProto);
+            showOutput(result);
+        }
+
+        function demonstrateDescriptors() {
+            const obj = { name: "John" };
+            const descriptor = Object.getOwnPropertyDescriptor(obj, "name");
+            showOutput("Descriptor:\n" + JSON.stringify(descriptor, null, 2));
+        }
+
+        function demonstrateDefineProperty() {
+            const obj = {};
+            Object.defineProperty(obj, "name", {
+                value: "John",
+                writable: false,
+                enumerable: true,
+                configurable: true
+            });
+            Object.defineProperties(obj, {
+                age: { value: 30, writable: true, enumerable: true },
+                email: { value: "john@email.com", writable: true }
+            });
+            showOutput("Defined Properties:\n" + JSON.stringify(obj, null, 2));
+        }
+
+        function demonstrateObjectIs() {
+            let result = "Object.is(5, 5): " + Object.is(5, 5) +
+                        "\nObject.is('5', 5): " + Object.is("5", 5) +
+                        "\nObject.is(NaN, NaN): " + Object.is(NaN, NaN) + " ✓" +
+                        "\nNaN === NaN: " + (NaN === NaN) +
+                        "\nObject.is(+0, -0): " + Object.is(+0, -0) +
+                        "\n+0 === -0: " + (+0 === -0);
+            showOutput(result);
+        }
+
+        function demonstrateHasOwn() {
+            const obj = { name: "John" };
+            const proto = { age: 30 };
+            Object.setPrototypeOf(obj, proto);
+            let result = "Object.hasOwn(obj, 'name'): " + Object.hasOwn(obj, "name") +
+                        "\nObject.hasOwn(obj, 'age'): " + Object.hasOwn(obj, "age") +
+                        "\nobj.hasOwnProperty('name'): " + obj.hasOwnProperty("name") +
+                        "\nobj.hasOwnProperty('age'): " + obj.hasOwnProperty("age");
+            showOutput(result);
+        }
+
+        // 4. Iteration
+        function demonstrateForIn() {
+            const obj = { name: "John", age: 30, email: "john@email.com" };
+            let result = "for...in loop:\n";
+            for (let key in obj) {
+                result += key + ": " + obj[key] + "\n";
+            }
+            showOutput(result);
+        }
+
+        function demonstrateKeysForEach() {
+            const obj = { name: "John", age: 30, email: "john@email.com" };
+            let result = "Object.keys().forEach():\n";
+            Object.keys(obj).forEach(key => {
+                result += key + ": " + obj[key] + "\n";
+            });
+            showOutput(result);
+        }
+
+        function demonstrateEntriesForEach() {
+            const obj = { name: "John", age: 30, email: "john@email.com" };
+            let result = "Object.entries().forEach():\n";
+            Object.entries(obj).forEach(([key, value]) => {
+                result += key + ": " + value + "\n";
+            });
+            showOutput(result);
+        }
+
+        function demonstrateFromEntries() {
+            const obj = { name: "John", age: 30 };
+            const map = new Map(Object.entries(obj));
+            let result = "Map from Object:\n" + map.size + " entries\n\nConverted back:\n";
+            const newObj = Object.fromEntries(map);
+            result += JSON.stringify(newObj, null, 2);
+            showOutput(result);
+        }
+
+        // 5. Cloning & Merging
+        function demonstrateShallowCopy() {
+            const original = { name: "John", age: 30 };
+            const copy = { ...original };
+            copy.name = "Bob";
+            let result = "Original: " + JSON.stringify(original) + 
+                        "\nCopy: " + JSON.stringify(copy) +
+                        "\n\n⚠️ Nested objects are referenced:\n";
+            const user = { name: "John", address: { city: "NYC" } };
+            const shallowCopy = { ...user };
+            shallowCopy.address.city = "LA";
+            result += "Original city: " + user.address.city + " (Affected!)";
+            showOutput(result);
+        }
+
+        function demonstrateAssignCopy() {
+            const original = { name: "John", age: 30 };
+            const copy = Object.assign({}, original);
+            copy.name = "Bob";
+            let result = "Original: " + JSON.stringify(original) + 
+                        "\nCopy: " + JSON.stringify(copy);
+            showOutput(result);
+        }
+
+        function demonstrateDeepCopyJSON() {
+            const original = { name: "John", address: { city: "NYC" } };
+            const deepCopy = JSON.parse(JSON.stringify(original));
+            deepCopy.address.city = "LA";
+            let result = "Original city: " + original.address.city + " (Not affected)" +
+                        "\nCopy city: " + deepCopy.address.city +
+                        "\n\n⚠️ Issue with special values:\n";
+            const obj = { fn: () => {}, val: undefined };
+            const copy = JSON.parse(JSON.stringify(obj));
+            result += "After JSON round-trip: " + JSON.stringify(copy) + " (Function and undefined lost)";
+            showOutput(result);
+        }
+
+        function demonstrateDeepCloneFunc() {
+            function deepClone(obj) {
+                if (obj === null || typeof obj !== "object") return obj;
+                if (obj instanceof Date) return new Date(obj);
+                if (obj instanceof Array) return obj.map(item => deepClone(item));
+                
+                const cloned = {};
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        cloned[key] = deepClone(obj[key]);
+                    }
+                }
+                return cloned;
+            }
+            
+            const original = { name: "John", address: { city: "NYC" } };
+            const copy = deepClone(original);
+            copy.address.city = "LA";
+            let result = "Original city: " + original.address.city + " (Not affected)" +
+                        "\nCopy city: " + copy.address.city;
+            showOutput(result);
+        }
+
+        function demonstrateMerge() {
+            const obj1 = { a: 1, b: 2 };
+            const obj2 = { b: 3, c: 4 };
+            const obj3 = { d: 5 };
+            
+            const merged1 = Object.assign({}, obj1, obj2, obj3);
+            const merged2 = { ...obj1, ...obj2, ...obj3 };
+            let result = "Using Object.assign():\n" + JSON.stringify(merged1) +
+                        "\n\nUsing spread operator:\n" + JSON.stringify(merged2) +
+                        "\n\nNote: Later values override earlier ones (b: 3)";
+            showOutput(result);
+        }
+
+        // 6. Getters & Setters
+        function demonstrateGetterSetter() {
+            const user = {
+                _name: "",
+                
+                get name() { return this._name; },
+                
+                set name(value) {
+                    if (typeof value !== "string") {
+                        console.log("Name must be a string");
+                        return;
+                    }
+                    this._name = value;
+                }
+            };
+            
+            user.name = "John";
+            let result = "After setting name to 'John': " + user.name;
+            user.name = 123;
+            result += "\n\nAfter setting name to 123 (validation failed): " + user.name;
+            showOutput(result);
+        }
+
+        function demonstrateClassGetterSetter() {
+            class Circle {
+                constructor(radius) { this._radius = radius; }
+                get radius() { return this._radius; }
+                set radius(value) {
+                    if (value <= 0) {
+                        console.log("Radius must be positive");
+                        return;
+                    }
+                    this._radius = value;
+                }
+                get area() { return Math.PI * this._radius ** 2; }
+            }
+            
+            const circle = new Circle(5);
+            let result = "Radius: " + circle.radius + "\nArea: " + circle.area.toFixed(2);
+            circle.radius = 10;
+            result += "\n\nAfter changing radius to 10:\nArea: " + circle.area.toFixed(2);
+            showOutput(result);
+        }
+
+        // 7. Object Methods
+        function demonstrateObjectMethods() {
+            const user = {
+                name: "John",
+                age: 30,
+                
+                greet() { return "Hello, I'm " + this.name; },
+                
+                sayAge: function() { return "I'm " + this.age + " years old"; }
+            };
+            
+            let result = user.greet() + "\n" + user.sayAge();
+            showOutput(result);
+        }
+
+        function demonstrateMethodChaining() {
+            const calculator = {
+                value: 0,
+                add(n) { this.value += n; return this; },
+                subtract(n) { this.value -= n; return this; },
+                multiply(n) { this.value *= n; return this; },
+                getResult() { return this.value; }
+            };
+            
+            const result = calculator.add(10).multiply(2).subtract(5).getResult();
+            showOutput("Calculation: (0 + 10) * 2 - 5 = " + result);
+        }
+
+        function demonstrateCallApplyBind() {
+            function greet(greeting, punctuation) {
+                return greeting + ", " + this.name + punctuation;
+            }
+            
+            const person1 = { name: "John" };
+            const person2 = { name: "Alice" };
+            
+            let result = "Using call(): " + greet.call(person1, "Hello", "!") +
+                        "\nUsing apply(): " + greet.apply(person2, ["Hi", "?"]) +
+                        "\nUsing bind(): " + greet.bind(person1)("Hey", "~");
+            showOutput(result);
+        }
+
+        // 8. Property Checking
+        function demonstratePropertyChecking() {
+            const obj = { name: "John", age: 30 };
+            let result = "'name' in obj: " + ("name" in obj) +
+                        "\n'email' in obj: " + ("email" in obj) +
+                        "\nobj.hasOwnProperty('name'): " + obj.hasOwnProperty("name") +
+                        "\nObject.hasOwn(obj, 'name'): " + Object.hasOwn(obj, "name");
+            showOutput(result);
+        }
+
+        function demonstrateEmptyCheck() {
+            function isEmpty(obj) {
+                return Object.keys(obj).length === 0;
+            }
+            
+            const empty = {};
+            const notEmpty = { name: "John" };
+            
+            let result = "isEmpty({}): " + isEmpty(empty) +
+                        "\nisEmpty({name: 'John'}): " + isEmpty(notEmpty);
+            showOutput(result);
+        }
+
+        // 9. Symbols
+        function demonstrateSymbols() {
+            const id = Symbol("id");
+            const email = Symbol("email");
+            
+            const user = {
+                name: "John",
+                [id]: 12345,
+                [email]: "john@email.com"
+            };
+            
+            let result = "user[id]: " + user[id] +
+                        "\nuser[email]: " + user[email] +
+                        "\nObject.keys(user): " + JSON.stringify(Object.keys(user)) +
+                        "\nSymbol properties count: " + Object.getOwnPropertySymbols(user).length;
+            showOutput(result);
+        }
+
+        function demonstrateSymbolFor() {
+            const globalSym1 = Symbol.for("app.id");
+            const globalSym2 = Symbol.for("app.id");
+            
+            let result = "globalSym1 === globalSym2: " + (globalSym1 === globalSym2) +
+                        "\nSymbol.keyFor(globalSym1): " + Symbol.keyFor(globalSym1) +
+                        "\n\nLocal symbols:\n";
+            const localSym = Symbol("id");
+            result += "Symbol.keyFor(localSym): " + Symbol.keyFor(localSym);
+            showOutput(result);
+        }
+
+        // 10. Advanced Patterns
+        function demonstratePrivateFields() {
+            class BankAccount {
+                #balance = 0;
+                
+                constructor(initialBalance) {
+                    this.#balance = initialBalance;
+                }
+                
+                deposit(amount) {
+                    this.#balance += amount;
+                }
+                
+                getBalance() {
+                    return this.#balance;
+                }
+            }
+            
+            const account = new BankAccount(1000);
+            let result = "Initial balance: " + account.getBalance();
+            account.deposit(500);
+            result += "\nAfter deposit(500): " + account.getBalance();
+            result += "\n\n✓ Private fields are not accessible directly";
+            showOutput(result);
+        }
+
+        function demonstrateSingleton() {
+            const Singleton = (() => {
+                let instance;
+                return {
+                    getInstance() {
+                        if (!instance) {
+                            instance = { name: "Singleton", value: Math.random() };
+                        }
+                        return instance;
+                    }
+                };
+            })();
+            
+            const obj1 = Singleton.getInstance();
+            const obj2 = Singleton.getInstance();
+            let result = "obj1 === obj2: " + (obj1 === obj2) + " (Same instance)" +
+                        "\nobj1.value === obj2.value: " + (obj1.value === obj2.value);
+            showOutput(result);
+        }
+
+        function demonstrateFactory() {
+            function createUser(name, role) {
+                return {
+                    name,
+                    role,
+                    getPermissions() {
+                        if (role === "admin") return ["read", "write", "delete"];
+                        if (role === "user") return ["read", "write"];
+                        return ["read"];
+                    }
+                };
+            }
+            
+            const admin = createUser("John", "admin");
+            const user = createUser("Alice", "user");
+            
+            let result = "Admin permissions: " + JSON.stringify(admin.getPermissions()) +
+                        "\nUser permissions: " + JSON.stringify(user.getPermissions());
+            showOutput(result);
+        }
+
+        function demonstrateModule() {
+            const UserModule = (() => {
+                let users = [];
+                
+                return {
+                    addUser(user) { users.push(user); },
+                    getUsers() { return [...users]; },
+                    removeUser(id) { users = users.filter(u => u.id !== id); }
+                };
+            })();
+            
+            UserModule.addUser({ id: 1, name: "John" });
+            UserModule.addUser({ id: 2, name: "Alice" });
+            let result = "Users: " + JSON.stringify(UserModule.getUsers(), null, 2);
+            UserModule.removeUser(1);
+            result += "\n\nAfter removing id=1:\n" + JSON.stringify(UserModule.getUsers(), null, 2);
+            showOutput(result);
+        }
+    </script>
+</body>
+</html>

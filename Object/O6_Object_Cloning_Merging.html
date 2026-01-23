@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Object Cloning & Merging</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        h1 {
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .example {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 5px solid #667eea;
+        }
+        .example-title {
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        code {
+            font-family: 'Courier New', monospace;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-size: 0.95em;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+        }
+        .output {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 3px solid #00a8cc;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .description {
+            color: #666;
+            font-size: 0.95em;
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+        .warning {
+            background: #fff3cd;
+            border-left: 3px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            font-size: 0.9em;
+        }
+        footer {
+            background: #f5f5f5;
+            padding: 20px;
+            text-align: center;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎯 Object Cloning & Merging</h1>
+            <p class="subtitle">Shallow Copy, Deep Copy, and Merging Objects</p>
+        </header>
+
+        <div class="content">
+            <!-- Shallow Copy - Spread Operator -->
+            <div class="example">
+                <div class="example-title">✅ Shallow Copy - Spread Operator</div>
+                <div class="description">
+                    Create a shallow copy using the spread operator. Works for top-level properties only.
+                </div>
+                <pre><code>// Spread operator shallow copy
+const original = { name: "John", age: 30 };
+const copy = { ...original };
+
+copy.name = "Bob";
+console.log(original.name); // "John" (unchanged)
+console.log(copy.name); // "Bob"
+
+// ⚠️ Nested objects are referenced
+const user = {
+    name: "John",
+    address: { city: "NYC", country: "USA" }
+};
+
+const shallowCopy = { ...user };
+shallowCopy.address.city = "LA";
+
+console.log(user.address.city); // "LA" (Original affected!)
+console.log(shallowCopy.address.city); // "LA"
+console.log(user.address === shallowCopy.address); // true (same object)</code></pre>
+                <button onclick="runSpreadShallowCopy()">Run Example</button>
+                <div id="output1" class="output"></div>
+                <div class="warning">⚠️ Only copies top level. Nested objects are still referenced!</div>
+            </div>
+
+            <!-- Shallow Copy - Object.assign() -->
+            <div class="example">
+                <div class="example-title">✅ Shallow Copy - Object.assign()</div>
+                <div class="description">
+                    Another way to create shallow copies using Object.assign().
+                </div>
+                <pre><code>const original = { name: "John", age: 30, email: "john@email.com" };
+
+// Shallow copy into new object
+const copy1 = Object.assign({}, original);
+copy1.name = "Bob";
+
+console.log(original.name); // "John" (unchanged)
+console.log(copy1.name); // "Bob"
+
+// Direct copy (modifies target)
+const target = {};
+const copy2 = Object.assign(target, original);
+
+console.log(copy2 === target); // true (same object)
+
+// Multiple sources
+const defaults = { theme: "light", language: "en" };
+const user = { theme: "dark" };
+const merged = Object.assign({}, defaults, user);
+
+console.log(merged); // { theme: "dark", language: "en" }</code></pre>
+                <button onclick="runAssignShallowCopy()">Run Example</button>
+                <div id="output2" class="output"></div>
+            </div>
+
+            <!-- Deep Copy - JSON Method -->
+            <div class="example">
+                <div class="example-title">✅ Deep Copy - JSON Method</div>
+                <div class="description">
+                    Create a true deep copy using JSON serialization. Has limitations with special values.
+                </div>
+                <pre><code>// Deep copy using JSON
+const original = {
+    name: "John",
+    address: { city: "NYC", country: "USA" },
+    hobbies: ["reading", "gaming", "coding"]
+};
+
+const deepCopy = JSON.parse(JSON.stringify(original));
+deepCopy.address.city = "LA";
+deepCopy.hobbies[0] = "writing";
+
+console.log(original.address.city); // "NYC" (Not affected!)
+console.log(original.hobbies[0]); // "reading" (Not affected!)
+
+// ⚠️ Problems: Functions, undefined, Symbols are lost
+const problematic = {
+    name: "John",
+    callback: () => console.log("Hi"),
+    value: undefined,
+    sym: Symbol("id")
+};
+
+const copy = JSON.parse(JSON.stringify(problematic));
+console.log(copy);
+// { name: "John" } - callback, value, and sym are gone!</code></pre>
+                <button onclick="runJSONDeepCopy()">Run Example</button>
+                <div id="output3" class="output"></div>
+                <div class="warning">⚠️ Functions, undefined, and Symbols are lost in JSON method!</div>
+            </div>
+
+            <!-- Deep Copy - Recursive Function -->
+            <div class="example">
+                <div class="example-title">✅ Deep Copy - Recursive Function</div>
+                <div class="description">
+                    Custom recursive function for true deep copy that handles complex structures.
+                </div>
+                <pre><code>function deepClone(obj) {
+    // Handle primitives and null
+    if (obj === null || typeof obj !== "object") return obj;
+    
+    // Handle Date
+    if (obj instanceof Date) return new Date(obj);
+    
+    // Handle Array
+    if (obj instanceof Array) {
+        return obj.map(item => deepClone(item));
+    }
+    
+    // Handle Object
+    const cloned = {};
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            cloned[key] = deepClone(obj[key]);
+        }
+    }
+    return cloned;
+}
+
+const original = {
+    name: "John",
+    date: new Date(),
+    address: { city: "NYC", zip: 10001 },
+    hobbies: ["reading", "gaming"],
+    callback: () => "Hi"
+};
+
+const copy = deepClone(original);
+copy.address.city = "LA";
+copy.hobbies[0] = "writing";
+
+console.log(original.address.city); // "NYC"
+console.log(original.hobbies[0]); // "reading"
+console.log(copy.callback()); // "Hi" (function preserved!)</code></pre>
+                <button onclick="runRecursiveDeepCopy()">Run Example</button>
+                <div id="output4" class="output"></div>
+            </div>
+
+            <!-- Merging Objects -->
+            <div class="example">
+                <div class="example-title">✅ Merging Multiple Objects</div>
+                <div class="description">
+                    Combine multiple objects into a single object.
+                </div>
+                <pre><code>const obj1 = { a: 1, b: 2 };
+const obj2 = { b: 3, c: 4 };
+const obj3 = { c: 5, d: 6 };
+
+// Method 1: Object.assign()
+const merged1 = Object.assign({}, obj1, obj2, obj3);
+console.log(merged1);
+// { a: 1, b: 3, c: 5, d: 6 }
+
+// Method 2: Spread operator
+const merged2 = { ...obj1, ...obj2, ...obj3 };
+console.log(merged2);
+// { a: 1, b: 3, c: 5, d: 6 }
+
+// Note: Later values override earlier ones
+console.log(merged1.b); // 3 (from obj2)
+console.log(merged1.c); // 5 (from obj3)
+
+// Merging with new properties
+const merged3 = { ...obj1, ...obj2, newKey: "new" };
+console.log(merged3);
+// { a: 1, b: 3, c: 4, newKey: "new" }</code></pre>
+                <button onclick="runMerging()">Run Example</button>
+                <div id="output5" class="output"></div>
+            </div>
+
+            <!-- Nested Merge -->
+            <div class="example">
+                <div class="example-title">✅ Deep Merge - Merging Nested Objects</div>
+                <div class="description">
+                    Merge objects with nested structures without losing existing properties.
+                </div>
+                <pre><code>function deepMerge(target, source) {
+    for (let key in source) {
+        if (source.hasOwnProperty(key)) {
+            if (typeof source[key] === "object" && source[key] !== null) {
+                if (!target[key]) target[key] = {};
+                deepMerge(target[key], source[key]);
+            } else {
+                target[key] = source[key];
+            }
+        }
+    }
+    return target;
+}
+
+const default_config = {
+    database: {
+        host: "localhost",
+        port: 5432,
+        user: "admin"
+    },
+    app: {
+        debug: false,
+        port: 3000
+    }
+};
+
+const user_config = {
+    database: {
+        host: "remote-server",
+        password: "secret"
+    },
+    app: {
+        debug: true
+    }
+};
+
+const merged = deepMerge({ ...default_config }, user_config);
+console.log(merged.database);
+// { host: "remote-server", port: 5432, user: "admin", password: "secret" }
+console.log(merged.app);
+// { debug: true, port: 3000 }</code></pre>
+                <button onclick="runDeepMerge()">Run Example</button>
+                <div id="output6" class="output"></div>
+            </div>
+
+            <!-- Comparison Table -->
+            <div class="example">
+                <div class="example-title">📊 Cloning Methods Comparison</div>
+                <div class="description">
+                    <table style="width: 100%; border-collapse: collapse; font-size: 0.9em;">
+                        <tr style="background: #667eea; color: white;">
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Method</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Nested Objects</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Functions</th>
+                            <th style="padding: 8px; text-align: left; border: 1px solid #ddd;">Best For</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Spread Operator {...}</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Shallow</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Yes</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Quick copy</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd;">Object.assign()</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Shallow</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Yes</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Merging</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 8px; border: 1px solid #ddd;">JSON method</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Deep</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✗ No</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">Simple data</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 8px; border: 1px solid #ddd;">Recursive</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Deep</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Yes</td>
+                            <td style="padding: 8px; border: 1px solid #ddd;">✓ Most reliable</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>📚 JavaScript Object Cloning & Merging | Interactive Examples</p>
+        </footer>
+    </div>
+
+    <script>
+        function displayOutput(elementId, result) {
+            document.getElementById(elementId).textContent = result;
+        }
+
+        function runSpreadShallowCopy() {
+            const original = { name: "John", age: 30 };
+            const copy = { ...original };
+            
+            let output = "Top-level copy:\n";
+            output += "Original: " + JSON.stringify(original) + "\n";
+            output += "Copy: " + JSON.stringify(copy) + "\n\n";
+            
+            copy.name = "Bob";
+            output += "After modifying copy.name = 'Bob':\n";
+            output += "Original.name: " + original.name + " (unchanged)\n";
+            output += "Copy.name: " + copy.name + "\n\n";
+            
+            const user = { name: "John", address: { city: "NYC", country: "USA" } };
+            const shallowCopy = { ...user };
+            
+            output += "--- Nested Objects Problem ---\n";
+            output += "Original: " + JSON.stringify(user) + "\n\n";
+            
+            shallowCopy.address.city = "LA";
+            output += "After shallowCopy.address.city = 'LA':\n";
+            output += "Original.address.city: " + user.address.city + " (AFFECTED!)\n";
+            output += "Copy.address.city: " + shallowCopy.address.city + "\n";
+            output += "Same reference: " + (user.address === shallowCopy.address);
+            
+            displayOutput("output1", output);
+        }
+
+        function runAssignShallowCopy() {
+            const original = { name: "John", age: 30, email: "john@email.com" };
+            const copy1 = Object.assign({}, original);
+            
+            let output = "Object.assign({}, original):\n";
+            output += "Original: " + JSON.stringify(original) + "\n";
+            output += "Copy: " + JSON.stringify(copy1) + "\n\n";
+            
+            copy1.name = "Bob";
+            output += "After copy1.name = 'Bob':\n";
+            output += "Original: " + JSON.stringify(original) + "\n";
+            output += "Copy: " + JSON.stringify(copy1) + "\n\n";
+            
+            const defaults = { theme: "light", language: "en" };
+            const user = { theme: "dark" };
+            const merged = Object.assign({}, defaults, user);
+            
+            output += "Merging multiple objects:\n";
+            output += "Defaults: " + JSON.stringify(defaults) + "\n";
+            output += "User: " + JSON.stringify(user) + "\n";
+            output += "Merged: " + JSON.stringify(merged);
+            
+            displayOutput("output2", output);
+        }
+
+        function runJSONDeepCopy() {
+            const original = {
+                name: "John",
+                address: { city: "NYC", country: "USA" },
+                hobbies: ["reading", "gaming", "coding"]
+            };
+            
+            const deepCopy = JSON.parse(JSON.stringify(original));
+            
+            let output = "JSON Deep Copy - Nested Objects:\n";
+            output += "Original: " + JSON.stringify(original, null, 2) + "\n\n";
+            
+            deepCopy.address.city = "LA";
+            deepCopy.hobbies[0] = "writing";
+            
+            output += "After modifying copy:\n";
+            output += "Original.address.city: " + original.address.city + " (NOT affected!)\n";
+            output += "Original.hobbies[0]: " + original.hobbies[0] + " (NOT affected!)\n\n";
+            
+            const problematic = {
+                name: "John",
+                callback: () => "function",
+                value: undefined,
+                sym: "Symbol"
+            };
+            
+            output += "--- Problems with JSON Method ---\n";
+            output += "Before: " + JSON.stringify({ callback: "function", value: "undefined", sym: "Symbol" }) + "\n";
+            
+            const copied = JSON.parse(JSON.stringify(problematic));
+            output += "After:  " + JSON.stringify(copied) + "\n";
+            output += "Lost: callback, undefined, and Symbols!";
+            
+            displayOutput("output3", output);
+        }
+
+        function runRecursiveDeepCopy() {
+            function deepClone(obj) {
+                if (obj === null || typeof obj !== "object") return obj;
+                if (obj instanceof Date) return new Date(obj);
+                if (obj instanceof Array) return obj.map(item => deepClone(item));
+                
+                const cloned = {};
+                for (let key in obj) {
+                    if (obj.hasOwnProperty(key)) {
+                        cloned[key] = deepClone(obj[key]);
+                    }
+                }
+                return cloned;
+            }
+            
+            const original = {
+                name: "John",
+                date: new Date("2024-01-23"),
+                address: { city: "NYC", zip: 10001 },
+                hobbies: ["reading", "gaming"]
+            };
+            
+            const copy = deepClone(original);
+            
+            let output = "Recursive Deep Copy:\n";
+            output += "Original.address.city: " + original.address.city + "\n";
+            output += "Original.hobbies[0]: " + original.hobbies[0] + "\n\n";
+            
+            copy.address.city = "LA";
+            copy.hobbies[0] = "writing";
+            
+            output += "After modifying copy:\n";
+            output += "Original.address.city: " + original.address.city + " (NOT affected!)\n";
+            output += "Original.hobbies[0]: " + original.hobbies[0] + " (NOT affected!)\n\n";
+            
+            output += "✓ Advantages of recursive method:\n";
+            output += "- Handles nested objects correctly\n";
+            output += "- Handles arrays correctly\n";
+            output += "- Preserves functions and complex types";
+            
+            displayOutput("output4", output);
+        }
+
+        function runMerging() {
+            const obj1 = { a: 1, b: 2 };
+            const obj2 = { b: 3, c: 4 };
+            const obj3 = { c: 5, d: 6 };
+            
+            const merged1 = Object.assign({}, obj1, obj2, obj3);
+            const merged2 = { ...obj1, ...obj2, ...obj3 };
+            
+            let output = "Merging Multiple Objects:\n\n";
+            output += "obj1: " + JSON.stringify(obj1) + "\n";
+            output += "obj2: " + JSON.stringify(obj2) + "\n";
+            output += "obj3: " + JSON.stringify(obj3) + "\n\n";
+            
+            output += "Using Object.assign():\n";
+            output += JSON.stringify(merged1) + "\n\n";
+            
+            output += "Using Spread Operator:\n";
+            output += JSON.stringify(merged2) + "\n\n";
+            
+            output += "Note: Later values override earlier ones\n";
+            output += "merged.b = " + merged1.b + " (from obj2)\n";
+            output += "merged.c = " + merged1.c + " (from obj3)\n\n";
+            
+            const merged3 = { ...obj1, ...obj2, newKey: "new" };
+            output += "With new property:\n";
+            output += JSON.stringify(merged3);
+            
+            displayOutput("output5", output);
+        }
+
+        function runDeepMerge() {
+            function deepMerge(target, source) {
+                for (let key in source) {
+                    if (source.hasOwnProperty(key)) {
+                        if (typeof source[key] === "object" && source[key] !== null) {
+                            if (!target[key]) target[key] = {};
+                            deepMerge(target[key], source[key]);
+                        } else {
+                            target[key] = source[key];
+                        }
+                    }
+                }
+                return target;
+            }
+            
+            const default_config = {
+                database: { host: "localhost", port: 5432, user: "admin" },
+                app: { debug: false, port: 3000 }
+            };
+            
+            const user_config = {
+                database: { host: "remote-server", password: "secret" },
+                app: { debug: true }
+            };
+            
+            const merged = deepMerge(JSON.parse(JSON.stringify(default_config)), user_config);
+            
+            let output = "Deep Merge - Preserving Nested Properties:\n\n";
+            output += "Default Config:\n";
+            output += JSON.stringify(default_config, null, 2) + "\n\n";
+            
+            output += "User Config:\n";
+            output += JSON.stringify(user_config, null, 2) + "\n\n";
+            
+            output += "Merged Result:\n";
+            output += JSON.stringify(merged, null, 2) + "\n\n";
+            
+            output += "Notice:\n";
+            output += "- database.port: preserved from default\n";
+            output += "- database.password: added from user config\n";
+            output += "- app.port: preserved from default\n";
+            output += "- app.debug: overridden by user config";
+            
+            displayOutput("output6", output);
+        }
+    </script>
+</body>
+</html>
