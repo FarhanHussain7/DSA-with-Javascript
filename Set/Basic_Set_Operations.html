@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Set - Basic Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #4a5568;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .comment {
+            color: #68d391;
+            font-style: italic;
+        }
+        
+        .output {
+            background: #f7fafc;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .key-point {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #48bb78;
+        }
+        
+        .warning {
+            background: #fed7d7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #f56565;
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 DSA Set - Basic Operations</h1>
+        
+        <div class="section">
+            <h2>1. What is a Set? Fundamental Concept</h2>
+            <div class="key-point">
+                <strong>SET DEFINITION:</strong> A Set is a collection of UNIQUE values. Unlike arrays, sets cannot contain duplicate elements.
+                Think of it like a mathematical set - each element appears only once.
+            </div>
+            
+            <div class="key-point">
+                <strong>KEY CHARACTERISTICS:</strong>
+                <ul>
+                    <li>Stores only UNIQUE values</li>
+                    <li>No index-based access (no random access)</li>
+                    <li>Maintains insertion order (in modern JavaScript)</li>
+                    <li>Fast O(1) average time for add, delete, has operations</li>
+                    <li>Can store any type of values (primitives, objects, etc.)</li>
+                </ul>
+            </div>
+            
+            <button class="run-button" onclick="runBasicConcepts()">Run Basic Concepts</button>
+        </div>
+        
+        <div class="section">
+            <h2>2. CRUD Operations</h2>
+            <div class="code-block">
+<span class="comment">// Creating an empty set</span>
+const emptySet = new Set();
+console.log("Empty set:", emptySet);
+
+<span class="comment">// Creating set with initial values</span>
+const initialSet = new Set([1, 2, 3, 4, 5]);
+console.log("Set with initial values:", initialSet);
+
+<span class="comment">// Creating set from string (each character becomes an element)</span>
+const stringSet = new Set("hello");
+console.log("Set from string 'hello':", stringSet);
+<span class="comment">// Notice: 'l' appears only once because sets store unique values!</span>
+
+<span class="comment">// ADD - add() method</span>
+const mySet = new Set();
+mySet.add(10);
+mySet.add(20);
+mySet.add(30);
+console.log("After adding 10, 20, 30:", mySet);
+
+<span class="comment">// Adding duplicate values (they get ignored)</span>
+mySet.add(10); <span class="comment">// This won't be added because 10 already exists</span>
+mySet.add(20); <span class="comment">// This won't be added because 20 already exists</span>
+console.log("After trying to add duplicates 10, 20:", mySet);
+
+<span class="comment">// Adding different data types</span>
+mySet.add("hello");
+mySet.add(true);
+mySet.add(null);
+mySet.add(undefined);
+console.log("After adding different types:", mySet);
+
+<span class="comment">// Adding objects (each object is unique even if they look the same)</span>
+const obj1 = { id: 1 };
+const obj2 = { id: 1 }; <span class="comment">// Different object reference</span>
+mySet.add(obj1);
+mySet.add(obj2);
+console.log("After adding objects:", mySet);
+
+<span class="comment">// READ/EXISTS - has() method</span>
+console.log("Has 10:", mySet.has(10));
+console.log("Has 99:", mySet.has(99));
+console.log("Has 'hello':", mySet.has("hello"));
+console.log("Has obj1:", mySet.has(obj1));
+console.log("Has {id: 1}:", mySet.has({ id: 1 })); <span class="comment">// false (different object reference)</span>
+
+<span class="comment">// DELETE - delete() method</span>
+console.log("Delete 20:", mySet.delete(20)); <span class="comment">// true (element existed and was deleted)</span>
+console.log("Delete 99:", mySet.delete(99)); <span class="comment">// false (element didn't exist)</span>
+console.log("After deleting 20:", mySet);
+
+<span class="comment">// CLEAR - clear() method (removes all elements)</span>
+const tempSet = new Set([1, 2, 3, 4, 5]);
+console.log("Before clear:", tempSet);
+tempSet.clear();
+console.log("After clear:", tempSet);
+            </div>
+            
+            <button class="run-button" onclick="runCRUDOperations()">Run CRUD Operations</button>
+        </div>
+        
+        <div class="section">
+            <h2>3. Size and Iteration</h2>
+            <div class="code-block">
+const iterationSet = new Set(['apple', 'banana', 'orange', 'grape']);
+
+<span class="comment">// SIZE property</span>
+console.log("Set size:", iterationSet.size);
+
+<span class="comment">// Method 1: for...of loop (most common)</span>
+console.log("Using for...of loop:");
+for (const fruit of iterationSet) {
+    console.log(`Fruit: ${fruit}`);
+}
+
+<span class="comment">// Method 2: forEach() method</span>
+console.log("Using forEach():");
+iterationSet.forEach((value, valueAgain, set) => {
+    <span class="comment">// Note: forEach passes (value, value, set) for sets (same value twice)</span>
+    console.log(`forEach: ${value}`);
+});
+
+<span class="comment">// Method 3: Using keys() iterator</span>
+console.log("Using keys():");
+for (const key of iterationSet.keys()) {
+    console.log(`Key: ${key}`);
+}
+
+<span class="comment">// Method 4: Using values() iterator (same as keys() for sets)</span>
+console.log("Using values():");
+for (const value of iterationSet.values()) {
+    console.log(`Value: ${value}`);
+}
+
+<span class="comment">// Method 5: Using entries() iterator</span>
+console.log("Using entries():");
+for (const entry of iterationSet.entries()) {
+    console.log(`Entry: [${entry[0]}, ${entry[1]}]`); <span class="comment">// [value, value] for sets</span>
+}
+            </div>
+            
+            <button class="run-button" onclick="runIteration()">Run Iteration Examples</button>
+        </div>
+        
+        <div class="section">
+            <h2>4. Set vs Array Comparison</h2>
+            <div class="key-point">
+                <strong>WHEN TO USE SET VS ARRAY:</strong><br>
+                <strong>USE SET WHEN:</strong>
+                <ul>
+                    <li>You need to ensure uniqueness of values</li>
+                    <li>You need fast existence checking (O(1) vs O(n) for arrays)</li>
+                    <li>You don't need indexed access</li>
+                    <li>You need to perform set operations (union, intersection, difference)</li>
+                </ul>
+                
+                <strong>USE ARRAY WHEN:</strong>
+                <ul>
+                    <li>You need ordered access with indices</li>
+                    <li>You need to store duplicates</li>
+                    <li>You need array-specific methods (map, filter, reduce, etc.)</li>
+                    <li>You need to sort elements</li>
+                </ul>
+            </div>
+            
+            <div class="code-block">
+<span class="comment">// Performance comparison for existence checking</span>
+const largeArray = Array.from({ length: 100000 }, (_, i) => i);
+const largeSet = new Set(largeArray);
+
+console.time("Array existence check");
+largeArray.includes(99999); <span class="comment">// O(n) operation</span>
+console.timeEnd("Array existence check");
+
+console.time("Set existence check");
+largeSet.has(99999); <span class="comment">// O(1) operation</span>
+console.timeEnd("Set existence check");
+            </div>
+            
+            <button class="run-button" onclick="runComparison()">Run Performance Comparison</button>
+        </div>
+        
+        <div class="section">
+            <h2>5. Practical Examples</h2>
+            
+            <h3>Example 1: Remove duplicates from array</h3>
+            <div class="code-block">
+function removeDuplicates(arr) {
+    return [...new Set(arr)]; <span class="comment">// Spread operator converts set back to array</span>
+}
+
+const duplicateArray = [1, 2, 2, 3, 4, 4, 5, 5, 5];
+const uniqueArray = removeDuplicates(duplicateArray);
+console.log("Original with duplicates:", duplicateArray);
+console.log("After removing duplicates:", uniqueArray);
+            </div>
+            
+            <h3>Example 2: Check if all characters in string are unique</h3>
+            <div class="code-block">
+function hasUniqueChars(str) {
+    const charSet = new Set(str);
+    return charSet.size === str.length;
+}
+
+console.log("Has unique chars 'hello':", hasUniqueChars("hello"));
+console.log("Has unique chars 'world':", hasUniqueChars("world"));
+            </div>
+            
+            <h3>Example 3: Find common elements between two arrays</h3>
+            <div class="code-block">
+function findCommonElements(arr1, arr2) {
+    const set1 = new Set(arr1);
+    const common = new Set();
+    
+    for (const item of arr2) {
+        if (set1.has(item)) {
+            common.add(item);
+        }
+    }
+    
+    return Array.from(common);
+}
+
+const array1 = [1, 2, 3, 4, 5];
+const array2 = [4, 5, 6, 7, 8];
+const commonElements = findCommonElements(array1, array2);
+console.log("Common elements:", commonElements);
+            </div>
+            
+            <button class="run-button" onclick="runPracticalExamples()">Run Practical Examples</button>
+        </div>
+        
+        <div class="section">
+            <h2>6. Mathematical Set Operations</h2>
+            <div class="code-block">
+<span class="comment">// Union (A ∪ B) - All elements from both sets</span>
+function union(setA, setB) {
+    return new Set([...setA, ...setB]);
+}
+
+<span class="comment">// Intersection (A ∩ B) - Elements common to both sets</span>
+function intersection(setA, setB) {
+    return new Set([...setA].filter(x => setB.has(x)));
+}
+
+<span class="comment">// Difference (A - B) - Elements in A but not in B</span>
+function difference(setA, setB) {
+    return new Set([...setA].filter(x => !setB.has(x)));
+}
+
+<span class="comment">// Symmetric Difference (A △ B) - Elements in either set but not both</span>
+function symmetricDifference(setA, setB) {
+    return new Set([...setA].filter(x => !setB.has(x)).concat([...setB].filter(x => !setA.has(x))));
+}
+
+<span class="comment">// Test set operations</span>
+const setA = new Set([1, 2, 3, 4]);
+const setB = new Set([3, 4, 5, 6]);
+
+console.log("Set A:", [...setA]);
+console.log("Set B:", [...setB]);
+
+console.log("Union (A ∪ B):", [...union(setA, setB)]);
+console.log("Intersection (A ∩ B):", [...intersection(setA, setB)]);
+console.log("Difference (A - B):", [...difference(setA, setB)]);
+console.log("Symmetric Difference (A △ B):", [...symmetricDifference(setA, setB)]);
+            </div>
+            
+            <button class="run-button" onclick="runSetOperations()">Run Set Operations</button>
+        </div>
+        
+        <div class="section">
+            <h2>7. WeakSet - Special Type of Set</h2>
+            <div class="key-point">
+                <strong>WEAKSET CHARACTERISTICS:</strong>
+                <ul>
+                    <li>Can only store objects (not primitives)</li>
+                    <li>Holds weak references to objects</li>
+                    <li>Objects can be garbage collected if no other references exist</li>
+                    <li>Not iterable (no forEach, no size property)</li>
+                    <li>Useful for private data and memory management</li>
+                </ul>
+            </div>
+            
+            <div class="code-block">
+const weakSet = new WeakSet();
+
+const objA = { name: "Object A" };
+const objB = { name: "Object B" };
+const objC = { name: "Object C" };
+
+<span class="comment">// Add objects to WeakSet</span>
+weakSet.add(objA);
+weakSet.add(objB);
+weakSet.add(objC);
+
+<span class="comment">// Check existence</span>
+console.log("WeakSet has objA:", weakSet.has(objA));
+console.log("WeakSet has objB:", weakSet.has(objB));
+
+<span class="comment">// Remove object</span>
+weakSet.delete(objA);
+console.log("WeakSet has objA after delete:", weakSet.has(objA));
+            </div>
+            
+            <button class="run-button" onclick="runWeakSet()">Run WeakSet Examples</button>
+        </div>
+        
+        <div id="console-output"></div>
+        
+        <div class="section">
+            <h2>🎯 Key Takeaways</h2>
+            <div class="key-point">
+                <ul>
+                    <li><strong>Sets store only unique values</strong></li>
+                    <li><strong>O(1) time complexity</strong> for add, delete, has operations</li>
+                    <li><strong>Perfect for removing duplicates</strong> and fast existence checking</li>
+                    <li><strong>Support mathematical set operations</strong> (union, intersection, etc.)</li>
+                    <li><strong>WeakSet is useful</strong> for garbage collection and private data</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runBasicConcepts() {
+            clearConsole();
+            log('=== BASIC SET CONCEPTS ===');
+            
+            // Creating an empty set
+            const emptySet = new Set();
+            log(`Empty set: ${JSON.stringify([...emptySet])}`);
+
+            // Creating set with initial values
+            const initialSet = new Set([1, 2, 3, 4, 5]);
+            log(`Set with initial values: ${JSON.stringify([...initialSet])}`);
+
+            // Creating set from string
+            const stringSet = new Set("hello");
+            log(`Set from string 'hello': ${JSON.stringify([...stringSet])}`);
+            log('Notice: "l" appears only once because sets store unique values!');
+        }
+
+        function runCRUDOperations() {
+            clearConsole();
+            log('=== CRUD OPERATIONS ===');
+            
+            const mySet = new Set();
+            
+            // ADD operations
+            mySet.add(10);
+            mySet.add(20);
+            mySet.add(30);
+            log(`After adding 10, 20, 30: ${JSON.stringify([...mySet])}`);
+
+            // Adding duplicates
+            mySet.add(10);
+            mySet.add(20);
+            log(`After trying to add duplicates 10, 20: ${JSON.stringify([...mySet])}`);
+
+            // Adding different types
+            mySet.add("hello");
+            mySet.add(true);
+            mySet.add(null);
+            mySet.add(undefined);
+            log(`After adding different types: ${JSON.stringify([...mySet])}`);
+
+            // Adding objects
+            const obj1 = { id: 1 };
+            const obj2 = { id: 1 };
+            mySet.add(obj1);
+            mySet.add(obj2);
+            log(`After adding objects: ${JSON.stringify([...mySet].map(x => typeof x === 'object' ? `{id: ${x.id}}` : x))}`);
+
+            // HAS operations
+            log(`Has 10: ${mySet.has(10)}`);
+            log(`Has 99: ${mySet.has(99)}`);
+            log(`Has 'hello': ${mySet.has("hello")}`);
+            log(`Has obj1: ${mySet.has(obj1)}`);
+            log(`Has {id: 1}: ${mySet.has({ id: 1 })}`);
+
+            // DELETE operations
+            log(`Delete 20: ${mySet.delete(20)}`);
+            log(`Delete 99: ${mySet.delete(99)}`);
+            log(`After deleting 20: ${JSON.stringify([...mySet])}`);
+
+            // CLEAR operation
+            const tempSet = new Set([1, 2, 3, 4, 5]);
+            log(`Before clear: ${JSON.stringify([...tempSet])}`);
+            tempSet.clear();
+            log(`After clear: ${JSON.stringify([...tempSet])}`);
+        }
+
+        function runIteration() {
+            clearConsole();
+            log('=== ITERATION METHODS ===');
+            
+            const iterationSet = new Set(['apple', 'banana', 'orange', 'grape']);
+            
+            log(`Set size: ${iterationSet.size}`);
+
+            // for...of loop
+            log('Using for...of loop:');
+            for (const fruit of iterationSet) {
+                log(`  Fruit: ${fruit}`);
+            }
+
+            // forEach
+            log('Using forEach():');
+            iterationSet.forEach((value) => {
+                log(`  forEach: ${value}`);
+            });
+
+            // keys()
+            log('Using keys():');
+            for (const key of iterationSet.keys()) {
+                log(`  Key: ${key}`);
+            }
+
+            // values()
+            log('Using values():');
+            for (const value of iterationSet.values()) {
+                log(`  Value: ${value}`);
+            }
+
+            // entries()
+            log('Using entries():');
+            for (const entry of iterationSet.entries()) {
+                log(`  Entry: [${entry[0]}, ${entry[1]}]`);
+            }
+        }
+
+        function runComparison() {
+            clearConsole();
+            log('=== SET VS ARRAY PERFORMANCE ===');
+            
+            const largeArray = Array.from({ length: 100000 }, (_, i) => i);
+            const largeSet = new Set(largeArray);
+
+            // Array existence check
+            const start1 = performance.now();
+            largeArray.includes(99999);
+            const end1 = performance.now();
+            log(`Array existence check: ${(end1 - start1).toFixed(4)}ms`);
+
+            // Set existence check
+            const start2 = performance.now();
+            largeSet.has(99999);
+            const end2 = performance.now();
+            log(`Set existence check: ${(end2 - start2).toFixed(4)}ms`);
+            
+            log('Set is significantly faster for existence checking!');
+        }
+
+        function runPracticalExamples() {
+            clearConsole();
+            log('=== PRACTICAL EXAMPLES ===');
+            
+            // Example 1: Remove duplicates
+            function removeDuplicates(arr) {
+                return [...new Set(arr)];
+            }
+
+            const duplicateArray = [1, 2, 2, 3, 4, 4, 5, 5, 5];
+            const uniqueArray = removeDuplicates(duplicateArray);
+            log(`Original with duplicates: [${duplicateArray.join(', ')}]`);
+            log(`After removing duplicates: [${uniqueArray.join(', ')}]`);
+
+            // Example 2: Unique characters
+            function hasUniqueChars(str) {
+                const charSet = new Set(str);
+                return charSet.size === str.length;
+            }
+
+            log(`Has unique chars 'hello': ${hasUniqueChars("hello")}`);
+            log(`Has unique chars 'world': ${hasUniqueChars("world")}`);
+
+            // Example 3: Common elements
+            function findCommonElements(arr1, arr2) {
+                const set1 = new Set(arr1);
+                const common = new Set();
+                
+                for (const item of arr2) {
+                    if (set1.has(item)) {
+                        common.add(item);
+                    }
+                }
+                
+                return Array.from(common);
+            }
+
+            const array1 = [1, 2, 3, 4, 5];
+            const array2 = [4, 5, 6, 7, 8];
+            const commonElements = findCommonElements(array1, array2);
+            log(`Common elements: [${commonElements.join(', ')}]`);
+        }
+
+        function runSetOperations() {
+            clearConsole();
+            log('=== MATHEMATICAL SET OPERATIONS ===');
+            
+            // Union
+            function union(setA, setB) {
+                return new Set([...setA, ...setB]);
+            }
+
+            // Intersection
+            function intersection(setA, setB) {
+                return new Set([...setA].filter(x => setB.has(x)));
+            }
+
+            // Difference
+            function difference(setA, setB) {
+                return new Set([...setA].filter(x => !setB.has(x)));
+            }
+
+            // Symmetric Difference
+            function symmetricDifference(setA, setB) {
+                return new Set([...setA].filter(x => !setB.has(x)).concat([...setB].filter(x => !setA.has(x))));
+            }
+
+            const setA = new Set([1, 2, 3, 4]);
+            const setB = new Set([3, 4, 5, 6]);
+
+            log(`Set A: [${[...setA].join(', ')}]`);
+            log(`Set B: [${[...setB].join(', ')}]`);
+
+            log(`Union (A ∪ B): [${[...union(setA, setB)].join(', ')}]`);
+            log(`Intersection (A ∩ B): [${[...intersection(setA, setB)].join(', ')}]`);
+            log(`Difference (A - B): [${[...difference(setA, setB)].join(', ')}]`);
+            log(`Symmetric Difference (A △ B): [${[...symmetricDifference(setA, setB)].join(', ')}]`);
+        }
+
+        function runWeakSet() {
+            clearConsole();
+            log('=== WEAKSET EXAMPLES ===');
+            
+            const weakSet = new WeakSet();
+
+            const objA = { name: "Object A" };
+            const objB = { name: "Object B" };
+            const objC = { name: "Object C" };
+
+            // Add objects
+            weakSet.add(objA);
+            weakSet.add(objB);
+            weakSet.add(objC);
+
+            log(`WeakSet has objA: ${weakSet.has(objA)}`);
+            log(`WeakSet has objB: ${weakSet.has(objB)}`);
+
+            // Remove object
+            weakSet.delete(objA);
+            log(`WeakSet has objA after delete: ${weakSet.has(objA)}`);
+            
+            log('Note: WeakSet cannot be iterated and has no size property');
+            log('Objects in WeakSet can be garbage collected when no other references exist');
+        }
+
+        // Run first example on page load
+        window.onload = function() {
+            runBasicConcepts();
+        };
+    </script>
+</body>
+</html>

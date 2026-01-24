@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Set - Algorithm Problems</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #4a5568;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        .problem-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .problem-description {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #48bb78;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .comment {
+            color: #68d391;
+            font-style: italic;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .result-display {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        
+        .complexity {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .test-cases {
+            background: #f0f4f8;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧮 DSA Set - Algorithm Problems</h1>
+        
+        <div class="problem-section">
+            <div class="problem-title">1. Contains Duplicate</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Given an array of integers, find if the array contains any duplicates.<br>
+                <strong>APPROACH:</strong> Use Set to track seen numbers. If we encounter a number already in the Set, we know there's a duplicate.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(n) - we visit each element once<br>
+                <strong>SPACE COMPLEXITY:</strong> O(n) - worst case when all elements are unique
+            </div>
+            <div class="code-block">
+function containsDuplicate(nums) {
+    const seen = new Set();
+    
+    for (const num of nums) {
+        if (seen.has(num)) {
+            return true; <span class="comment">// Found duplicate</span>
+        }
+        seen.add(num);
+    }
+    
+    return false; <span class="comment">// No duplicates found</span>
+}
+
+<span class="comment">// Alternative one-liner solution</span>
+function containsDuplicateOneLiner(nums) {
+    return new Set(nums).size !== nums.length;
+}
+            </div>
+            <button class="run-button" onclick="runContainsDuplicate()">Run Contains Duplicate</button>
+            <div id="duplicate-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">2. Single Number</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Given an array where every element appears twice except one, find the single one.<br>
+                <strong>APPROACH:</strong> Use Set to track pairs. Remove from Set when we've seen it before.
+            </div>
+            <div class="code-block">
+function singleNumber(nums) {
+    const numSet = new Set();
+    
+    for (const num of nums) {
+        if (numSet.has(num)) {
+            numSet.delete(num); <span class="comment">// Remove if we've seen it before (pair found)</span>
+        } else {
+            numSet.add(num); <span class="comment">// Add if we haven't seen it before</span>
+        }
+    }
+    
+    <span class="comment">// The remaining element is the single number</span>
+    return numSet.values().next().value;
+}
+            </div>
+            <button class="run-button" onclick="runSingleNumber()">Run Single Number</button>
+            <div id="single-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">3. Intersection of Two Arrays</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Given two arrays, return their intersection.<br>
+                <strong>APPROACH:</strong> Use Set to store elements of one array, then check against the other.
+            </div>
+            <div class="code-block">
+function intersection(nums1, nums2) {
+    <span class="comment">// Use the smaller array to create the set for better space efficiency</span>
+    if (nums1.length > nums2.length) {
+        [nums1, nums2] = [nums2, nums1]; <span class="comment">// Swap if nums1 is larger</span>
+    }
+    
+    const set1 = new Set(nums1);
+    const resultSet = new Set();
+    
+    for (const num of nums2) {
+        if (set1.has(num)) {
+            resultSet.add(num);
+        }
+    }
+    
+    return Array.from(resultSet);
+}
+            </div>
+            <button class="run-button" onclick="runIntersection()">Run Intersection</button>
+            <div id="intersection-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">4. Happy Number</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Determine if a number is happy (eventually reaches 1 when replaced by sum of squares of digits).<br>
+                <strong>APPROACH:</strong> Use Set to detect cycles in the sequence.
+            </div>
+            <div class="code-block">
+function isHappy(n) {
+    const seen = new Set();
+    
+    while (n !== 1 && !seen.has(n)) {
+        seen.add(n);
+        n = getNextNumber(n);
+    }
+    
+    return n === 1;
+}
+
+function getNextNumber(n) {
+    let sum = 0;
+    while (n > 0) {
+        const digit = n % 10;
+        sum += digit * digit;
+        n = Math.floor(n / 10);
+    }
+    return sum;
+}
+            </div>
+            <button class="run-button" onclick="runHappyNumber()">Run Happy Number</button>
+            <div id="happy-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">5. Find the Difference</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Find the character that was added to string t compared to string s.<br>
+                <strong>APPROACH:</strong> Use Set to track characters in s, then find the extra character in t.
+            </div>
+            <div class="code-block">
+function findTheDifference(s, t) {
+    const charSet = new Set(s);
+    
+    for (const char of t) {
+        if (!charSet.has(char)) {
+            return char;
+        }
+        <span class="comment">// Remove the character to handle duplicates properly</span>
+        charSet.delete(char);
+    }
+    
+    return ''; <span class="comment">// Should not reach here if input is valid</span>
+}
+            </div>
+            <button class="run-button" onclick="runFindDifference()">Run Find Difference</button>
+            <div id="difference-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">6. Jewels and Stones</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Count how many stones are also jewels.<br>
+                <strong>APPROACH:</strong> Use Set to store jewel types for O(1) lookup.
+            </div>
+            <div class="code-block">
+function numJewelsInStones(jewels, stones) {
+    const jewelSet = new Set(jewels);
+    let count = 0;
+    
+    for (const stone of stones) {
+        if (jewelSet.has(stone)) {
+            count++;
+        }
+    }
+    
+    return count;
+}
+            </div>
+            <button class="run-button" onclick="runJewelsStones()">Run Jewels and Stones</button>
+            <div id="jewels-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">7. Find Duplicates in Array</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Find all duplicates in an array where elements appear 1-3 times.<br>
+                <strong>APPROACH:</strong> Use Set to track seen elements and another Set for duplicates.
+            </div>
+            <div class="code-block">
+function findDuplicates(nums) {
+    const seen = new Set();
+    const duplicates = new Set();
+    
+    for (const num of nums) {
+        if (seen.has(num)) {
+            duplicates.add(num);
+        } else {
+            seen.add(num);
+        }
+    }
+    
+    return Array.from(duplicates);
+}
+            </div>
+            <button class="run-button" onclick="runFindDuplicates()">Run Find Duplicates</button>
+            <div id="findduplicates-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">8. Longest Consecutive Sequence</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Find the length of longest consecutive elements sequence.<br>
+                <strong>APPROACH:</strong> Use Set for O(1) lookup and only start sequences from the beginning.
+            </div>
+            <div class="code-block">
+function longestConsecutive(nums) {
+    const numSet = new Set(nums);
+    let longest = 0;
+    
+    for (const num of numSet) {
+        <span class="comment">// Only start counting if num is the beginning of a sequence</span>
+        if (!numSet.has(num - 1)) {
+            let currentNum = num;
+            let currentStreak = 1;
+            
+            while (numSet.has(currentNum + 1)) {
+                currentNum += 1;
+                currentStreak += 1;
+            }
+            
+            longest = Math.max(longest, currentStreak);
+        }
+    }
+    
+    return longest;
+}
+            </div>
+            <button class="run-button" onclick="runLongestConsecutive()">Run Longest Consecutive</button>
+            <div id="consecutive-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">9. Reverse Vowels of a String</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Reverse only the vowels in a string.<br>
+                <strong>APPROACH:</strong> Use Set to store vowels for O(1) lookup, then use two-pointer technique.
+            </div>
+            <div class="code-block">
+function reverseVowels(s) {
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']);
+    const chars = s.split('');
+    let left = 0;
+    let right = chars.length - 1;
+    
+    while (left < right) {
+        <span class="comment">// Find next vowel from left</span>
+        while (left < right && !vowels.has(chars[left])) {
+            left++;
+        }
+        
+        <span class="comment">// Find next vowel from right</span>
+        while (left < right && !vowels.has(chars[right])) {
+            right--;
+        }
+        
+        <span class="comment">// Swap vowels</span>
+        if (left < right) {
+            [chars[left], chars[right]] = [chars[right], chars[left]];
+            left++;
+            right--;
+        }
+    }
+    
+    return chars.join('');
+}
+            </div>
+            <button class="run-button" onclick="runReverseVowels()">Run Reverse Vowels</button>
+            <div id="vowels-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">10. Find the Town Judge</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Find the town judge (person trusted by everyone else, trusts no one).<br>
+                <strong>APPROACH:</strong> Use Sets to track trust relationships.
+            </div>
+            <div class="code-block">
+function findJudge(n, trust) {
+    if (trust.length === 0 && n === 1) return 1;
+    
+    const trustedBy = new Map(); <span class="comment">// person -> Set of people who trust them</span>
+    const trusts = new Set(); <span class="comment">// Set of people who trust someone</span>
+    
+    for (const [a, b] of trust) {
+        if (!trustedBy.has(b)) {
+            trustedBy.set(b, new Set());
+        }
+        trustedBy.get(b).add(a);
+        trusts.add(a);
+    }
+    
+    <span class="comment">// Find person who is trusted by everyone else and trusts no one</span>
+    for (let i = 1; i <= n; i++) {
+        if (trustedBy.has(i) && 
+            trustedBy.get(i).size === n - 1 && 
+            !trusts.has(i)) {
+            return i;
+        }
+    }
+    
+    return -1;
+}
+            </div>
+            <button class="run-button" onclick="runTownJudge()">Run Town Judge</button>
+            <div id="judge-result" class="result-display" style="display:none;"></div>
+        </div>
+        
+        <div id="console-output"></div>
+        
+        <div class="problem-section">
+            <h2>🎯 Key Takeaways</h2>
+            <div class="problem-description">
+                <ul>
+                    <li><strong>Sets provide O(1) average time complexity for lookups</strong></li>
+                    <li><strong>Perfect for detecting duplicates and cycles</strong></li>
+                    <li><strong>Excellent for membership testing and filtering</strong></li>
+                    <li><strong>Use Sets when you need to ensure uniqueness</strong></li>
+                    <li><strong>Great for mathematical set operations (union, intersection, difference)</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function showResult(elementId, content) {
+            const element = document.getElementById(elementId);
+            element.textContent = content;
+            element.style.display = 'block';
+        }
+
+        // 1. Contains Duplicate
+        function containsDuplicate(nums) {
+            const seen = new Set();
+            
+            for (const num of nums) {
+                if (seen.has(num)) {
+                    return true;
+                }
+                seen.add(num);
+            }
+            
+            return false;
+        }
+
+        function containsDuplicateOneLiner(nums) {
+            return new Set(nums).size !== nums.length;
+        }
+
+        function runContainsDuplicate() {
+            clearConsole();
+            log('=== CONTAINS DUPLICATE ===');
+            
+            const testCases = [
+                { arr: [1,2,3,1], expected: true },
+                { arr: [1,2,3,4], expected: false },
+                { arr: [1,1,1,1], expected: true }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = containsDuplicate(test.arr);
+                const oneLinerResult = containsDuplicateOneLiner(test.arr);
+                log(`Test ${index + 1}: [${test.arr.join(',')}]`);
+                log(`  Result: ${result}, Expected: ${test.expected}`);
+                log(`  One-liner: ${oneLinerResult}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('duplicate-result', `All tests completed. Check console for results.`);
+        }
+
+        // 2. Single Number
+        function singleNumber(nums) {
+            const numSet = new Set();
+            
+            for (const num of nums) {
+                if (numSet.has(num)) {
+                    numSet.delete(num);
+                } else {
+                    numSet.add(num);
+                }
+            }
+            
+            return numSet.values().next().value;
+        }
+
+        function runSingleNumber() {
+            clearConsole();
+            log('=== SINGLE NUMBER ===');
+            
+            const testCases = [
+                { arr: [2,2,1], expected: 1 },
+                { arr: [4,1,2,1,2], expected: 4 },
+                { arr: [1], expected: 1 }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = singleNumber(test.arr);
+                log(`Test ${index + 1}: [${test.arr.join(',')}]`);
+                log(`  Result: ${result}, Expected: ${test.expected}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('single-result', `Single number algorithm completed successfully.`);
+        }
+
+        // 3. Intersection
+        function intersection(nums1, nums2) {
+            if (nums1.length > nums2.length) {
+                [nums1, nums2] = [nums2, nums1];
+            }
+            
+            const set1 = new Set(nums1);
+            const resultSet = new Set();
+            
+            for (const num of nums2) {
+                if (set1.has(num)) {
+                    resultSet.add(num);
+                }
+            }
+            
+            return Array.from(resultSet);
+        }
+
+        function runIntersection() {
+            clearConsole();
+            log('=== INTERSECTION OF TWO ARRAYS ===');
+            
+            const testCases = [
+                { arr1: [1,2,2,1], arr2: [2,2], expected: [2] },
+                { arr1: [4,9,5], arr2: [9,4,9,8,4], expected: [4,9] },
+                { arr1: [], arr2: [1,2,3], expected: [] }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = intersection(test.arr1, test.arr2).sort();
+                const expected = test.expected.sort();
+                const passed = JSON.stringify(result) === JSON.stringify(expected);
+                
+                log(`Test ${index + 1}: [${test.arr1.join(',')}] ∩ [${test.arr2.join(',')}]`);
+                log(`  Result: [${result.join(',')}], Expected: [${expected.join(',')}]`);
+                log(`  ${passed ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('intersection-result', `Intersection algorithm completed successfully.`);
+        }
+
+        // 4. Happy Number
+        function getNextNumber(n) {
+            let sum = 0;
+            while (n > 0) {
+                const digit = n % 10;
+                sum += digit * digit;
+                n = Math.floor(n / 10);
+            }
+            return sum;
+        }
+
+        function isHappy(n) {
+            const seen = new Set();
+            
+            while (n !== 1 && !seen.has(n)) {
+                seen.add(n);
+                n = getNextNumber(n);
+            }
+            
+            return n === 1;
+        }
+
+        function runHappyNumber() {
+            clearConsole();
+            log('=== HAPPY NUMBER ===');
+            
+            const testCases = [
+                { num: 19, expected: true, description: "19 → 82 → 68 → 100 → 1" },
+                { num: 2, expected: false, description: "2 → 4 → 16 → 37 → 58 → 89 → 145 → 42 → 20 → 4" },
+                { num: 7, expected: true }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = isHappy(test.num);
+                log(`Test ${index + 1}: ${test.num} ${test.description ? `(${test.description})` : ''}`);
+                log(`  Result: ${result}, Expected: ${test.expected}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('happy-result', `Happy number algorithm completed successfully.`);
+        }
+
+        // 5. Find the Difference
+        function findTheDifference(s, t) {
+            const charSet = new Set(s);
+            
+            for (const char of t) {
+                if (!charSet.has(char)) {
+                    return char;
+                }
+                charSet.delete(char);
+            }
+            
+            return '';
+        }
+
+        function runFindDifference() {
+            clearConsole();
+            log('=== FIND THE DIFFERENCE ===');
+            
+            const testCases = [
+                { s: "abcd", t: "abcde", expected: "e" },
+                { s: "", t: "y", expected: "y" },
+                { s: "a", t: "aa", expected: "a" }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = findTheDifference(test.s, test.t);
+                log(`Test ${index + 1}: s="${test.s}", t="${test.t}"`);
+                log(`  Result: "${result}", Expected: "${test.expected}"`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('difference-result', `Find the difference algorithm completed successfully.`);
+        }
+
+        // 6. Jewels and Stones
+        function numJewelsInStones(jewels, stones) {
+            const jewelSet = new Set(jewels);
+            let count = 0;
+            
+            for (const stone of stones) {
+                if (jewelSet.has(stone)) {
+                    count++;
+                }
+            }
+            
+            return count;
+        }
+
+        function runJewelsStones() {
+            clearConsole();
+            log('=== JEWELS AND STONES ===');
+            
+            const testCases = [
+                { jewels: "aA", stones: "aAAbbbb", expected: 3 },
+                { jewels: "z", stones: "ZZ", expected: 0 },
+                { jewels: "abc", stones: "aabbbccc", expected: 9 }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = numJewelsInStones(test.jewels, test.stones);
+                log(`Test ${index + 1}: jewels="${test.jewels}", stones="${test.stones}"`);
+                log(`  Result: ${result}, Expected: ${test.expected}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('jewels-result', `Jewels and stones algorithm completed successfully.`);
+        }
+
+        // 7. Find Duplicates
+        function findDuplicates(nums) {
+            const seen = new Set();
+            const duplicates = new Set();
+            
+            for (const num of nums) {
+                if (seen.has(num)) {
+                    duplicates.add(num);
+                } else {
+                    seen.add(num);
+                }
+            }
+            
+            return Array.from(duplicates);
+        }
+
+        function runFindDuplicates() {
+            clearConsole();
+            log('=== FIND DUPLICATES IN ARRAY ===');
+            
+            const testCases = [
+                { arr: [4,3,2,7,8,2,3,1], expected: [2,3] },
+                { arr: [1,1,2], expected: [1] },
+                { arr: [1,2,3,4], expected: [] }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = findDuplicates(test.arr).sort();
+                const expected = test.expected.sort();
+                const passed = JSON.stringify(result) === JSON.stringify(expected);
+                
+                log(`Test ${index + 1}: [${test.arr.join(',')}]`);
+                log(`  Result: [${result.join(',')}], Expected: [${expected.join(',')}]`);
+                log(`  ${passed ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('findduplicates-result', `Find duplicates algorithm completed successfully.`);
+        }
+
+        // 8. Longest Consecutive Sequence
+        function longestConsecutive(nums) {
+            const numSet = new Set(nums);
+            let longest = 0;
+            
+            for (const num of numSet) {
+                if (!numSet.has(num - 1)) {
+                    let currentNum = num;
+                    let currentStreak = 1;
+                    
+                    while (numSet.has(currentNum + 1)) {
+                        currentNum += 1;
+                        currentStreak += 1;
+                    }
+                    
+                    longest = Math.max(longest, currentStreak);
+                }
+            }
+            
+            return longest;
+        }
+
+        function runLongestConsecutive() {
+            clearConsole();
+            log('=== LONGEST CONSECUTIVE SEQUENCE ===');
+            
+            const testCases = [
+                { arr: [100,4,200,1,3,2], expected: 4, description: "1,2,3,4" },
+                { arr: [0,3,7,2,5,8,4,6,0,1], expected: 9, description: "0,1,2,3,4,5,6,7,8" },
+                { arr: [], expected: 0 }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = longestConsecutive(test.arr);
+                log(`Test ${index + 1}: [${test.arr.join(',')}]`);
+                log(`  Result: ${result}, Expected: ${test.expected} ${test.description ? `(${test.description})` : ''}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('consecutive-result', `Longest consecutive sequence algorithm completed successfully.`);
+        }
+
+        // 9. Reverse Vowels
+        function reverseVowels(s) {
+            const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']);
+            const chars = s.split('');
+            let left = 0;
+            let right = chars.length - 1;
+            
+            while (left < right) {
+                while (left < right && !vowels.has(chars[left])) {
+                    left++;
+                }
+                
+                while (left < right && !vowels.has(chars[right])) {
+                    right--;
+                }
+                
+                if (left < right) {
+                    [chars[left], chars[right]] = [chars[right], chars[left]];
+                    left++;
+                    right--;
+                }
+            }
+            
+            return chars.join('');
+        }
+
+        function runReverseVowels() {
+            clearConsole();
+            log('=== REVERSE VOWELS OF A STRING ===');
+            
+            const testCases = [
+                { input: "hello", expected: "holle" },
+                { input: "leetcode", expected: "leotcede" },
+                { input: "aA", expected: "Aa" }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = reverseVowels(test.input);
+                log(`Test ${index + 1}: "${test.input}"`);
+                log(`  Result: "${result}", Expected: "${test.expected}"`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('vowels-result', `Reverse vowels algorithm completed successfully.`);
+        }
+
+        // 10. Town Judge
+        function findJudge(n, trust) {
+            if (trust.length === 0 && n === 1) return 1;
+            
+            const trustedBy = new Map();
+            const trusts = new Set();
+            
+            for (const [a, b] of trust) {
+                if (!trustedBy.has(b)) {
+                    trustedBy.set(b, new Set());
+                }
+                trustedBy.get(b).add(a);
+                trusts.add(a);
+            }
+            
+            for (let i = 1; i <= n; i++) {
+                if (trustedBy.has(i) && 
+                    trustedBy.get(i).size === n - 1 && 
+                    !trusts.has(i)) {
+                    return i;
+                }
+            }
+            
+            return -1;
+        }
+
+        function runTownJudge() {
+            clearConsole();
+            log('=== FIND THE TOWN JUDGE ===');
+            
+            const testCases = [
+                { n: 2, trust: [[1,2]], expected: 2 },
+                { n: 3, trust: [[1,3],[2,3]], expected: 3 },
+                { n: 3, trust: [[1,3],[2,3],[3,1]], expected: -1 }
+            ];
+            
+            testCases.forEach((test, index) => {
+                const result = findJudge(test.n, test.trust);
+                log(`Test ${index + 1}: n=${test.n}, trust=${JSON.stringify(test.trust)}`);
+                log(`  Result: ${result}, Expected: ${test.expected}`);
+                log(`  ${result === test.expected ? '✅ PASS' : '❌ FAIL'}\n`);
+            });
+
+            showResult('judge-result', `Town judge algorithm completed successfully.`);
+        }
+
+        // Run first example on page load
+        window.onload = function() {
+            runContainsDuplicate();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,38 @@
+1. Basic_Map_Operations.js:
+✅ Map creation and initialization
+✅ CRUD operations (set, get, has, delete, clear)
+✅ Size and iteration methods
+✅ Map vs Object comparison
+✅ Different key types (strings, numbers, objects, functions)
+✅ Practical examples (user management, caching, frequency counter)
+2. Advanced_Map_Applications.js:
+✅ LRU Cache implementation
+✅ Graph adjacency list
+✅ Thesaurus/dictionary system
+✅ Multi-key maps (composite keys)
+✅ WeakMap for private data
+✅ Performance comparison
+✅ Shopping cart implementation
+3. Map_Algorithms_Problems.js:
+✅ Two Sum problem
+✅ Group Anagrams
+✅ Longest substring without repeats
+✅ Find duplicates
+✅ Majority element
+✅ Array intersections
+✅ Valid anagram
+✅ Isomorphic strings
+✅ Word pattern
+✅ Subdomain visit count
+✅ Custom sort string
+4. Map_Interview_Questions.js:
+✅ Logger system design
+✅ Phone directory
+✅ File system design
+✅ Time-based key-value store
+✅ Rate limiter
+✅ Advanced LRU cache
+✅ Hit counter
+✅ API caching system
+✅ Session manager
+✅ Leaderboard system
