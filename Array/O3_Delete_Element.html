@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deleting array element</title>
+    <script>
+        let arr = [10,20,30,40,50,60];
+        
+        function DeleteWithValue(){
+            let deleteElement = document.getElementById('Element').value;
+           if(deleteElement > 0 && deleteElement < arr[arr.length -1 ]){
+            for(let i = 0; i< arr.length; i++){
+                if(arr[i] == deleteElement ){
+                    for(let j = i ; j <= arr.length - 1 ; j++){
+                        arr[j] = arr[j + 1];
+                    }
+                }
+            }
+            arr.length = arr.length - 1;
+            console.log(arr);
+        }else{
+            alert("Enter a valid num ");
+        }
+        } 
+        // console.log(DeleteWithValue());
+
+        function DeleteWithPosition(){
+            let position = document.getElementById('index').value;
+            if ( position >= 0 && position <= arr.length) {
+                for(let i = position ; i <= arr.length ; i--){
+                    arr[i] = arr[i + 1];
+                }
+                arr.length = arr.length - 1;
+            console.log(arr);
+            }else{
+                alert("Enter a valid position ")
+            }
+        }
+    // console.log("Delete with position : ", DeleteWithPosition());
+    </script>
+</head>
+<body>
+    <h1>Delete Operation in Array </h1>
+    <div>
+        <input type="text" id="Element" placeholder="Enter the value">
+        <button onclick="DeleteWithValue()">Delete </button>
+    </div>
+    <div>
+        <input type="text" id="indexnum" placeholder="Enter the position">
+        <button onclick="DeleteWithPosition()">Delete </button>
+    </div>
+</body>
+</html>

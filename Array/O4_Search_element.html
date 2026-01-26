@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Element</title>
+    <script>
+        let array = [10, 20, 30, 40, 50, 60, 70, 80];
+
+        function SearchElement() {
+            let element = parseInt(document.getElementById('element').value);
+
+            if (isNaN(element)) {
+                alert("Enter a valid number");
+                return;
+            }
+
+            let index = array.indexOf(element);
+                
+            for(let i = 0 ; i < array.length; i++){
+                if(array[i] == element){
+                    alert(`Your element found at index : ${i}`);
+                }
+            }
+
+            if (index !== -1) {
+                alert(`Your element found at index: ${index}`);
+            } else {
+                alert("Element not found in array");
+            }
+        }
+    </script>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #74ebd5 0%, #ACB6E5 100%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+        text-align: center;
+        width: 300px;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        width: 80%;
+        padding: 10px;
+        border: 2px solid #74ebd5;
+        border-radius: 8px;
+        outline: none;
+        font-size: 16px;
+        margin-bottom: 15px;
+        transition: 0.3s;
+    }
+
+    input[type="text"]:focus {
+        border-color: #ACB6E5;
+        box-shadow: 0 0 8px rgba(172, 182, 229, 0.6);
+    }
+
+    button {
+        background: #74ebd5;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    button:hover {
+        background: #ACB6E5;
+        color: white;
+    }
+</style>
+</head>
+<body>
+    <h1>Search element</h1>
+    <div class="container">
+        <h1>Search Element</h1>
+        <input type="text" id="element" placeholder="Enter element">
+        <br>
+        <button onclick="SearchElement()">Find</button>
+    </div>
+
+</body>
+</html>
