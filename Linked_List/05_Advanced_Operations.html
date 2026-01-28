@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Advanced Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .complexity-box {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .operation-section {
+            background: #f8f9fa;
+            border-left: 4px solid #805ad5;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .slow-pointer {
+            background: #48bb78;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #2f855a;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .fast-pointer {
+            background: #f56565;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #c53030;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .head-pointer {
+            background: #ed8936;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 Linked List Advanced Operations</h1>
+        
+        <div class="complexity-box">
+            <h3>⏱️ Time Complexity Analysis</h3>
+            <ul>
+                <li><strong>Reverse List:</strong> O(n) - Visit each node once</li>
+                <li><strong>Find Middle:</strong> O(n) - Slow-fast pointer technique</li>
+                <li><strong>Detect Cycle:</strong> O(n) - Floyd's cycle detection</li>
+                <li><strong>Remove Duplicates:</strong> O(n) - Single pass with Set</li>
+                <li><strong>Rotate List:</strong> O(n) - Find length and rotate</li>
+            </ul>
+        </div>
+        
+        <div class="operation-section">
+            <h2>1. Reverse Linked List</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+            </div>
+            
+            <div class="code-block">
+reverse() {
+    let prev = null;
+    let current = this.head;
+    let next = null;
+    
+    <span class="comment">// Traverse through the list</span>
+    while (current !== null) {
+        <span class="comment">// Store next node</span>
+        next = current.next;
+        
+        <span class="comment">// Reverse the link</span>
+        current.next = prev;
+        
+        <span class="comment">// Move pointers forward</span>
+        prev = current;
+        current = next;
+    }
+    
+    <span class="comment">// Update head to point to new first node</span>
+    this.head = prev;
+}
+
+<span class="comment">// Recursive reverse</span>
+reverseRecursive(current = this.head, prev = null) {
+    if (!current) {
+        this.head = prev;
+        return;
+    }
+    
+    const next = current.next;
+    current.next = prev;
+    
+    this.reverseRecursive(next, current);
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>2. Find Middle Element (Slow-Fast Pointer)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="slow-pointer">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="fast-pointer">30</div>
+                <div class="arrow">→</div>
+                <div class="node">40</div>
+                <div class="arrow">→</div>
+                <div class="node">50</div>
+            </div>
+            
+            <div class="code-block">
+findMiddle() {
+    <span class="comment">// Handle empty list</span>
+    if (!this.head) {
+        return null;
+    }
+    
+    let slow = this.head;  <span class="comment">// Moves 1 step at a time</span>
+    let fast = this.head;  <span class="comment">// Moves 2 steps at a time</span>
+    
+    <span class="comment">// Move until fast reaches end</span>
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;        <span class="comment">// Move 1 step</span>
+        fast = fast.next.next;   <span class="comment">// Move 2 steps</span>
+    }
+    
+    <span class="comment">// Slow is now at middle</span>
+    return slow.data;
+}
+
+<span class="comment">// Find middle node (not just data)</span>
+findMiddleNode() {
+    if (!this.head) return null;
+    
+    let slow = this.head;
+    let fast = this.head;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    return slow;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>3. Detect Cycle (Floyd's Algorithm)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="slow-pointer">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="fast-pointer">30</div>
+                <div class="arrow">→</div>
+                <div class="node">40</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">↺</div>
+            </div>
+            
+            <div class="code-block">
+hasCycle() {
+    let slow = this.head;
+    let fast = this.head;
+    
+    <span class="comment">// Move both pointers</span>
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;        <span class="comment">// Move 1 step</span>
+        fast = fast.next.next;   <span class="comment">// Move 2 steps</span>
+        
+        <span class="comment">// If they meet, there's a cycle</span>
+        if (slow === fast) {
+            return true;
+        }
+    }
+    
+    <span class="comment">// Fast reached end, no cycle</span>
+    return false;
+}
+
+<span class="comment">// Find start of cycle</span>
+findCycleStart() {
+    let slow = this.head;
+    let fast = this.head;
+    
+    <span class="comment">// First meeting point</span>
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) break;
+    }
+    
+    <span class="comment">// No cycle</span>
+    if (!fast || !fast.next) return null;
+    
+    <span class="comment">// Move one pointer to head</span>
+    slow = this.head;
+    
+    <span class="comment">// Move both at same speed</span>
+    while (slow !== fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+    
+    return slow; <span class="comment">// Start of cycle</span>
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>4. Remove Duplicates</h2>
+            <div class="code-block">
+<span class="comment">// Remove duplicates from unsorted list</span>
+removeDuplicates() {
+    if (!this.head) return;
+    
+    const seen = new Set();
+    let current = this.head;
+    let prev = null;
+    
+    while (current !== null) {
+        if (seen.has(current.data)) {
+            <span class="comment">// Duplicate found, remove it</span>
+            prev.next = current.next;
+            this.size--;
+        } else {
+            <span class="comment">// First occurrence, add to set</span>
+            seen.add(current.data);
+            prev = current;
+        }
+        current = current.next;
+    }
+}
+
+<span class="comment">// Remove duplicates from sorted list</span>
+removeDuplicatesSorted() {
+    if (!this.head) return;
+    
+    let current = this.head;
+    
+    while (current && current.next) {
+        if (current.data === current.next.data) {
+            <span class="comment">// Remove duplicate</span>
+            current.next = current.next.next;
+            this.size--;
+        } else {
+            current = current.next;
+        }
+    }
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>5. Rotate List</h2>
+            <div class="code-block">
+rotate(k) {
+    if (!this.head || !this.head.next || k === 0) {
+        return;
+    }
+    
+    <span class="comment">// Find length and make it circular</span>
+    let length = 1;
+    let tail = this.head;
+    while (tail.next) {
+        tail = tail.next;
+        length++;
+    }
+    
+    <span class="comment">// Handle k > length</span>
+    k = k % length;
+    if (k === 0) return;
+    
+    <span class="comment">// Make circular</span>
+    tail.next = this.head;
+    
+    <span class="comment">// Find new tail (length - k steps from start)</span>
+    let stepsToNewTail = length - k;
+    let newTail = tail;
+    
+    for (let i = 0; i < stepsToNewTail; i++) {
+        newTail = newTail.next;
+    }
+    
+    <span class="comment">// Update head and break circle</span>
+    this.head = newTail.next;
+    newTail.next = null;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>6. Split List</h2>
+            <div class="code-block">
+<span class="comment">// Split into two halves</span>
+splitInHalf() {
+    if (!this.head) return [null, null];
+    
+    const middle = this.findMiddleNode();
+    const secondHalf = middle.next;
+    middle.next = null; <span class="comment">// Break the link</span>
+    
+    return [this.head, secondHalf];
+}
+
+<span class="comment">// Split at specific value</span>
+splitAt(value) {
+    if (!this.head) return [null, null];
+    
+    let current = this.head;
+    
+    <span class="comment">// If head contains the value</span>
+    if (current.data === value) {
+        const secondHalf = current.next;
+        current.next = null;
+        return [current, secondHalf];
+    }
+    
+    <span class="comment">// Find the split point</span>
+    while (current.next && current.next.data !== value) {
+        current = current.next;
+    }
+    
+    if (current.next) {
+        const secondHalf = current.next;
+        current.next = null;
+        return [this.head, secondHalf];
+    }
+    
+    return [this.head, null]; <span class="comment">// Value not found</span>
+}
+            </div>
+        </div>
+        
+        <button class="run-button" onclick="runReverse()">Reverse Operations</button>
+        <button class="run-button" onclick="runMiddle()">Find Middle</button>
+        <button class="run-button" onclick="runCycle()">Cycle Detection</button>
+        <button class="run-button" onclick="runDuplicates()">Remove Duplicates</button>
+        <button class="run-button" onclick="runRotate()">Rotate List</button>
+        <button class="run-button" onclick="runAllAdvanced()">Run All Examples</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            display() {
+                if (!this.head) {
+                    return "List is empty";
+                }
+                
+                let current = this.head;
+                let result = '';
+                let count = 0;
+                
+                while (current && count < 20) { <span class="comment">// Prevent infinite loops</span>
+                    result += current.data;
+                    if (current.next) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                    count++;
+                }
+                
+                if (count >= 20) {
+                    result += ' -> ... (cycle detected)';
+                }
+                
+                return result;
+            }
+            
+            reverse() {
+                let prev = null;
+                let current = this.head;
+                let next = null;
+                
+                while (current !== null) {
+                    next = current.next;
+                    current.next = prev;
+                    prev = current;
+                    current = next;
+                }
+                
+                this.head = prev;
+            }
+            
+            reverseRecursive(current = this.head, prev = null) {
+                if (!current) {
+                    this.head = prev;
+                    return;
+                }
+                
+                const next = current.next;
+                current.next = prev;
+                
+                this.reverseRecursive(next, current);
+            }
+            
+            findMiddle() {
+                if (!this.head) {
+                    return null;
+                }
+                
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast !== null && fast.next !== null) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                }
+                
+                return slow.data;
+            }
+            
+            findMiddleNode() {
+                if (!this.head) return null;
+                
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast && fast.next) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                }
+                
+                return slow;
+            }
+            
+            hasCycle() {
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast !== null && fast.next !== null) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                    
+                    if (slow === fast) {
+                        return true;
+                    }
+                }
+                
+                return false;
+            }
+            
+            findCycleStart() {
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast && fast.next) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                    if (slow === fast) break;
+                }
+                
+                if (!fast || !fast.next) return null;
+                
+                slow = this.head;
+                
+                while (slow !== fast) {
+                    slow = slow.next;
+                    fast = fast.next;
+                }
+                
+                return slow;
+            }
+            
+            removeDuplicates() {
+                if (!this.head) return;
+                
+                const seen = new Set();
+                let current = this.head;
+                let prev = null;
+                
+                while (current !== null) {
+                    if (seen.has(current.data)) {
+                        prev.next = current.next;
+                        this.size--;
+                    } else {
+                        seen.add(current.data);
+                        prev = current;
+                    }
+                    current = current.next;
+                }
+            }
+            
+            removeDuplicatesSorted() {
+                if (!this.head) return;
+                
+                let current = this.head;
+                
+                while (current && current.next) {
+                    if (current.data === current.next.data) {
+                        current.next = current.next.next;
+                        this.size--;
+                    } else {
+                        current = current.next;
+                    }
+                }
+            }
+            
+            rotate(k) {
+                if (!this.head || !this.head.next || k === 0) {
+                    return;
+                }
+                
+                let length = 1;
+                let tail = this.head;
+                while (tail.next) {
+                    tail = tail.next;
+                    length++;
+                }
+                
+                k = k % length;
+                if (k === 0) return;
+                
+                tail.next = this.head;
+                
+                let stepsToNewTail = length - k;
+                let newTail = tail;
+                
+                for (let i = 0; i < stepsToNewTail; i++) {
+                    newTail = newTail.next;
+                }
+                
+                this.head = newTail.next;
+                newTail.next = null;
+            }
+            
+            splitInHalf() {
+                if (!this.head) return [null, null];
+                
+                const middle = this.findMiddleNode();
+                const secondHalf = middle.next;
+                middle.next = null;
+                
+                return [this.head, secondHalf];
+            }
+            
+            splitAt(value) {
+                if (!this.head) return [null, null];
+                
+                let current = this.head;
+                
+                if (current.data === value) {
+                    const secondHalf = current.next;
+                    current.next = null;
+                    return [current, secondHalf];
+                }
+                
+                while (current.next && current.next.data !== value) {
+                    current = current.next;
+                }
+                
+                if (current.next) {
+                    const secondHalf = current.next;
+                    current.next = null;
+                    return [this.head, secondHalf];
+                }
+                
+                return [this.head, null];
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runReverse() {
+            clearConsole();
+            log('=== REVERSE OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('1. Original list:');
+            log('   ' + list.display());
+            
+            log('\n2. Iterative reverse:');
+            list.reverse();
+            log('   ' + list.display());
+            
+            log('\n3. Reverse back using recursion:');
+            list.reverseRecursive();
+            log('   ' + list.display());
+        }
+
+        function runMiddle() {
+            clearConsole();
+            log('=== FIND MIDDLE DEMO ===');
+            
+            const lists = [
+                { name: 'Odd length', data: [10, 20, 30, 40, 50] },
+                { name: 'Even length', data: [10, 20, 30, 40] },
+                { name: 'Single element', data: [10] }
+            ];
+            
+            lists.forEach(listInfo => {
+                const list = new LinkedList();
+                listInfo.data.forEach(val => list.insertAtTail(val));
+                
+                log(`${listInfo.name}:`);
+                log('   List: ' + list.display());
+                log('   Middle: ' + list.findMiddle());
+                log('');
+            });
+        }
+
+        function runCycle() {
+            clearConsole();
+            log('=== CYCLE DETECTION DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40].forEach(val => list.insertAtTail(val));
+            
+            log('1. List without cycle:');
+            log('   ' + list.display());
+            log('   Has cycle: ' + list.hasCycle());
+            
+            log('\n2. Creating cycle (40 -> 20)...');
+            let node20 = list.head.next;
+            let node40 = list.head.next.next.next;
+            node40.next = node20; <span class="comment">// Create cycle</span>
+            
+            log('   Has cycle: ' + list.hasCycle());
+            
+            const cycleStart = list.findCycleStart();
+            log('   Cycle starts at: ' + (cycleStart ? cycleStart.data : 'null'));
+        }
+
+        function runDuplicates() {
+            clearConsole();
+            log('=== REMOVE DUPLICATES DEMO ===');
+            
+            log('1. Unsorted list:');
+            const unsortedList = new LinkedList();
+            [10, 20, 10, 30, 20, 40, 10].forEach(val => unsortedList.insertAtTail(val));
+            log('   Before: ' + unsortedList.display());
+            unsortedList.removeDuplicates();
+            log('   After:  ' + unsortedList.display());
+            
+            log('\n2. Sorted list:');
+            const sortedList = new LinkedList();
+            [10, 10, 20, 20, 20, 30, 40, 40].forEach(val => sortedList.insertAtTail(val));
+            log('   Before: ' + sortedList.display());
+            sortedList.removeDuplicatesSorted();
+            log('   After:  ' + sortedList.display());
+        }
+
+        function runRotate() {
+            clearConsole();
+            log('=== ROTATE LIST DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('1. Original list:');
+            log('   ' + list.display());
+            
+            log('\n2. Rotate by 2 positions:');
+            list.rotate(2);
+            log('   ' + list.display());
+            
+            log('\n3. Rotate by 3 more positions:');
+            list.rotate(3);
+            log('   ' + list.display());
+        }
+
+        function runAllAdvanced() {
+            clearConsole();
+            log('=== ALL ADVANCED OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('1. Initial list: ' + list.display());
+            log('   Middle element: ' + list.findMiddle());
+            log('   Has cycle: ' + list.hasCycle());
+            
+            log('\n2. After reverse:');
+            list.reverse();
+            log('   ' + list.display());
+            
+            log('\n3. Adding duplicates and removing them:');
+            [20, 30, 20].forEach(val => list.insertAtTail(val));
+            log('   With duplicates: ' + list.display());
+            list.removeDuplicates();
+            log('   After removal:  ' + list.display());
+            
+            log('\n4. Rotate by 1 position:');
+            list.rotate(1);
+            log('   ' + list.display());
+        }
+
+        window.onload = function() {
+            runAllAdvanced();
+        };
+    </script>
+</body>
+</html>

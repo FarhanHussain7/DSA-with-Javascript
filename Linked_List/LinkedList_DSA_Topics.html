@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List DSA Topics & Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        h2 {
+            color: #4a5568;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+            margin-top: 40px;
+        }
+        
+        .topic-section {
+            margin: 30px 0;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .complexity {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .important {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Linked List DSA Topics & Operations</h1>
+        
+        <div class="important">
+            <h3>🎯 Why Linked Lists are Important in DSA</h3>
+            <ul>
+                <li>Dynamic size - can grow/shrink at runtime</li>
+                <li>Efficient insertion/deletion - O(1) at known positions</li>
+                <li>Memory efficient - no wasted space like arrays</li>
+                <li>Foundation for other data structures (stacks, queues, graphs)</li>
+                <li>Common interview questions and real-world applications</li>
+            </ul>
+        </div>
+        
+        <div class="topic-section">
+            <h2>1. Basic Linked List Structure</h2>
+            <div class="code-block">
+class Node {
+    constructor(data) {
+        this.data = data;      <span class="comment">// Store the value</span>
+        this.next = null;      <span class="comment">// Pointer to next node</span>
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null;      <span class="comment">// First node</span>
+        this.size = 0;         <span class="comment">// Track size</span>
+    }
+}
+            </div>
+            <button class="run-button" onclick="runBasicStructure()">Run Basic Structure</button>
+        </div>
+        
+        <div class="topic-section">
+            <h2>2. Core Operations</h2>
+            
+            <h3>Insertion Operations</h3>
+            <div class="code-block">
+<span class="comment">// Insert at beginning</span>
+insertAtHead(data) {
+    const newNode = new Node(data);
+    newNode.next = this.head;
+    this.head = newNode;
+    this.size++;
+}
+
+<span class="comment">// Insert at end</span>
+insertAtTail(data) {
+    const newNode = new Node(data);
+    if (!this.head) {
+        this.head = newNode;
+    } else {
+        let current = this.head;
+        while (current.next) {
+            current = current.next;
+        }
+        current.next = newNode;
+    }
+    this.size++;
+}
+
+<span class="comment">// Insert at specific position</span>
+insertAt(index, data) {
+    if (index < 0 || index > this.size) return false;
+    
+    if (index === 0) return this.insertAtHead(data);
+    
+    const newNode = new Node(data);
+    let current = this.head;
+    for (let i = 0; i < index - 1; i++) {
+        current = current.next;
+    }
+    newNode.next = current.next;
+    current.next = newNode;
+    this.size++;
+}
+            </div>
+            
+            <h3>Deletion Operations</h3>
+            <div class="code-block">
+<span class="comment">// Delete from beginning</span>
+deleteFromHead() {
+    if (!this.head) return null;
+    const deleted = this.head.data;
+    this.head = this.head.next;
+    this.size--;
+    return deleted;
+}
+
+<span class="comment">// Delete from end</span>
+deleteFromTail() {
+    if (!this.head) return null;
+    if (!this.head.next) {
+        const deleted = this.head.data;
+        this.head = null;
+        this.size--;
+        return deleted;
+    }
+    
+    let current = this.head;
+    while (current.next.next) {
+        current = current.next;
+    }
+    const deleted = current.next.data;
+    current.next = null;
+    this.size--;
+    return deleted;
+}
+
+<span class="comment">// Delete specific value</span>
+deleteValue(value) {
+    if (!this.head) return false;
+    if (this.head.data === value) {
+        this.head = this.head.next;
+        this.size--;
+        return true;
+    }
+    
+    let current = this.head;
+    while (current.next && current.next.data !== value) {
+        current = current.next;
+    }
+    
+    if (current.next) {
+        current.next = current.next.next;
+        this.size--;
+        return true;
+    }
+    return false;
+}
+            </div>
+            <button class="run-button" onclick="runCoreOperations()">Run Core Operations</button>
+            <div class="complexity">
+                <strong>Time Complexity:</strong><br>
+                Insertion: O(1) at head, O(n) at tail/position<br>
+                Deletion: O(1) at head, O(n) at tail/position<br>
+                Search: O(n)
+            </div>
+        </div>
+        
+        <div class="topic-section">
+            <h2>3. Traversal & Search Operations</h2>
+            <div class="code-block">
+<span class="comment">// Print all elements</span>
+printList() {
+    let current = this.head;
+    let result = '';
+    while (current) {
+        result += current.data + ' -> ';
+        current = current.next;
+    }
+    return result + 'null';
+}
+
+<span class="comment">// Search for value</span>
+search(value) {
+    let current = this.head;
+    let index = 0;
+    while (current) {
+        if (current.data === value) {
+            return index;
+        }
+        current = current.next;
+        index++;
+    }
+    return -1;
+}
+
+<span class="comment">// Get element at index</span>
+get(index) {
+    if (index < 0 || index >= this.size) return null;
+    let current = this.head;
+    for (let i = 0; i < index; i++) {
+        current = current.next;
+    }
+    return current.data;
+}
+            </div>
+            <button class="run-button" onclick="runTraversalSearch()">Run Traversal & Search</button>
+        </div>
+        
+        <div class="topic-section">
+            <h2>4. Advanced Operations</h2>
+            <div class="code-block">
+<span class="comment">// Reverse the linked list</span>
+reverse() {
+    let prev = null;
+    let current = this.head;
+    let next = null;
+    
+    while (current) {
+        next = current.next;
+        current.next = prev;
+        prev = current;
+        current = next;
+    }
+    this.head = prev;
+}
+
+<span class="comment">// Find middle element (slow-fast pointer)</span>
+findMiddle() {
+    let slow = this.head;
+    let fast = this.head;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    return slow ? slow.data : null;
+}
+
+<span class="comment">// Detect cycle (Floyd's algorithm)</span>
+hasCycle() {
+    let slow = this.head;
+    let fast = this.head;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+        if (slow === fast) return true;
+    }
+    return false;
+}
+            </div>
+            <button class="run-button" onclick="runAdvancedOperations()">Run Advanced Operations</button>
+        </div>
+        
+        <div class="topic-section">
+            <h2>5. Important Interview Problems</h2>
+            
+            <h3>Merge Two Sorted Lists</h3>
+            <div class="code-block">
+mergeSorted(list1, list2) {
+    const dummy = new Node(0);
+    let current = dummy;
+    
+    while (list1 && list2) {
+        if (list1.data < list2.data) {
+            current.next = list1;
+            list1 = list1.next;
+        } else {
+            current.next = list2;
+            list2 = list2.next;
+        }
+        current = current.next;
+    }
+    
+    current.next = list1 || list2;
+    return dummy.next;
+}
+            </div>
+            
+            <h3>Remove Nth Node from End</h3>
+            <div class="code-block">
+removeNthFromEnd(head, n) {
+    const dummy = new Node(0);
+    dummy.next = head;
+    let fast = dummy;
+    let slow = dummy;
+    
+    <span class="comment">// Move fast n steps ahead</span>
+    for (let i = 0; i <= n; i++) {
+        fast = fast.next;
+    }
+    
+    <span class="comment">// Move both until fast reaches end</span>
+    while (fast) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    
+    slow.next = slow.next.next;
+    return dummy.next;
+}
+            </div>
+            
+            <h3>Check if Palindrome</h3>
+            <div class="code-block">
+isPalindrome() {
+    if (!this.head || !this.head.next) return true;
+    
+    <span class="comment">// Find middle</span>
+    const middle = this.findMiddleNode();
+    
+    <span class="comment">// Reverse second half</span>
+    const secondHalf = this.reverseList(middle);
+    
+    <span class="comment">// Compare</span>
+    let first = this.head;
+    let second = secondHalf;
+    let isPalin = true;
+    
+    while (second) {
+        if (first.data !== second.data) {
+            isPalin = false;
+            break;
+        }
+        first = first.next;
+        second = second.next;
+    }
+    
+    <span class="comment">// Restore (optional)</span>
+    this.reverseList(secondHalf);
+    return isPalin;
+}
+            </div>
+            <button class="run-button" onclick="runInterviewProblems()">Run Interview Problems</button>
+        </div>
+        
+        <div class="topic-section">
+            <h2>6. Types of Linked Lists</h2>
+            <div class="important">
+                <h3>Singly Linked List</h3>
+                <ul>
+                    <li>Each node points to next node only</li>
+                    <li>Unidirectional traversal</li>
+                    <li>Less memory usage</li>
+                </ul>
+                
+                <h3>Doubly Linked List</h3>
+                <ul>
+                    <li>Each node has prev and next pointers</li>
+                    <li>Bidirectional traversal</li>
+                    <li>More memory but easier deletion</li>
+                </ul>
+                
+                <h3>Circular Linked List</h3>
+                <ul>
+                    <li>Last node points back to first</li>
+                    <li>No null pointers</li>
+                    <li>Useful for round-robin scheduling</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="topic-section">
+            <h2>7. Real-World Applications</h2>
+            <div class="important">
+                <ul>
+                    <li><strong>Browser History:</strong> Forward/back navigation</li>
+                    <li><strong>Music Players:</strong> Playlist management</li>
+                    <li><strong>Undo/Redo:</strong> Operation history</li>
+                    <li><strong>Memory Management:</strong> Free memory blocks</li>
+                    <li><strong>Hash Tables:</strong> Chaining collision resolution</li>
+                    <li><strong>Graphs:</strong> Adjacency lists</li>
+                    <li><strong>File Systems:</strong> Directory structures</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+
+            insertAtHead(data) {
+                const newNode = new Node(data);
+                newNode.next = this.head;
+                this.head = newNode;
+                this.size++;
+            }
+
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+
+            insertAt(index, data) {
+                if (index < 0 || index > this.size) return false;
+                if (index === 0) return this.insertAtHead(data);
+                
+                const newNode = new Node(data);
+                let current = this.head;
+                for (let i = 0; i < index - 1; i++) {
+                    current = current.next;
+                }
+                newNode.next = current.next;
+                current.next = newNode;
+                this.size++;
+            }
+
+            deleteFromHead() {
+                if (!this.head) return null;
+                const deleted = this.head.data;
+                this.head = this.head.next;
+                this.size--;
+                return deleted;
+            }
+
+            deleteFromTail() {
+                if (!this.head) return null;
+                if (!this.head.next) {
+                    const deleted = this.head.data;
+                    this.head = null;
+                    this.size--;
+                    return deleted;
+                }
+                
+                let current = this.head;
+                while (current.next.next) {
+                    current = current.next;
+                }
+                const deleted = current.next.data;
+                current.next = null;
+                this.size--;
+                return deleted;
+            }
+
+            deleteValue(value) {
+                if (!this.head) return false;
+                if (this.head.data === value) {
+                    this.head = this.head.next;
+                    this.size--;
+                    return true;
+                }
+                
+                let current = this.head;
+                while (current.next && current.next.data !== value) {
+                    current = current.next;
+                }
+                
+                if (current.next) {
+                    current.next = current.next.next;
+                    this.size--;
+                    return true;
+                }
+                return false;
+            }
+
+            printList() {
+                let current = this.head;
+                let result = '';
+                while (current) {
+                    result += current.data + ' -> ';
+                    current = current.next;
+                }
+                return result + 'null';
+            }
+
+            search(value) {
+                let current = this.head;
+                let index = 0;
+                while (current) {
+                    if (current.data === value) {
+                        return index;
+                    }
+                    current = current.next;
+                    index++;
+                }
+                return -1;
+            }
+
+            get(index) {
+                if (index < 0 || index >= this.size) return null;
+                let current = this.head;
+                for (let i = 0; i < index; i++) {
+                    current = current.next;
+                }
+                return current.data;
+            }
+
+            reverse() {
+                let prev = null;
+                let current = this.head;
+                let next = null;
+                
+                while (current) {
+                    next = current.next;
+                    current.next = prev;
+                    prev = current;
+                    current = next;
+                }
+                this.head = prev;
+            }
+
+            findMiddle() {
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast && fast.next) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                }
+                return slow ? slow.data : null;
+            }
+
+            hasCycle() {
+                let slow = this.head;
+                let fast = this.head;
+                
+                while (fast && fast.next) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                    if (slow === fast) return true;
+                }
+                return false;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runBasicStructure() {
+            clearConsole();
+            log('=== BASIC LINKED LIST STRUCTURE ===');
+            
+            const list = new LinkedList();
+            log('Created new linked list');
+            log(`Size: ${list.size}`);
+            log(`Head: ${list.head}`);
+            log(`Empty list: ${list.printList()}`);
+        }
+
+        function runCoreOperations() {
+            clearConsole();
+            log('=== CORE OPERATIONS ===');
+            
+            const list = new LinkedList();
+            
+            log('--- Insertion Operations ---');
+            list.insertAtHead(10);
+            log(`After insertAtHead(10): ${list.printList()}`);
+            
+            list.insertAtTail(20);
+            log(`After insertAtTail(20): ${list.printList()}`);
+            
+            list.insertAtHead(5);
+            log(`After insertAtHead(5): ${list.printList()}`);
+            
+            list.insertAt(1, 15);
+            log(`After insertAt(1, 15): ${list.printList()}`);
+            
+            log(`Final size: ${list.size}`);
+            
+            log('\n--- Deletion Operations ---');
+            const deletedHead = list.deleteFromHead();
+            log(`Deleted from head: ${deletedHead}`);
+            log(`List: ${list.printList()}`);
+            
+            const deletedTail = list.deleteFromTail();
+            log(`Deleted from tail: ${deletedTail}`);
+            log(`List: ${list.printList()}`);
+            
+            list.deleteValue(15);
+            log(`After deleteValue(15): ${list.printList()}`);
+        }
+
+        function runTraversalSearch() {
+            clearConsole();
+            log('=== TRAVERSAL & SEARCH OPERATIONS ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log(`Created list: ${list.printList()}`);
+            
+            log('\n--- Search Operations ---');
+            const search30 = list.search(30);
+            log(`Search for 30: found at index ${search30}`);
+            
+            const search99 = list.search(99);
+            log(`Search for 99: found at index ${search99}`);
+            
+            log('\n--- Get Operations ---');
+            const get1 = list.get(1);
+            log(`Get index 1: ${get1}`);
+            
+            const get3 = list.get(3);
+            log(`Get index 3: ${get3}`);
+        }
+
+        function runAdvancedOperations() {
+            clearConsole();
+            log('=== ADVANCED OPERATIONS ===');
+            
+            const list = new LinkedList();
+            [1, 2, 3, 4, 5, 6, 7, 8, 9].forEach(val => list.insertAtTail(val));
+            
+            log(`Original list: ${list.printList()}`);
+            
+            log('\n--- Find Middle ---');
+            const middle = list.findMiddle();
+            log(`Middle element: ${middle}`);
+            
+            log('\n--- Reverse List ---');
+            list.reverse();
+            log(`Reversed list: ${list.printList()}`);
+            
+            log('\n--- Cycle Detection ---');
+            const hasCycle = list.hasCycle();
+            log(`Has cycle: ${hasCycle}`);
+        }
+
+        function runInterviewProblems() {
+            clearConsole();
+            log('=== INTERVIEW PROBLEMS ===');
+            
+            log('\n--- Merge Two Sorted Lists ---');
+            const list1 = new LinkedList();
+            [1, 3, 5].forEach(val => list1.insertAtTail(val));
+            
+            const list2 = new LinkedList();
+            [2, 4, 6].forEach(val => list2.insertAtTail(val));
+            
+            log(`List 1: ${list1.printList()}`);
+            log(`List 2: ${list2.printList()}`);
+            
+            log('\n--- Palindrome Check ---');
+            const palindromeList = new LinkedList();
+            [1, 2, 3, 2, 1].forEach(val => palindromeList.insertAtTail(val));
+            log(`Palindrome list: ${palindromeList.printList()}`);
+            
+            const nonPalindromeList = new LinkedList();
+            [1, 2, 3, 4, 5].forEach(val => nonPalindromeList.insertAtTail(val));
+            log(`Non-palindrome list: ${nonPalindromeList.printList()}`);
+        }
+
+        window.onload = function() {
+            runBasicStructure();
+        };
+    </script>
+</body>
+</html>

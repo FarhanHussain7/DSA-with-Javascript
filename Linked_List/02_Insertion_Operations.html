@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Insertion Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .complexity-box {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .operation-section {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .new-node {
+            background: #48bb78;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #2f855a;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .head-pointer {
+            background: #ed8936;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>➕ Linked List Insertion Operations</h1>
+        
+        <div class="complexity-box">
+            <h3>⏱️ Time Complexity Analysis</h3>
+            <ul>
+                <li><strong>Insert at Head:</strong> O(1) - Constant time</li>
+                <li><strong>Insert at Tail:</strong> O(n) - Need to traverse to end</li>
+                <li><strong>Insert at Position:</strong> O(n) - Need to traverse to position</li>
+                <li><strong>Space Complexity:</strong> O(1) - Only creating one new node</li>
+            </ul>
+        </div>
+        
+        <div class="operation-section">
+            <h2>1. Insert at Head (Beginning)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="new-node">5</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+insertAtHead(data) {
+    <span class="comment">// Create new node</span>
+    const newNode = new Node(data);
+    
+    <span class="comment">// Point new node's next to current head</span>
+    newNode.next = this.head;
+    
+    <span class="comment">// Update head to point to new node</span>
+    this.head = newNode;
+    
+    <span class="comment">// Increment size</span>
+    this.size++;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>2. Insert at Tail (End)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+                <div class="arrow">→</div>
+                <div class="new-node">40</div>
+            </div>
+            
+            <div class="code-block">
+insertAtTail(data) {
+    <span class="comment">// Create new node</span>
+    const newNode = new Node(data);
+    
+    <span class="comment">// If list is empty, make new node the head</span>
+    if (!this.head) {
+        this.head = newNode;
+    } else {
+        <span class="comment">// Traverse to the last node</span>
+        let current = this.head;
+        while (current.next) {
+            current = current.next;
+        }
+        
+        <span class="comment">// Link last node to new node</span>
+        current.next = newNode;
+    }
+    
+    this.size++;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>3. Insert at Specific Position</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="new-node">15</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+insertAt(index, data) {
+    <span class="comment">// Check for valid index</span>
+    if (index < 0 || index > this.size) {
+        return false; <span class="comment">// Invalid index</span>
+    }
+    
+    <span class="comment">// If inserting at head, use insertAtHead</span>
+    if (index === 0) {
+        return this.insertAtHead(data);
+    }
+    
+    <span class="comment">// Create new node</span>
+    const newNode = new Node(data);
+    
+    <span class="comment">// Traverse to node before insertion point</span>
+    let current = this.head;
+    for (let i = 0; i < index - 1; i++) {
+        current = current.next;
+    }
+    
+    <span class="comment">// Insert new node</span>
+    newNode.next = current.next;
+    current.next = newNode;
+    
+    this.size++;
+    return true;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>4. Insert Before/After Specific Value</h2>
+            <div class="code-block">
+insertBefore(target, data) {
+    <span class="comment">// If target is head, insert at head</span>
+    if (this.head && this.head.data === target) {
+        return this.insertAtHead(data);
+    }
+    
+    let current = this.head;
+    
+    <span class="comment">// Find node before target</span>
+    while (current && current.next && current.next.data !== target) {
+        current = current.next;
+    }
+    
+    <span class="comment">// If target found, insert before it</span>
+    if (current && current.next) {
+        const newNode = new Node(data);
+        newNode.next = current.next;
+        current.next = newNode;
+        this.size++;
+        return true;
+    }
+    
+    return false; <span class="comment">// Target not found</span>
+}
+
+insertAfter(target, data) {
+    let current = this.head;
+    
+    <span class="comment">// Find target node</span>
+    while (current && current.data !== target) {
+        current = current.next;
+    }
+    
+    <span class="comment">// If target found, insert after it</span>
+    if (current) {
+        const newNode = new Node(data);
+        newNode.next = current.next;
+        current.next = newNode;
+        this.size++;
+        return true;
+    }
+    
+    return false; <span class="comment">// Target not found</span>
+}
+            </div>
+        </div>
+        
+        <button class="run-button" onclick="runInsertAtHead()">Insert at Head</button>
+        <button class="run-button" onclick="runInsertAtTail()">Insert at Tail</button>
+        <button class="run-button" onclick="runInsertAtPosition()">Insert at Position</button>
+        <button class="run-button" onclick="runInsertBeforeAfter()">Insert Before/After</button>
+        <button class="run-button" onclick="runAllInsertion()">Run All Examples</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            display() {
+                if (!this.head) {
+                    return "List is empty";
+                }
+                
+                let current = this.head;
+                let result = '';
+                
+                while (current) {
+                    result += current.data;
+                    if (current.next) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                }
+                
+                return result;
+            }
+            
+            insertAtHead(data) {
+                const newNode = new Node(data);
+                newNode.next = this.head;
+                this.head = newNode;
+                this.size++;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            insertAt(index, data) {
+                if (index < 0 || index > this.size) {
+                    return false;
+                }
+                if (index === 0) {
+                    return this.insertAtHead(data);
+                }
+                
+                const newNode = new Node(data);
+                let current = this.head;
+                for (let i = 0; i < index - 1; i++) {
+                    current = current.next;
+                }
+                newNode.next = current.next;
+                current.next = newNode;
+                this.size++;
+                return true;
+            }
+            
+            insertBefore(target, data) {
+                if (this.head && this.head.data === target) {
+                    return this.insertAtHead(data);
+                }
+                
+                let current = this.head;
+                while (current && current.next && current.next.data !== target) {
+                    current = current.next;
+                }
+                
+                if (current && current.next) {
+                    const newNode = new Node(data);
+                    newNode.next = current.next;
+                    current.next = newNode;
+                    this.size++;
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            insertAfter(target, data) {
+                let current = this.head;
+                while (current && current.data !== target) {
+                    current = current.next;
+                }
+                
+                if (current) {
+                    const newNode = new Node(data);
+                    newNode.next = current.next;
+                    current.next = newNode;
+                    this.size++;
+                    return true;
+                }
+                
+                return false;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runInsertAtHead() {
+            clearConsole();
+            log('=== INSERT AT HEAD DEMO ===');
+            
+            const list = new LinkedList();
+            
+            log('Initial list: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nInserting 30 at head...');
+            list.insertAtHead(30);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nInserting 20 at head...');
+            list.insertAtHead(20);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nInserting 10 at head...');
+            list.insertAtHead(10);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nFinal list: ' + list.display());
+            log('Head points to: ' + (list.head ? list.head.data : 'null'));
+        }
+
+        function runInsertAtTail() {
+            clearConsole();
+            log('=== INSERT AT TAIL DEMO ===');
+            
+            const list = new LinkedList();
+            
+            log('Initial list: ' + list.display());
+            
+            log('\nInserting 10 at tail...');
+            list.insertAtTail(10);
+            log('List: ' + list.display());
+            
+            log('\nInserting 20 at tail...');
+            list.insertAtTail(20);
+            log('List: ' + list.display());
+            
+            log('\nInserting 30 at tail...');
+            list.insertAtTail(30);
+            log('List: ' + list.display());
+            
+            log('\nFinal list: ' + list.display());
+            log('Size: ' + list.size);
+        }
+
+        function runInsertAtPosition() {
+            clearConsole();
+            log('=== INSERT AT POSITION DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            
+            log('\nInserting 5 at position 0...');
+            list.insertAt(0, 5);
+            log('List: ' + list.display());
+            
+            log('\nInserting 15 at position 2...');
+            list.insertAt(2, 15);
+            log('List: ' + list.display());
+            
+            log('\nInserting 35 at position 5...');
+            list.insertAt(5, 35);
+            log('List: ' + list.display());
+            
+            log('\nTrying to insert at invalid position 10...');
+            const result = list.insertAt(10, 100);
+            log('Insertion successful: ' + result);
+            log('List: ' + list.display());
+        }
+
+        function runInsertBeforeAfter() {
+            clearConsole();
+            log('=== INSERT BEFORE/AFTER DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            
+            log('\nInserting 15 before 20...');
+            list.insertBefore(20, 15);
+            log('List: ' + list.display());
+            
+            log('\nInserting 25 after 20...');
+            list.insertAfter(20, 25);
+            log('List: ' + list.display());
+            
+            log('\nInserting 5 before 10 (head)...');
+            list.insertBefore(10, 5);
+            log('List: ' + list.display());
+            
+            log('\nTrying to insert before 99 (not found)...');
+            const result = list.insertBefore(99, 100);
+            log('Insertion successful: ' + result);
+            log('List: ' + list.display());
+        }
+
+        function runAllInsertion() {
+            clearConsole();
+            log('=== ALL INSERTION OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            
+            log('1. Building list with various insertions:');
+            log('   Initial: ' + list.display());
+            
+            list.insertAtHead(20);
+            log('   After insertAtHead(20): ' + list.display());
+            
+            list.insertAtTail(30);
+            log('   After insertAtTail(30): ' + list.display());
+            
+            list.insertAt(0, 10);
+            log('   After insertAt(0, 10): ' + list.display());
+            
+            list.insertAt(2, 25);
+            log('   After insertAt(2, 25): ' + list.display());
+            
+            list.insertBefore(30, 28);
+            log('   After insertBefore(30, 28): ' + list.display());
+            
+            list.insertAfter(25, 26);
+            log('   After insertAfter(25, 26): ' + list.display());
+            
+            log('\n2. Final list:');
+            log('   List: ' + list.display());
+            log('   Size: ' + list.size);
+            log('   Head: ' + (list.head ? list.head.data : 'null'));
+        }
+
+        window.onload = function() {
+            runAllInsertion();
+        };
+    </script>
+</body>
+</html>

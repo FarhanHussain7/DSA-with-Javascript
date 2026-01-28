@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Deletion Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .complexity-box {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .operation-section {
+            background: #f8f9fa;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .deleted-node {
+            background: #e53e3e;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #c53030;
+            min-width: 40px;
+            text-align: center;
+            text-decoration: line-through;
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .head-pointer {
+            background: #ed8936;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗑️ Linked List Deletion Operations</h1>
+        
+        <div class="complexity-box">
+            <h3>⏱️ Time Complexity Analysis</h3>
+            <ul>
+                <li><strong>Delete from Head:</strong> O(1) - Constant time</li>
+                <li><strong>Delete from Tail:</strong> O(n) - Need to traverse to end</li>
+                <li><strong>Delete at Position:</strong> O(n) - Need to traverse to position</li>
+                <li><strong>Delete by Value:</strong> O(n) - Need to search for value</li>
+                <li><strong>Space Complexity:</strong> O(1) - No additional space needed</li>
+            </ul>
+        </div>
+        
+        <div class="operation-section">
+            <h2>1. Delete from Head (Beginning)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="deleted-node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+deleteFromHead() {
+    <span class="comment">// Check if list is empty</span>
+    if (!this.head) {
+        return null; <span class="comment">// Nothing to delete</span>
+    }
+    
+    <span class="comment">// Store the data to return</span>
+    const deletedData = this.head.data;
+    
+    <span class="comment">// Move head to next node</span>
+    this.head = this.head.next;
+    
+    <span class="comment">// Decrement size</span>
+    this.size--;
+    
+    <span class="comment">// Return deleted data</span>
+    return deletedData;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>2. Delete from Tail (End)</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="deleted-node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div style="background: #e2e8f0; padding: 8px; border-radius: 6px;">null</div>
+            </div>
+            
+            <div class="code-block">
+deleteFromTail() {
+    <span class="comment">// Check if list is empty</span>
+    if (!this.head) {
+        return null;
+    }
+    
+    <span class="comment">// If only one node exists</span>
+    if (!this.head.next) {
+        const deletedData = this.head.data;
+        this.head = null;
+        this.size--;
+        return deletedData;
+    }
+    
+    <span class="comment">// Traverse to second-to-last node</span>
+    let current = this.head;
+    while (current.next && current.next.next) {
+        current = current.next;
+    }
+    
+    <span class="comment">// Store data to return</span>
+    const deletedData = current.next.data;
+    
+    <span class="comment">// Remove last node</span>
+    current.next = null;
+    
+    <span class="comment">// Decrement size</span>
+    this.size--;
+    
+    return deletedData;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>3. Delete at Specific Position</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="deleted-node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+deleteAt(index) {
+    <span class="comment">// Check for valid index</span>
+    if (index < 0 || index >= this.size) {
+        return null; <span class="comment">// Invalid index</span>
+    }
+    
+    <span class="comment">// If deleting head, use deleteFromHead</span>
+    if (index === 0) {
+        return this.deleteFromHead();
+    }
+    
+    <span class="comment">// Traverse to node before deletion point</span>
+    let current = this.head;
+    for (let i = 0; i < index - 1; i++) {
+        current = current.next;
+    }
+    
+    <span class="comment">// Store data to return</span>
+    const deletedData = current.next.data;
+    
+    <span class="comment">// Skip the node to delete</span>
+    current.next = current.next.next;
+    
+    <span class="comment">// Decrement size</span>
+    this.size--;
+    
+    return deletedData;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>4. Delete by Value</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="deleted-node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+deleteValue(value) {
+    <span class="comment">// Check if list is empty</span>
+    if (!this.head) {
+        return false;
+    }
+    
+    <span class="comment">// If head contains the value</span>
+    if (this.head.data === value) {
+        this.head = this.head.next;
+        this.size--;
+        return true;
+    }
+    
+    <span class="comment">// Traverse to find the value</span>
+    let current = this.head;
+    while (current.next && current.next.data !== value) {
+        current = current.next;
+    }
+    
+    <span class="comment">// If value found, delete it</span>
+    if (current.next) {
+        current.next = current.next.next;
+        this.size--;
+        return true;
+    }
+    
+    return false; <span class="comment">// Value not found</span>
+}
+
+<span class="comment">// Delete all occurrences of a value</span>
+deleteAll(value) {
+    let deleted = false;
+    
+    <span class="comment">// Delete from head while it matches</span>
+    while (this.head && this.head.data === value) {
+        this.head = this.head.next;
+        this.size--;
+        deleted = true;
+    }
+    
+    <span class="comment">// Delete from middle and end</span>
+    let current = this.head;
+    while (current && current.next) {
+        if (current.next.data === value) {
+            current.next = current.next.next;
+            this.size--;
+            deleted = true;
+        } else {
+            current = current.next;
+        }
+    }
+    
+    return deleted;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>5. Clear Entire List</h2>
+            <div class="code-block">
+clear() {
+    <span class="comment">// Simply set head to null</span>
+    <span class="comment">// Garbage collection will clean up the nodes</span>
+    this.head = null;
+    this.size = 0;
+}
+
+<span class="comment">// Alternative: Delete all nodes one by one</span>
+clearAll() {
+    let current = this.head;
+    let next;
+    
+    while (current) {
+        next = current.next;
+        current.next = null; <span class="comment">// Break the link</span>
+        current = next;
+    }
+    
+    this.head = null;
+    this.size = 0;
+}
+            </div>
+        </div>
+        
+        <button class="run-button" onclick="runDeleteFromHead()">Delete from Head</button>
+        <button class="run-button" onclick="runDeleteFromTail()">Delete from Tail</button>
+        <button class="run-button" onclick="runDeleteAtPosition()">Delete at Position</button>
+        <button class="run-button" onclick="runDeleteByValue()">Delete by Value</button>
+        <button class="run-button" onclick="runClearList()">Clear List</button>
+        <button class="run-button" onclick="runAllDeletion()">Run All Examples</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            display() {
+                if (!this.head) {
+                    return "List is empty";
+                }
+                
+                let current = this.head;
+                let result = '';
+                
+                while (current) {
+                    result += current.data;
+                    if (current.next) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                }
+                
+                return result;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            deleteFromHead() {
+                if (!this.head) {
+                    return null;
+                }
+                
+                const deletedData = this.head.data;
+                this.head = this.head.next;
+                this.size--;
+                
+                return deletedData;
+            }
+            
+            deleteFromTail() {
+                if (!this.head) {
+                    return null;
+                }
+                
+                if (!this.head.next) {
+                    const deletedData = this.head.data;
+                    this.head = null;
+                    this.size--;
+                    return deletedData;
+                }
+                
+                let current = this.head;
+                while (current.next && current.next.next) {
+                    current = current.next;
+                }
+                
+                const deletedData = current.next.data;
+                current.next = null;
+                this.size--;
+                
+                return deletedData;
+            }
+            
+            deleteAt(index) {
+                if (index < 0 || index >= this.size) {
+                    return null;
+                }
+                
+                if (index === 0) {
+                    return this.deleteFromHead();
+                }
+                
+                let current = this.head;
+                for (let i = 0; i < index - 1; i++) {
+                    current = current.next;
+                }
+                
+                const deletedData = current.next.data;
+                current.next = current.next.next;
+                this.size--;
+                
+                return deletedData;
+            }
+            
+            deleteValue(value) {
+                if (!this.head) {
+                    return false;
+                }
+                
+                if (this.head.data === value) {
+                    this.head = this.head.next;
+                    this.size--;
+                    return true;
+                }
+                
+                let current = this.head;
+                while (current.next && current.next.data !== value) {
+                    current = current.next;
+                }
+                
+                if (current.next) {
+                    current.next = current.next.next;
+                    this.size--;
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            deleteAll(value) {
+                let deleted = false;
+                
+                while (this.head && this.head.data === value) {
+                    this.head = this.head.next;
+                    this.size--;
+                    deleted = true;
+                }
+                
+                let current = this.head;
+                while (current && current.next) {
+                    if (current.next.data === value) {
+                        current.next = current.next.next;
+                        this.size--;
+                        deleted = true;
+                    } else {
+                        current = current.next;
+                    }
+                }
+                
+                return deleted;
+            }
+            
+            clear() {
+                this.head = null;
+                this.size = 0;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runDeleteFromHead() {
+            clearConsole();
+            log('=== DELETE FROM HEAD DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting from head...');
+            const deleted1 = list.deleteFromHead();
+            log('Deleted: ' + deleted1);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting from head again...');
+            const deleted2 = list.deleteFromHead();
+            log('Deleted: ' + deleted2);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+        }
+
+        function runDeleteFromTail() {
+            clearConsole();
+            log('=== DELETE FROM TAIL DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting from tail...');
+            const deleted1 = list.deleteFromTail();
+            log('Deleted: ' + deleted1);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting from tail again...');
+            const deleted2 = list.deleteFromTail();
+            log('Deleted: ' + deleted2);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+        }
+
+        function runDeleteAtPosition() {
+            clearConsole();
+            log('=== DELETE AT POSITION DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            
+            log('\nDeleting at position 0 (head)...');
+            const deleted1 = list.deleteAt(0);
+            log('Deleted: ' + deleted1);
+            log('List: ' + list.display());
+            
+            log('\nDeleting at position 2...');
+            const deleted2 = list.deleteAt(2);
+            log('Deleted: ' + deleted2);
+            log('List: ' + list.display());
+            
+            log('\nTrying to delete at invalid position 10...');
+            const deleted3 = list.deleteAt(10);
+            log('Deleted: ' + deleted3);
+            log('List: ' + list.display());
+        }
+
+        function runDeleteByValue() {
+            clearConsole();
+            log('=== DELETE BY VALUE DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 20, 40].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            
+            log('\nDeleting value 20 (first occurrence)...');
+            const deleted1 = list.deleteValue(20);
+            log('Deleted: ' + deleted1);
+            log('List: ' + list.display());
+            
+            log('\nDeleting all occurrences of 20...');
+            const deleted2 = list.deleteAll(20);
+            log('Deleted all occurrences: ' + deleted2);
+            log('List: ' + list.display());
+            
+            log('\nTrying to delete value 99 (not found)...');
+            const deleted3 = list.deleteValue(99);
+            log('Deleted: ' + deleted3);
+            log('List: ' + list.display());
+        }
+
+        function runClearList() {
+            clearConsole();
+            log('=== CLEAR LIST DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40].forEach(val => list.insertAtTail(val));
+            
+            log('Initial list: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nClearing the list...');
+            list.clear();
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            log('Head: ' + list.head);
+        }
+
+        function runAllDeletion() {
+            clearConsole();
+            log('=== ALL DELETION OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('1. Initial list: ' + list.display());
+            log('   Size: ' + list.size);
+            
+            log('\n2. Delete from head:');
+            const headDeleted = list.deleteFromHead();
+            log('   Deleted: ' + headDeleted);
+            log('   List: ' + list.display());
+            
+            log('\n3. Delete from tail:');
+            const tailDeleted = list.deleteFromTail();
+            log('   Deleted: ' + tailDeleted);
+            log('   List: ' + list.display());
+            
+            log('\n4. Delete at position 1:');
+            const posDeleted = list.deleteAt(1);
+            log('   Deleted: ' + posDeleted);
+            log('   List: ' + list.display());
+            
+            log('\n5. Delete value 30:');
+            const valueDeleted = list.deleteValue(30);
+            log('   Deleted: ' + valueDeleted);
+            log('   List: ' + list.display());
+            
+            log('\n6. Final state:');
+            log('   List: ' + list.display());
+            log('   Size: ' + list.size);
+            log('   Head: ' + (list.head ? list.head.data : 'null'));
+        }
+
+        window.onload = function() {
+            runAllDeletion();
+        };
+    </script>
+</body>
+</html>

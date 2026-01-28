@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Linked List Structure</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .concept-box {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .node-visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-family: monospace;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            border: 2px solid #4a5568;
+        }
+        
+        .arrow {
+            font-size: 20px;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Basic Linked List Structure</h1>
+        
+        <div class="concept-box">
+            <h3>📚 What is a Linked List?</h3>
+            <p>A linked list is a linear data structure where elements are not stored at contiguous memory locations. Each element (node) contains:</p>
+            <ul>
+                <li><strong>Data:</strong> The actual value stored</li>
+                <li><strong>Next Pointer:</strong> Reference to the next node</li>
+            </ul>
+        </div>
+        
+        <div class="node-visualization">
+            <div class="node">Data</div>
+            <div class="arrow">→</div>
+            <div class="node">Data</div>
+            <div class="arrow">→</div>
+            <div class="node">Data</div>
+            <div class="arrow">→</div>
+            <div style="background: #e2e8f0; padding: 10px; border-radius: 8px;">null</div>
+        </div>
+        
+        <h2>Node Class Implementation</h2>
+        <div class="code-block">
+class Node {
+    constructor(data) {
+        this.data = data;      <span class="comment">// Store the value</span>
+        this.next = null;      <span class="comment">// Pointer to next node (initially null)</span>
+    }
+}
+
+<span class="comment">// Example usage:</span>
+const node1 = new Node(10);
+const node2 = new Node(20);
+const node3 = new Node(30);
+
+<span class="comment">// Link the nodes together</span>
+node1.next = node2;
+node2.next = node3;
+
+console.log(node1.data);  <span class="comment">// Output: 10</span>
+console.log(node1.next.data);  <span class="comment">// Output: 20</span>
+console.log(node1.next.next.data);  <span class="comment">// Output: 30</span>
+        </div>
+        
+        <h2>LinkedList Class Implementation</h2>
+        <div class="code-block">
+class LinkedList {
+    constructor() {
+        this.head = null;      <span class="comment">// First node (initially null)</span>
+        this.size = 0;         <span class="comment">// Track number of nodes</span>
+    }
+    
+    <span class="comment">// Check if list is empty</span>
+    isEmpty() {
+        return this.size === 0;
+    }
+    
+    <span class="comment">// Get current size</span>
+    getSize() {
+        return this.size;
+    }
+}
+        </div>
+        
+        <h2>Basic Operations</h2>
+        <div class="code-block">
+<span class="comment">// Add first node to empty list</span>
+addFirst(data) {
+    const newNode = new Node(data);
+    this.head = newNode;
+    this.size = 1;
+}
+
+<span class="comment">// Display list contents</span>
+display() {
+    if (this.isEmpty()) {
+        return "List is empty";
+    }
+    
+    let current = this.head;
+    let result = '';
+    
+    while (current !== null) {
+        result += current.data;
+        if (current.next !== null) {
+            result += ' -> ';
+        }
+        current = current.next;
+    }
+    
+    return result;
+}
+
+<span class="comment">// Get first element</span>
+getFirst() {
+    if (this.isEmpty()) {
+        return null;
+    }
+    return this.head.data;
+}
+
+<span class="comment">// Clear the list</span>
+clear() {
+    this.head = null;
+    this.size = 0;
+}
+        </div>
+        
+        <button class="run-button" onclick="runBasicDemo()">Run Basic Demo</button>
+        <button class="run-button" onclick="runNodeCreation()">Run Node Creation</button>
+        <button class="run-button" onclick="runLinkedListBasics()">Run LinkedList Basics</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            isEmpty() {
+                return this.size === 0;
+            }
+            
+            getSize() {
+                return this.size;
+            }
+            
+            addFirst(data) {
+                const newNode = new Node(data);
+                this.head = newNode;
+                this.size = 1;
+            }
+            
+            display() {
+                if (this.isEmpty()) {
+                    return "List is empty";
+                }
+                
+                let current = this.head;
+                let result = '';
+                
+                while (current !== null) {
+                    result += current.data;
+                    if (current.next !== null) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                }
+                
+                return result;
+            }
+            
+            getFirst() {
+                if (this.isEmpty()) {
+                    return null;
+                }
+                return this.head.data;
+            }
+            
+            clear() {
+                this.head = null;
+                this.size = 0;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runNodeCreation() {
+            clearConsole();
+            log('=== NODE CREATION DEMO ===');
+            
+            const node1 = new Node(10);
+            const node2 = new Node(20);
+            const node3 = new Node(30);
+            
+            log('Created 3 nodes:');
+            log(`Node 1 data: ${node1.data}`);
+            log(`Node 2 data: ${node2.data}`);
+            log(`Node 3 data: ${node3.data}`);
+            
+            log('\nBefore linking:');
+            log(`Node 1 next: ${node1.next}`);
+            log(`Node 2 next: ${node2.next}`);
+            log(`Node 3 next: ${node3.next}`);
+            
+            log('\nAfter linking:');
+            node1.next = node2;
+            node2.next = node3;
+            
+            log(`Node 1 next data: ${node1.next.data}`);
+            log(`Node 1 next next data: ${node1.next.next.data}`);
+            log(`Node 1 next next next: ${node1.next.next.next}`);
+        }
+
+        function runLinkedListBasics() {
+            clearConsole();
+            log('=== LINKED LIST BASICS ===');
+            
+            const list = new LinkedList();
+            
+            log('Created new linked list:');
+            log(`Is empty: ${list.isEmpty()}`);
+            log(`Size: ${list.getSize()}`);
+            log(`Display: ${list.display()}`);
+            log(`First element: ${list.getFirst()}`);
+            
+            log('\nAdding first element:');
+            list.addFirst(100);
+            log(`Is empty: ${list.isEmpty()}`);
+            log(`Size: ${list.getSize()}`);
+            log(`Display: ${list.display()}`);
+            log(`First element: ${list.getFirst()}`);
+            
+            log('\nClearing list:');
+            list.clear();
+            log(`Is empty: ${list.isEmpty()}`);
+            log(`Size: ${list.getSize()}`);
+            log(`Display: ${list.display()}`);
+        }
+
+        function runBasicDemo() {
+            clearConsole();
+            log('=== BASIC LINKED LIST DEMO ===');
+            
+            const list = new LinkedList();
+            
+            log('1. Creating linked list...');
+            log(`   Initial state: ${list.display()}`);
+            log(`   Size: ${list.getSize()}`);
+            log(`   Is empty: ${list.isEmpty()}`);
+            
+            log('\n2. Adding elements...');
+            list.addFirst(50);
+            log(`   After adding 50: ${list.display()}`);
+            log(`   Size: ${list.getSize()}`);
+            log(`   First element: ${list.getFirst()}`);
+            
+            log('\n3. Memory visualization:');
+            log(`   Head points to: ${list.head}`);
+            log(`   Head data: ${list.head ? list.head.data : 'null'}`);
+            log(`   Head next: ${list.head ? list.head.next : 'null'}`);
+            
+            log('\n4. Clear operations:');
+            list.clear();
+            log(`   After clear: ${list.display()}`);
+            log(`   Size: ${list.getSize()}`);
+            log(`   Head: ${list.head}`);
+        }
+
+        window.onload = function() {
+            runBasicDemo();
+        };
+    </script>
+</body>
+</html>

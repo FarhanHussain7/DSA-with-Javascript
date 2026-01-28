@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Traversal & Search Operations</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .complexity-box {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .operation-section {
+            background: #f8f9fa;
+            border-left: 4px solid #38b2ac;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .current-node {
+            background: #38b2ac;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #2c7a7b;
+            min-width: 40px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(56, 178, 172, 0.5);
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .head-pointer {
+            background: #ed8936;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Linked List Traversal & Search Operations</h1>
+        
+        <div class="complexity-box">
+            <h3>⏱️ Time Complexity Analysis</h3>
+            <ul>
+                <li><strong>Traversal (Print/Display):</strong> O(n) - Visit each node once</li>
+                <li><strong>Search by Value:</strong> O(n) - May need to visit all nodes</li>
+                <li><strong>Get by Index:</strong> O(n) - Need to traverse to position</li>
+                <li><strong>Find Min/Max:</strong> O(n) - Visit all nodes</li>
+                <li><strong>Space Complexity:</strong> O(1) - No additional space needed</li>
+            </ul>
+        </div>
+        
+        <div class="operation-section">
+            <h2>1. Display/Print List</h2>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="current-node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+            </div>
+            
+            <div class="code-block">
+display() {
+    <span class="comment">// Check if list is empty</span>
+    if (!this.head) {
+        return "List is empty";
+    }
+    
+    let current = this.head;
+    let result = '';
+    
+    <span class="comment">// Traverse through the list</span>
+    while (current !== null) {
+        result += current.data;
+        
+        <span class="comment">// Add arrow if not last node</span>
+        if (current.next !== null) {
+            result += ' -> ';
+        }
+        
+        <span class="comment">// Move to next node</span>
+        current = current.next;
+    }
+    
+    return result;
+}
+
+<span class="comment">// Display in reverse order</span>
+displayReverse() {
+    const result = [];
+    let current = this.head;
+    
+    <span class="comment">// Collect all values</span>
+    while (current) {
+        result.push(current.data);
+        current = current.next;
+    }
+    
+    <span class="comment">// Reverse and join</span>
+    return result.reverse().join(' -> ');
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>2. Search Operations</h2>
+            
+            <h3>Search by Value</h3>
+            <div class="code-block">
+search(value) {
+    let current = this.head;
+    let index = 0;
+    
+    <span class="comment">// Traverse through the list</span>
+    while (current !== null) {
+        <span class="comment">// Check if current node contains the value</span>
+        if (current.data === value) {
+            return index; <span class="comment">// Return index if found</span>
+        }
+        
+        current = current.next;
+        index++;
+    }
+    
+    return -1; <span class="comment">// Return -1 if not found</span>
+}
+
+<span class="comment">// Check if value exists (boolean)</span>
+contains(value) {
+    return this.search(value) !== -1;
+}
+
+<span class="comment">// Get all indices of a value</span>
+searchAll(value) {
+    const indices = [];
+    let current = this.head;
+    let index = 0;
+    
+    while (current) {
+        if (current.data === value) {
+            indices.push(index);
+        }
+        current = current.next;
+        index++;
+    }
+    
+    return indices;
+}
+            </div>
+            
+            <h3>Get Element by Index</h3>
+            <div class="code-block">
+get(index) {
+    <span class="comment">// Check for valid index</span>
+    if (index < 0 || index >= this.size) {
+        return null; <span class="comment">// Invalid index</span>
+    }
+    
+    let current = this.head;
+    
+    <span class="comment">// Traverse to the specified index</span>
+    for (let i = 0; i < index; i++) {
+        current = current.next;
+    }
+    
+    return current.data;
+}
+
+<span class="comment">// Get first element</span>
+getFirst() {
+    return this.head ? this.head.data : null;
+}
+
+<span class="comment">// Get last element</span>
+getLast() {
+    if (!this.head) return null;
+    
+    let current = this.head;
+    while (current.next) {
+        current = current.next;
+    }
+    
+    return current.data;
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>3. Advanced Traversal Operations</h2>
+            
+            <h3>Find Min/Max Values</h3>
+            <div class="code-block">
+findMin() {
+    if (!this.head) return null;
+    
+    let min = this.head.data;
+    let current = this.head.next;
+    
+    while (current) {
+        if (current.data < min) {
+            min = current.data;
+        }
+        current = current.next;
+    }
+    
+    return min;
+}
+
+findMax() {
+    if (!this.head) return null;
+    
+    let max = this.head.data;
+    let current = this.head.next;
+    
+    while (current) {
+        if (current.data > max) {
+            max = current.data;
+        }
+        current = current.next;
+    }
+    
+    return max;
+}
+            </div>
+            
+            <h3>Count Operations</h3>
+            <div class="code-block">
+<span class="comment">// Count occurrences of a value</span>
+count(value) {
+    let count = 0;
+    let current = this.head;
+    
+    while (current) {
+        if (current.data === value) {
+            count++;
+        }
+        current = current.next;
+    }
+    
+    return count;
+}
+
+<span class="comment">// Count nodes in range [min, max]</span>
+countInRange(min, max) {
+    let count = 0;
+    let current = this.head;
+    
+    while (current) {
+        if (current.data >= min && current.data <= max) {
+            count++;
+        }
+        current = current.next;
+    }
+    
+    return count;
+}
+            </div>
+            
+            <h3>Filter Operations</h3>
+            <div class="code-block">
+<span class="comment">// Get all values that satisfy a condition</span>
+filter(predicate) {
+    const result = [];
+    let current = this.head;
+    
+    while (current) {
+        if (predicate(current.data)) {
+            result.push(current.data);
+        }
+        current = current.next;
+    }
+    
+    return result;
+}
+
+<span class="comment">// Get all even numbers</span>
+getEvenNumbers() {
+    return this.filter(num => num % 2 === 0);
+}
+
+<span class="comment">// Get all odd numbers</span>
+getOddNumbers() {
+    return this.filter(num => num % 2 !== 0);
+}
+            </div>
+        </div>
+        
+        <div class="operation-section">
+            <h2>4. Recursive Traversal</h2>
+            <div class="code-block">
+<span class="comment">// Recursive display</span>
+displayRecursive(current = this.head) {
+    if (!current) {
+        return '';
+    }
+    
+    const currentData = current.data;
+    const nextData = this.displayRecursive(current.next);
+    
+    return nextData ? currentData + ' -> ' + nextData : currentData;
+}
+
+<span class="comment">// Recursive search</span>
+searchRecursive(value, current = this.head, index = 0) {
+    if (!current) {
+        return -1;
+    }
+    
+    if (current.data === value) {
+        return index;
+    }
+    
+    return this.searchRecursive(value, current.next, index + 1);
+}
+
+<span class="comment">// Reverse traversal</span>
+displayReverseRecursive(current = this.head) {
+    if (!current) {
+        return '';
+    }
+    
+    const rest = this.displayReverseRecursive(current.next);
+    return rest ? rest + ' -> ' + current.data : current.data.toString();
+}
+            </div>
+        </div>
+        
+        <button class="run-button" onclick="runDisplay()">Display Operations</button>
+        <button class="run-button" onclick="runSearch()">Search Operations</button>
+        <button class="run-button" onclick="runAdvanced()">Advanced Operations</button>
+        <button class="run-button" onclick="runRecursive()">Recursive Operations</button>
+        <button class="run-button" onclick="runAllTraversal()">Run All Examples</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            display() {
+                if (!this.head) {
+                    return "List is empty";
+                }
+                
+                let current = this.head;
+                let result = '';
+                
+                while (current !== null) {
+                    result += current.data;
+                    if (current.next !== null) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                }
+                
+                return result;
+            }
+            
+            displayReverse() {
+                const result = [];
+                let current = this.head;
+                
+                while (current) {
+                    result.push(current.data);
+                    current = current.next;
+                }
+                
+                return result.reverse().join(' -> ');
+            }
+            
+            search(value) {
+                let current = this.head;
+                let index = 0;
+                
+                while (current !== null) {
+                    if (current.data === value) {
+                        return index;
+                    }
+                    current = current.next;
+                    index++;
+                }
+                
+                return -1;
+            }
+            
+            contains(value) {
+                return this.search(value) !== -1;
+            }
+            
+            searchAll(value) {
+                const indices = [];
+                let current = this.head;
+                let index = 0;
+                
+                while (current) {
+                    if (current.data === value) {
+                        indices.push(index);
+                    }
+                    current = current.next;
+                    index++;
+                }
+                
+                return indices;
+            }
+            
+            get(index) {
+                if (index < 0 || index >= this.size) {
+                    return null;
+                }
+                
+                let current = this.head;
+                for (let i = 0; i < index; i++) {
+                    current = current.next;
+                }
+                
+                return current.data;
+            }
+            
+            getFirst() {
+                return this.head ? this.head.data : null;
+            }
+            
+            getLast() {
+                if (!this.head) return null;
+                
+                let current = this.head;
+                while (current.next) {
+                    current = current.next;
+                }
+                
+                return current.data;
+            }
+            
+            findMin() {
+                if (!this.head) return null;
+                
+                let min = this.head.data;
+                let current = this.head.next;
+                
+                while (current) {
+                    if (current.data < min) {
+                        min = current.data;
+                    }
+                    current = current.next;
+                }
+                
+                return min;
+            }
+            
+            findMax() {
+                if (!this.head) return null;
+                
+                let max = this.head.data;
+                let current = this.head.next;
+                
+                while (current) {
+                    if (current.data > max) {
+                        max = current.data;
+                    }
+                    current = current.next;
+                }
+                
+                return max;
+            }
+            
+            count(value) {
+                let count = 0;
+                let current = this.head;
+                
+                while (current) {
+                    if (current.data === value) {
+                        count++;
+                    }
+                    current = current.next;
+                }
+                
+                return count;
+            }
+            
+            countInRange(min, max) {
+                let count = 0;
+                let current = this.head;
+                
+                while (current) {
+                    if (current.data >= min && current.data <= max) {
+                        count++;
+                    }
+                    current = current.next;
+                }
+                
+                return count;
+            }
+            
+            filter(predicate) {
+                const result = [];
+                let current = this.head;
+                
+                while (current) {
+                    if (predicate(current.data)) {
+                        result.push(current.data);
+                    }
+                    current = current.next;
+                }
+                
+                return result;
+            }
+            
+            getEvenNumbers() {
+                return this.filter(num => num % 2 === 0);
+            }
+            
+            getOddNumbers() {
+                return this.filter(num => num % 2 !== 0);
+            }
+            
+            displayRecursive(current = this.head) {
+                if (!current) {
+                    return '';
+                }
+                
+                const currentData = current.data;
+                const nextData = this.displayRecursive(current.next);
+                
+                return nextData ? currentData + ' -> ' + nextData : currentData;
+            }
+            
+            searchRecursive(value, current = this.head, index = 0) {
+                if (!current) {
+                    return -1;
+                }
+                
+                if (current.data === value) {
+                    return index;
+                }
+                
+                return this.searchRecursive(value, current.next, index + 1);
+            }
+            
+            displayReverseRecursive(current = this.head) {
+                if (!current) {
+                    return '';
+                }
+                
+                const rest = this.displayReverseRecursive(current.next);
+                return rest ? rest + ' -> ' + current.data : current.data.toString();
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runDisplay() {
+            clearConsole();
+            log('=== DISPLAY OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('1. Forward display:');
+            log('   ' + list.display());
+            
+            log('\n2. Reverse display:');
+            log('   ' + list.displayReverse());
+            
+            log('\n3. Recursive display:');
+            log('   ' + list.displayRecursive());
+            
+            log('\n4. Recursive reverse display:');
+            log('   ' + list.displayReverseRecursive());
+        }
+
+        function runSearch() {
+            clearConsole();
+            log('=== SEARCH OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 20, 40].forEach(val => list.insertAtTail(val));
+            
+            log('List: ' + list.display());
+            
+            log('\n1. Search for 30:');
+            log('   Index: ' + list.search(30));
+            
+            log('\n2. Search for 99 (not found):');
+            log('   Index: ' + list.search(99));
+            
+            log('\n3. Contains 20:');
+            log('   ' + list.contains(20));
+            
+            log('\n4. Contains 99:');
+            log('   ' + list.contains(99));
+            
+            log('\n5. Search all occurrences of 20:');
+            log('   Indices: [' + list.searchAll(20).join(', ') + ']');
+            
+            log('\n6. Get by index:');
+            log('   Index 0: ' + list.get(0));
+            log('   Index 2: ' + list.get(2));
+            log('   Index 4: ' + list.get(4));
+            log('   Index 10 (invalid): ' + list.get(10));
+            
+            log('\n7. Get first and last:');
+            log('   First: ' + list.getFirst());
+            log('   Last: ' + list.getLast());
+        }
+
+        function runAdvanced() {
+            clearConsole();
+            log('=== ADVANCED OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [15, 5, 25, 10, 30, 20].forEach(val => list.insertAtTail(val));
+            
+            log('List: ' + list.display());
+            
+            log('\n1. Min and Max:');
+            log('   Min: ' + list.findMin());
+            log('   Max: ' + list.findMax());
+            
+            log('\n2. Count operations:');
+            log('   Count of 20: ' + list.count(20));
+            log('   Count of 99: ' + list.count(99));
+            log('   Count in range [10, 25]: ' + list.countInRange(10, 25));
+            
+            log('\n3. Filter operations:');
+            log('   Even numbers: [' + list.getEvenNumbers().join(', ') + ']');
+            log('   Odd numbers: [' + list.getOddNumbers().join(', ') + ']');
+            
+            log('\n4. Custom filter (greater than 15):');
+            const greaterThan15 = list.filter(num => num > 15);
+            log('   Result: [' + greaterThan15.join(', ') + ']');
+        }
+
+        function runRecursive() {
+            clearConsole();
+            log('=== RECURSIVE OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 40, 50].forEach(val => list.insertAtTail(val));
+            
+            log('List: ' + list.display());
+            
+            log('\n1. Recursive display:');
+            log('   ' + list.displayRecursive());
+            
+            log('\n2. Recursive reverse display:');
+            log('   ' + list.displayReverseRecursive());
+            
+            log('\n3. Recursive search:');
+            log('   Search for 30: ' + list.searchRecursive(30));
+            log('   Search for 99: ' + list.searchRecursive(99));
+        }
+
+        function runAllTraversal() {
+            clearConsole();
+            log('=== ALL TRAVERSAL & SEARCH OPERATIONS DEMO ===');
+            
+            const list = new LinkedList();
+            [10, 20, 30, 20, 40, 15, 25].forEach(val => list.insertAtTail(val));
+            
+            log('1. List Information:');
+            log('   Forward: ' + list.display());
+            log('   Reverse: ' + list.displayReverse());
+            log('   Size: ' + list.size);
+            
+            log('\n2. Search Results:');
+            log('   Contains 20: ' + list.contains(20));
+            log('   All 20 indices: [' + list.searchAll(20).join(', ') + ']');
+            log('   First element: ' + list.getFirst());
+            log('   Last element: ' + list.getLast());
+            
+            log('\n3. Statistics:');
+            log('   Min: ' + list.findMin());
+            log('   Max: ' + list.findMax());
+            log('   Count of 20: ' + list.count(20));
+            
+            log('\n4. Filtered Results:');
+            log('   Even: [' + list.getEvenNumbers().join(', ') + ']');
+            log('   Odd: [' + list.getOddNumbers().join(', ') + ']');
+        }
+
+        window.onload = function() {
+            runAllTraversal();
+        };
+    </script>
+</body>
+</html>

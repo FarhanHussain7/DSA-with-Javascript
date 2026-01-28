@@ -1,0 +1,1224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Types of Linked Lists</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .type-section {
+            background: #f8f9fa;
+            border-left: 4px solid #38b2ac;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .type-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .comparison-box {
+            background: #e6fffa;
+            border: 1px solid #38b2ac;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .doubly-node {
+            background: #48bb78;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #2f855a;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .bi-arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+        
+        .head-pointer {
+            background: #ed8936;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        
+        .tail-pointer {
+            background: #f56565;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔗 Types of Linked Lists</h1>
+        
+        <div class="comparison-box">
+            <h3>📊 Comparison of Linked List Types</h3>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr style="background: #f7fafc;">
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Type</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Memory</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Traversal</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Insert/Delete</th>
+                    <th style="padding: 10px; border: 1px solid #e2e8f0;">Use Case</th>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Singly</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Low</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Forward only</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Easy</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Stacks, basic lists</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Doubly</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Medium</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Both directions</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Easier</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Browser history, undo/redo</td>
+                </tr>
+                <tr>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Circular</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Low</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Infinite loop</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Special</td>
+                    <td style="padding: 10px; border: 1px solid #e2e8f0;">Round-robin, buffers</td>
+                </tr>
+            </table>
+        </div>
+        
+        <div class="type-section">
+            <div class="type-title">1. Singly Linked List</div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+                <div class="arrow">→</div>
+                <div style="background: #e2e8f0; padding: 8px; border-radius: 6px;">null</div>
+            </div>
+            
+            <div class="code-block">
+class Node {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+class SinglyLinkedList {
+    constructor() {
+        this.head = null;
+        this.size = 0;
+    }
+    
+    <span class="comment">// Insert at beginning</span>
+    insertAtHead(data) {
+        const newNode = new Node(data);
+        newNode.next = this.head;
+        this.head = newNode;
+        this.size++;
+    }
+    
+    <span class="comment">// Insert at end</span>
+    insertAtTail(data) {
+        const newNode = new Node(data);
+        if (!this.head) {
+            this.head = newNode;
+        } else {
+            let current = this.head;
+            while (current.next) {
+                current = current.next;
+            }
+            current.next = newNode;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Delete by value</span>
+    delete(data) {
+        if (!this.head) return false;
+        
+        if (this.head.data === data) {
+            this.head = this.head.next;
+            this.size--;
+            return true;
+        }
+        
+        let current = this.head;
+        while (current.next && current.next.data !== data) {
+            current = current.next;
+        }
+        
+        if (current.next) {
+            current.next = current.next.next;
+            this.size--;
+            return true;
+        }
+        
+        return false;
+    }
+    
+    <span class="comment">// Display list</span>
+    display() {
+        let current = this.head;
+        let result = '';
+        while (current) {
+            result += current.data + ' -> ';
+            current = current.next;
+        }
+        return result + 'null';
+    }
+}
+            </div>
+            <button class="run-button" onclick="runSinglyLinkedList()">Run Singly Linked List</button>
+        </div>
+        
+        <div class="type-section">
+            <div class="type-title">2. Doubly Linked List</div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="doubly-node">10</div>
+                <div class="bi-arrow">↔</div>
+                <div class="doubly-node">20</div>
+                <div class="bi-arrow">↔</div>
+                <div class="doubly-node">30</div>
+                <div class="arrow">→</div>
+                <div class="tail-pointer">TAIL</div>
+            </div>
+            
+            <div class="code-block">
+class DoublyNode {
+    constructor(data) {
+        this.data = data;
+        this.next = null;
+        this.prev = null;
+    }
+}
+
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+        this.size = 0;
+    }
+    
+    <span class="comment">// Insert at beginning</span>
+    insertAtHead(data) {
+        const newNode = new DoublyNode(data);
+        
+        if (!this.head) {
+            this.head = this.tail = newNode;
+        } else {
+            newNode.next = this.head;
+            this.head.prev = newNode;
+            this.head = newNode;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Insert at end</span>
+    insertAtTail(data) {
+        const newNode = new DoublyNode(data);
+        
+        if (!this.tail) {
+            this.head = this.tail = newNode;
+        } else {
+            newNode.prev = this.tail;
+            this.tail.next = newNode;
+            this.tail = newNode;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Delete by value</span>
+    delete(data) {
+        let current = this.head;
+        
+        while (current && current.data !== data) {
+            current = current.next;
+        }
+        
+        if (!current) return false;
+        
+        if (current.prev) {
+            current.prev.next = current.next;
+        } else {
+            this.head = current.next;
+        }
+        
+        if (current.next) {
+            current.next.prev = current.prev;
+        } else {
+            this.tail = current.prev;
+        }
+        
+        this.size--;
+        return true;
+    }
+    
+    <span class="comment">// Display forward</span>
+    displayForward() {
+        let current = this.head;
+        let result = '';
+        while (current) {
+            result += current.data + ' ↔ ';
+            current = current.next;
+        }
+        return result + 'null';
+    }
+    
+    <span class="comment">// Display backward</span>
+    displayBackward() {
+        let current = this.tail;
+        let result = '';
+        while (current) {
+            result += current.data + ' ↔ ';
+            current = current.prev;
+        }
+        return result + 'null';
+    }
+}
+            </div>
+            <button class="run-button" onclick="runDoublyLinkedList()">Run Doubly Linked List</button>
+        </div>
+        
+        <div class="type-section">
+            <div class="type-title">3. Circular Linked List</div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="node">10</div>
+                <div class="arrow">→</div>
+                <div class="node">20</div>
+                <div class="arrow">→</div>
+                <div class="node">30</div>
+                <div class="arrow">↺</div>
+            </div>
+            
+            <div class="code-block">
+class CircularLinkedList {
+    constructor() {
+        this.head = null;
+        this.size = 0;
+    }
+    
+    <span class="comment">// Insert at beginning</span>
+    insertAtHead(data) {
+        const newNode = new Node(data);
+        
+        if (!this.head) {
+            newNode.next = newNode; <span class="comment">// Points to itself</span>
+            this.head = newNode;
+        } else {
+            <span class="comment">// Find last node</span>
+            let current = this.head;
+            while (current.next !== this.head) {
+                current = current.next;
+            }
+            
+            newNode.next = this.head;
+            current.next = newNode;
+            this.head = newNode;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Insert at end</span>
+    insertAtTail(data) {
+        const newNode = new Node(data);
+        
+        if (!this.head) {
+            newNode.next = newNode;
+            this.head = newNode;
+        } else {
+            let current = this.head;
+            while (current.next !== this.head) {
+                current = current.next;
+            }
+            current.next = newNode;
+            newNode.next = this.head;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Delete by value</span>
+    delete(data) {
+        if (!this.head) return false;
+        
+        let current = this.head;
+        let prev = null;
+        
+        <span class="comment">// Find the node to delete</span>
+        do {
+            if (current.data === data) break;
+            prev = current;
+            current = current.next;
+        } while (current !== this.head);
+        
+        if (current.data !== data) return false;
+        
+        if (current === this.head) {
+            <span class="comment">// Find last node</span>
+            let last = this.head;
+            while (last.next !== this.head) {
+                last = last.next;
+            }
+            
+            if (this.head === this.head.next) {
+                this.head = null;
+            } else {
+                last.next = this.head.next;
+                this.head = this.head.next;
+            }
+        } else {
+            prev.next = current.next;
+        }
+        
+        this.size--;
+        return true;
+    }
+    
+    <span class="comment">// Display list (prevent infinite loop)</span>
+    display() {
+        if (!this.head) return "List is empty";
+        
+        let current = this.head;
+        let result = '';
+        let count = 0;
+        
+        do {
+            result += current.data + ' -> ';
+            current = current.next;
+            count++;
+            if (count > 20) break; <span class="comment">// Safety check</span>
+        } while (current !== this.head && count < 20);
+        
+        return result + '(back to head)';
+    }
+}
+            </div>
+            <button class="run-button" onclick="runCircularLinkedList()">Run Circular Linked List</button>
+        </div>
+        
+        <div class="type-section">
+            <div class="type-title">4. Circular Doubly Linked List</div>
+            <div class="visualization">
+                <div class="head-pointer">HEAD</div>
+                <div class="arrow">→</div>
+                <div class="doubly-node">10</div>
+                <div class="bi-arrow">↔</div>
+                <div class="doubly-node">20</div>
+                <div class="bi-arrow">↔</div>
+                <div class="doubly-node">30</div>
+                <div class="bi-arrow">↺</div>
+            </div>
+            
+            <div class="code-block">
+class CircularDoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.size = 0;
+    }
+    
+    <span class="comment">// Insert at beginning</span>
+    insertAtHead(data) {
+        const newNode = new DoublyNode(data);
+        
+        if (!this.head) {
+            newNode.next = newNode;
+            newNode.prev = newNode;
+            this.head = newNode;
+        } else {
+            const tail = this.head.prev;
+            
+            newNode.next = this.head;
+            newNode.prev = tail;
+            this.head.prev = newNode;
+            tail.next = newNode;
+            this.head = newNode;
+        }
+        this.size++;
+    }
+    
+    <span class="comment">// Delete by value</span>
+    delete(data) {
+        if (!this.head) return false;
+        
+        let current = this.head;
+        
+        do {
+            if (current.data === data) break;
+            current = current.next;
+        } while (current !== this.head);
+        
+        if (current.data !== data) return false;
+        
+        if (current === this.head && this.head.next === this.head) {
+            this.head = null;
+        } else {
+            current.prev.next = current.next;
+            current.next.prev = current.prev;
+            
+            if (current === this.head) {
+                this.head = current.next;
+            }
+        }
+        
+        this.size--;
+        return true;
+    }
+    
+    <span class="comment">// Display forward</span>
+    displayForward() {
+        if (!this.head) return "List is empty";
+        
+        let current = this.head;
+        let result = '';
+        let count = 0;
+        
+        do {
+            result += current.data + ' ↔ ';
+            current = current.next;
+            count++;
+            if (count > 20) break;
+        } while (current !== this.head && count < 20);
+        
+        return result + '(back to head)';
+    }
+}
+            </div>
+            <button class="run-button" onclick="runCircularDoublyLinkedList()">Run Circular Doubly Linked List</button>
+        </div>
+        
+        <div class="type-section">
+            <div class="type-title">5. Skip List (Advanced)</div>
+            <div class="comparison-box">
+                <h4>🚀 Skip List Features:</h4>
+                <ul>
+                    <li>Probabilistic data structure</li>
+                    <li>Multiple levels of linked lists</li>
+                    <li>O(log n) search, insert, delete on average</li>
+                    <li>Alternative to balanced trees</li>
+                    <li>Used in databases and caches</li>
+                </ul>
+            </div>
+            
+            <div class="code-block">
+class SkipNode {
+    constructor(data, level) {
+        this.data = data;
+        this.next = new Array(level).fill(null);
+    }
+}
+
+class SkipList {
+    constructor(maxLevel = 4) {
+        this.maxLevel = maxLevel;
+        this.level = 1;
+        this.head = new SkipNode(-Infinity, maxLevel);
+    }
+    
+    <span class="comment">// Random level for new node</span>
+    randomLevel() {
+        let level = 1;
+        while (Math.random() < 0.5 && level < this.maxLevel) {
+            level++;
+        }
+        return level;
+    }
+    
+    <span class="comment">// Insert element</span>
+    insert(data) {
+        const update = new Array(this.maxLevel).fill(null);
+        let current = this.head;
+        
+        <span class="comment">// Find insertion points</span>
+        for (let i = this.level - 1; i >= 0; i--) {
+            while (current.next[i] && current.next[i].data < data) {
+                current = current.next[i];
+            }
+            update[i] = current;
+        }
+        
+        current = current.next[0];
+        
+        if (!current || current.data !== data) {
+            const newNodeLevel = this.randomLevel();
+            
+            if (newNodeLevel > this.level) {
+                for (let i = this.level; i < newNodeLevel; i++) {
+                    update[i] = this.head;
+                }
+                this.level = newNodeLevel;
+            }
+            
+            const newNode = new SkipNode(data, newNodeLevel);
+            
+            for (let i = 0; i < newNodeLevel; i++) {
+                newNode.next[i] = update[i].next[i];
+                update[i].next[i] = newNode;
+            }
+        }
+    }
+    
+    <span class="comment">// Search element</span>
+    search(data) {
+        let current = this.head;
+        
+        for (let i = this.level - 1; i >= 0; i--) {
+            while (current.next[i] && current.next[i].data < data) {
+                current = current.next[i];
+            }
+        }
+        
+        current = current.next[0];
+        return current && current.data === data;
+    }
+}
+            </div>
+            <button class="run-button" onclick="runSkipList()">Run Skip List</button>
+        </div>
+        
+        <button class="run-button" onclick="runAllTypes()">Run All Types</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        <span class="comment">// Basic Node class</span>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        <span class="comment">// Doubly Node class</span>
+        class DoublyNode {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+                this.prev = null;
+            }
+        }
+
+        <span class="comment">// Singly Linked List</span>
+        class SinglyLinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtHead(data) {
+                const newNode = new Node(data);
+                newNode.next = this.head;
+                this.head = newNode;
+                this.size++;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            delete(data) {
+                if (!this.head) return false;
+                
+                if (this.head.data === data) {
+                    this.head = this.head.next;
+                    this.size--;
+                    return true;
+                }
+                
+                let current = this.head;
+                while (current.next && current.next.data !== data) {
+                    current = current.next;
+                }
+                
+                if (current.next) {
+                    current.next = current.next.next;
+                    this.size--;
+                    return true;
+                }
+                
+                return false;
+            }
+            
+            display() {
+                let current = this.head;
+                let result = '';
+                while (current) {
+                    result += current.data + ' -> ';
+                    current = current.next;
+                }
+                return result + 'null';
+            }
+        }
+
+        <span class="comment">// Doubly Linked List</span>
+        class DoublyLinkedList {
+            constructor() {
+                this.head = null;
+                this.tail = null;
+                this.size = 0;
+            }
+            
+            insertAtHead(data) {
+                const newNode = new DoublyNode(data);
+                
+                if (!this.head) {
+                    this.head = this.tail = newNode;
+                } else {
+                    newNode.next = this.head;
+                    this.head.prev = newNode;
+                    this.head = newNode;
+                }
+                this.size++;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new DoublyNode(data);
+                
+                if (!this.tail) {
+                    this.head = this.tail = newNode;
+                } else {
+                    newNode.prev = this.tail;
+                    this.tail.next = newNode;
+                    this.tail = newNode;
+                }
+                this.size++;
+            }
+            
+            delete(data) {
+                let current = this.head;
+                
+                while (current && current.data !== data) {
+                    current = current.next;
+                }
+                
+                if (!current) return false;
+                
+                if (current.prev) {
+                    current.prev.next = current.next;
+                } else {
+                    this.head = current.next;
+                }
+                
+                if (current.next) {
+                    current.next.prev = current.prev;
+                } else {
+                    this.tail = current.prev;
+                }
+                
+                this.size--;
+                return true;
+            }
+            
+            displayForward() {
+                let current = this.head;
+                let result = '';
+                while (current) {
+                    result += current.data + ' ↔ ';
+                    current = current.next;
+                }
+                return result + 'null';
+            }
+            
+            displayBackward() {
+                let current = this.tail;
+                let result = '';
+                while (current) {
+                    result += current.data + ' ↔ ';
+                    current = current.prev;
+                }
+                return result + 'null';
+            }
+        }
+
+        <span class="comment">// Circular Linked List</span>
+        class CircularLinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtHead(data) {
+                const newNode = new Node(data);
+                
+                if (!this.head) {
+                    newNode.next = newNode;
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next !== this.head) {
+                        current = current.next;
+                    }
+                    
+                    newNode.next = this.head;
+                    current.next = newNode;
+                    this.head = newNode;
+                }
+                this.size++;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                
+                if (!this.head) {
+                    newNode.next = newNode;
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next !== this.head) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                    newNode.next = this.head;
+                }
+                this.size++;
+            }
+            
+            delete(data) {
+                if (!this.head) return false;
+                
+                let current = this.head;
+                let prev = null;
+                
+                do {
+                    if (current.data === data) break;
+                    prev = current;
+                    current = current.next;
+                } while (current !== this.head);
+                
+                if (current.data !== data) return false;
+                
+                if (current === this.head) {
+                    let last = this.head;
+                    while (last.next !== this.head) {
+                        last = last.next;
+                    }
+                    
+                    if (this.head === this.head.next) {
+                        this.head = null;
+                    } else {
+                        last.next = this.head.next;
+                        this.head = this.head.next;
+                    }
+                } else {
+                    prev.next = current.next;
+                }
+                
+                this.size--;
+                return true;
+            }
+            
+            display() {
+                if (!this.head) return "List is empty";
+                
+                let current = this.head;
+                let result = '';
+                let count = 0;
+                
+                do {
+                    result += current.data + ' -> ';
+                    current = current.next;
+                    count++;
+                    if (count > 20) break;
+                } while (current !== this.head && count < 20);
+                
+                return result + '(back to head)';
+            }
+        }
+
+        <span class="comment">// Circular Doubly Linked List</span>
+        class CircularDoublyLinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtHead(data) {
+                const newNode = new DoublyNode(data);
+                
+                if (!this.head) {
+                    newNode.next = newNode;
+                    newNode.prev = newNode;
+                    this.head = newNode;
+                } else {
+                    const tail = this.head.prev;
+                    
+                    newNode.next = this.head;
+                    newNode.prev = tail;
+                    this.head.prev = newNode;
+                    tail.next = newNode;
+                    this.head = newNode;
+                }
+                this.size++;
+            }
+            
+            delete(data) {
+                if (!this.head) return false;
+                
+                let current = this.head;
+                
+                do {
+                    if (current.data === data) break;
+                    current = current.next;
+                } while (current !== this.head);
+                
+                if (current.data !== data) return false;
+                
+                if (current === this.head && this.head.next === this.head) {
+                    this.head = null;
+                } else {
+                    current.prev.next = current.next;
+                    current.next.prev = current.prev;
+                    
+                    if (current === this.head) {
+                        this.head = current.next;
+                    }
+                }
+                
+                this.size--;
+                return true;
+            }
+            
+            displayForward() {
+                if (!this.head) return "List is empty";
+                
+                let current = this.head;
+                let result = '';
+                let count = 0;
+                
+                do {
+                    result += current.data + ' ↔ ';
+                    current = current.next;
+                    count++;
+                    if (count > 20) break;
+                } while (current !== this.head && count < 20);
+                
+                return result + '(back to head)';
+            }
+        }
+
+        <span class="comment">// Skip List</span>
+        class SkipNode {
+            constructor(data, level) {
+                this.data = data;
+                this.next = new Array(level).fill(null);
+            }
+        }
+
+        class SkipList {
+            constructor(maxLevel = 4) {
+                this.maxLevel = maxLevel;
+                this.level = 1;
+                this.head = new SkipNode(-Infinity, maxLevel);
+            }
+            
+            randomLevel() {
+                let level = 1;
+                while (Math.random() < 0.5 && level < this.maxLevel) {
+                    level++;
+                }
+                return level;
+            }
+            
+            insert(data) {
+                const update = new Array(this.maxLevel).fill(null);
+                let current = this.head;
+                
+                for (let i = this.level - 1; i >= 0; i--) {
+                    while (current.next[i] && current.next[i].data < data) {
+                        current = current.next[i];
+                    }
+                    update[i] = current;
+                }
+                
+                current = current.next[0];
+                
+                if (!current || current.data !== data) {
+                    const newNodeLevel = this.randomLevel();
+                    
+                    if (newNodeLevel > this.level) {
+                        for (let i = this.level; i < newNodeLevel; i++) {
+                            update[i] = this.head;
+                        }
+                        this.level = newNodeLevel;
+                    }
+                    
+                    const newNode = new SkipNode(data, newNodeLevel);
+                    
+                    for (let i = 0; i < newNodeLevel; i++) {
+                        newNode.next[i] = update[i].next[i];
+                        update[i].next[i] = newNode;
+                    }
+                }
+            }
+            
+            search(data) {
+                let current = this.head;
+                
+                for (let i = this.level - 1; i >= 0; i--) {
+                    while (current.next[i] && current.next[i].data < data) {
+                        current = current.next[i];
+                    }
+                }
+                
+                current = current.next[0];
+                return current && current.data === data;
+            }
+            
+            display() {
+                let result = '';
+                for (let i = this.level - 1; i >= 0; i--) {
+                    result += `Level ${i}: `;
+                    let current = this.head.next[i];
+                    while (current) {
+                        result += current.data + ' -> ';
+                        current = current.next[i];
+                    }
+                    result += 'null\n';
+                }
+                return result;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runSinglyLinkedList() {
+            clearConsole();
+            log('=== SINGLY LINKED LIST ===');
+            
+            const list = new SinglyLinkedList();
+            list.insertAtTail(10);
+            list.insertAtTail(20);
+            list.insertAtTail(30);
+            list.insertAtHead(5);
+            
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting 20:');
+            list.delete(20);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+        }
+
+        function runDoublyLinkedList() {
+            clearConsole();
+            log('=== DOUBLY LINKED LIST ===');
+            
+            const list = new DoublyLinkedList();
+            list.insertAtTail(10);
+            list.insertAtTail(20);
+            list.insertAtTail(30);
+            list.insertAtHead(5);
+            
+            log('Forward: ' + list.displayForward());
+            log('Backward: ' + list.displayBackward());
+            log('Size: ' + list.size);
+            log('Head: ' + (list.head ? list.head.data : 'null'));
+            log('Tail: ' + (list.tail ? list.tail.data : 'null'));
+            
+            log('\nDeleting 20:');
+            list.delete(20);
+            log('Forward: ' + list.displayForward());
+            log('Backward: ' + list.displayBackward());
+        }
+
+        function runCircularLinkedList() {
+            clearConsole();
+            log('=== CIRCULAR LINKED LIST ===');
+            
+            const list = new CircularLinkedList();
+            list.insertAtTail(10);
+            list.insertAtTail(20);
+            list.insertAtTail(30);
+            list.insertAtHead(5);
+            
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting 20:');
+            list.delete(20);
+            log('List: ' + list.display());
+            log('Size: ' + list.size);
+        }
+
+        function runCircularDoublyLinkedList() {
+            clearConsole();
+            log('=== CIRCULAR DOUBLY LINKED LIST ===');
+            
+            const list = new CircularDoublyLinkedList();
+            list.insertAtHead(10);
+            list.insertAtHead(20);
+            list.insertAtHead(30);
+            
+            log('Forward: ' + list.displayForward());
+            log('Size: ' + list.size);
+            
+            log('\nDeleting 20:');
+            list.delete(20);
+            log('Forward: ' + list.displayForward());
+        }
+
+        function runSkipList() {
+            clearConsole();
+            log('=== SKIP LIST ===');
+            
+            const skipList = new SkipList(4);
+            const values = [10, 20, 5, 30, 15, 25];
+            
+            values.forEach(val => skipList.insert(val));
+            
+            log('Skip List Structure:');
+            log(skipList.display());
+            
+            log('Search 15: ' + skipList.search(15));
+            log('Search 99: ' + skipList.search(99));
+        }
+
+        function runAllTypes() {
+            clearConsole();
+            log('=== ALL LINKED LIST TYPES DEMO ===\n');
+            
+            runSinglyLinkedList();
+            log('\n' + '='.repeat(50) + '\n');
+            runDoublyLinkedList();
+            log('\n' + '='.repeat(50) + '\n');
+            runCircularLinkedList();
+            log('\n' + '='.repeat(50) + '\n');
+            runCircularDoublyLinkedList();
+            log('\n' + '='.repeat(50) + '\n');
+            runSkipList();
+        }
+
+        window.onload = function() {
+            runAllTypes();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linked List Interview Problems</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #2d3748;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .code-block {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            font-size: 0.9rem;
+        }
+        
+        .run-button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        #console-output {
+            background: #1a202c;
+            color: #68d391;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            margin: 20px 0;
+        }
+        
+        .problem-section {
+            background: #f8f9fa;
+            border-left: 4px solid #e53e3e;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .problem-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 15px;
+        }
+        
+        .problem-description {
+            background: #edf2f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #48bb78;
+        }
+        
+        .complexity {
+            background: #fef5e7;
+            border: 1px solid #f39c12;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        .visualization {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+            font-family: monospace;
+            flex-wrap: wrap;
+        }
+        
+        .node {
+            background: #667eea;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 2px solid #4a5568;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .arrow {
+            font-size: 18px;
+            color: #4a5568;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Linked List Interview Problems</h1>
+        
+        <div class="problem-section">
+            <div class="problem-title">1. Merge Two Sorted Lists</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Merge two sorted linked lists into one sorted list.<br>
+                <strong>APPROACH:</strong> Use dummy node and compare values while traversing both lists.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(m + n) where m, n are lengths of lists<br>
+                <strong>SPACE COMPLEXITY:</strong> O(1) - only using pointers
+            </div>
+            <div class="code-block">
+mergeSorted(list1, list2) {
+    const dummy = new Node(0);
+    let current = dummy;
+    
+    while (list1 && list2) {
+        if (list1.data < list2.data) {
+            current.next = list1;
+            list1 = list1.next;
+        } else {
+            current.next = list2;
+            list2 = list2.next;
+        }
+        current = current.next;
+    }
+    
+    <span class="comment">// Attach remaining nodes</span>
+    current.next = list1 || list2;
+    
+    return dummy.next;
+}
+            </div>
+            <button class="run-button" onclick="runMergeSorted()">Run Merge Sorted</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">2. Remove Nth Node from End</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Remove the nth node from the end of the list.<br>
+                <strong>APPROACH:</strong> Use two pointers with n distance between them.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(n) - single pass<br>
+                <strong>SPACE COMPLEXITY:</strong> O(1)
+            </div>
+            <div class="code-block">
+removeNthFromEnd(head, n) {
+    const dummy = new Node(0);
+    dummy.next = head;
+    let fast = dummy;
+    let slow = dummy;
+    
+    <span class="comment">// Move fast n steps ahead</span>
+    for (let i = 0; i <= n; i++) {
+        fast = fast.next;
+    }
+    
+    <span class="comment">// Move both until fast reaches end</span>
+    while (fast) {
+        fast = fast.next;
+        slow = slow.next;
+    }
+    
+    <span class="comment">// Remove nth node</span>
+    slow.next = slow.next.next;
+    
+    return dummy.next;
+}
+            </div>
+            <button class="run-button" onclick="runRemoveNthFromEnd()">Run Remove Nth from End</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">3. Check if Palindrome</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Determine if a linked list is a palindrome.<br>
+                <strong>APPROACH:</strong> Find middle, reverse second half, compare, then restore.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(n)<br>
+                <strong>SPACE COMPLEXITY:</strong> O(1) - no extra space needed
+            </div>
+            <div class="code-block">
+isPalindrome() {
+    if (!this.head || !this.head.next) return true;
+    
+    <span class="comment">// Find middle</span>
+    const middle = this.findMiddleNode();
+    
+    <span class="comment">// Reverse second half</span>
+    const secondHalf = this.reverseList(middle);
+    
+    <span class="comment">// Compare halves</span>
+    let first = this.head;
+    let second = secondHalf;
+    let isPalin = true;
+    
+    while (second) {
+        if (first.data !== second.data) {
+            isPalin = false;
+            break;
+        }
+        first = first.next;
+        second = second.next;
+    }
+    
+    <span class="comment">// Restore (optional)</span>
+    this.reverseList(secondHalf);
+    
+    return isPalin;
+}
+            </div>
+            <button class="run-button" onclick="runPalindrome()">Run Palindrome Check</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">4. Add Two Numbers</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Add two numbers represented by linked lists (digits in reverse order).<br>
+                <strong>APPROACH:</strong> Traverse both lists simultaneously, handling carry.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(max(m, n))<br>
+                <strong>SPACE COMPLEXITY:</strong> O(max(m, n)) for result
+            </div>
+            <div class="code-block">
+addTwoNumbers(l1, l2) {
+    const dummy = new Node(0);
+    let current = dummy;
+    let carry = 0;
+    
+    while (l1 || l2 || carry) {
+        const val1 = l1 ? l1.data : 0;
+        const val2 = l2 ? l2.data : 0;
+        
+        const sum = val1 + val2 + carry;
+        carry = Math.floor(sum / 10);
+        current.next = new Node(sum % 10);
+        current = current.next;
+        
+        if (l1) l1 = l1.next;
+        if (l2) l2 = l2.next;
+    }
+    
+    return dummy.next;
+}
+            </div>
+            <button class="run-button" onclick="runAddTwoNumbers()">Run Add Two Numbers</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">5. Intersection of Two Lists</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Find the intersection point of two linked lists.<br>
+                <strong>APPROACH:</strong> Use two pointers that traverse both lists.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(m + n)<br>
+                <strong>SPACE COMPLEXITY:</strong> O(1)
+            </div>
+            <div class="code-block">
+getIntersectionNode(headA, headB) {
+    if (!headA || !headB) return null;
+    
+    let pointerA = headA;
+    let pointerB = headB;
+    
+    <span class="comment">// Continue until they meet or both reach null</span>
+    while (pointerA !== pointerB) {
+        pointerA = pointerA ? pointerA.next : headB;
+        pointerB = pointerB ? pointerB.next : headA;
+    }
+    
+    return pointerA; <span class="comment">// Either intersection or null</span>
+}
+            </div>
+            <button class="run-button" onclick="runIntersection()">Run Intersection</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">6. Sort Linked List</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Sort a linked list using O(n log n) time and O(1) space.<br>
+                <strong>APPROACH:</strong> Use merge sort with slow-fast pointer to find middle.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(n log n)<br>
+                <strong>SPACE COMPLEXITY:</strong> O(log n) for recursion stack
+            </div>
+            <div class="code-block">
+sortList(head) {
+    if (!head || !head.next) return head;
+    
+    <span class="comment">// Find middle and split</span>
+    const middle = this.getMiddle(head);
+    const right = middle.next;
+    middle.next = null;
+    
+    <span class="comment">// Sort both halves</span>
+    const left = this.sortList(head);
+    const sortedRight = this.sortList(right);
+    
+    <span class="comment">// Merge sorted halves</span>
+    return this.merge(left, sortedRight);
+}
+
+getMiddle(head) {
+    let slow = head;
+    let fast = head.next;
+    
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    
+    return slow;
+}
+            </div>
+            <button class="run-button" onclick="runSortList()">Run Sort List</button>
+        </div>
+        
+        <div class="problem-section">
+            <div class="problem-title">7. Flatten Linked List</div>
+            <div class="problem-description">
+                <strong>PROBLEM:</strong> Flatten a multilevel doubly linked list.<br>
+                <strong>APPROACH:</strong> Use DFS or stack to handle child pointers.
+            </div>
+            <div class="complexity">
+                <strong>TIME COMPLEXITY:</strong> O(n) where n is total nodes<br>
+                <strong>SPACE COMPLEXITY:</strong> O(d) where d is max depth
+            </div>
+            <div class="code-block">
+flatten(head) {
+    if (!head) return head;
+    
+    let current = head;
+    
+    while (current) {
+        if (current.child) {
+            <span class="comment">// Save next node</span>
+            const next = current.next;
+            
+            <span class="comment">// Flatten child list</span>
+            const childTail = this.flatten(current.child);
+            
+            <span class="comment">// Connect current to child</span>
+            current.next = current.child;
+            current.child.prev = current;
+            current.child = null;
+            
+            <span class="comment">// Connect child tail to next</span>
+            if (next) {
+                childTail.next = next;
+                next.prev = childTail;
+            }
+            
+            current = childTail;
+        }
+        current = current.next;
+    }
+    
+    return head;
+}
+            </div>
+            <button class="run-button" onclick="runFlatten()">Run Flatten</button>
+        </div>
+        
+        <button class="run-button" onclick="runAllProblems()">Run All Problems</button>
+        
+        <div id="console-output"></div>
+    </div>
+
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data;
+                this.next = null;
+            }
+        }
+
+        class LinkedList {
+            constructor() {
+                this.head = null;
+                this.size = 0;
+            }
+            
+            insertAtTail(data) {
+                const newNode = new Node(data);
+                if (!this.head) {
+                    this.head = newNode;
+                } else {
+                    let current = this.head;
+                    while (current.next) {
+                        current = current.next;
+                    }
+                    current.next = newNode;
+                }
+                this.size++;
+            }
+            
+            display(head = this.head) {
+                if (!head) {
+                    return "List is empty";
+                }
+                
+                let current = head;
+                let result = '';
+                let count = 0;
+                
+                while (current && count < 20) {
+                    result += current.data;
+                    if (current.next) {
+                        result += ' -> ';
+                    }
+                    current = current.next;
+                    count++;
+                }
+                
+                return result;
+            }
+            
+            findMiddleNode(head = this.head) {
+                if (!head) return null;
+                
+                let slow = head;
+                let fast = head;
+                
+                while (fast && fast.next) {
+                    slow = slow.next;
+                    fast = fast.next.next;
+                }
+                
+                return slow;
+            }
+            
+            reverseList(head) {
+                let prev = null;
+                let current = head;
+                let next = null;
+                
+                while (current) {
+                    next = current.next;
+                    current.next = prev;
+                    prev = current;
+                    current = next;
+                }
+                
+                return prev;
+            }
+            
+            mergeSorted(list1, list2) {
+                const dummy = new Node(0);
+                let current = dummy;
+                
+                while (list1 && list2) {
+                    if (list1.data < list2.data) {
+                        current.next = list1;
+                        list1 = list1.next;
+                    } else {
+                        current.next = list2;
+                        list2 = list2.next;
+                    }
+                    current = current.next;
+                }
+                
+                current.next = list1 || list2;
+                return dummy.next;
+            }
+            
+            removeNthFromEnd(head, n) {
+                const dummy = new Node(0);
+                dummy.next = head;
+                let fast = dummy;
+                let slow = dummy;
+                
+                for (let i = 0; i <= n; i++) {
+                    fast = fast.next;
+                }
+                
+                while (fast) {
+                    fast = fast.next;
+                    slow = slow.next;
+                }
+                
+                slow.next = slow.next.next;
+                return dummy.next;
+            }
+            
+            isPalindrome() {
+                if (!this.head || !this.head.next) return true;
+                
+                const middle = this.findMiddleNode();
+                const secondHalf = this.reverseList(middle);
+                
+                let first = this.head;
+                let second = secondHalf;
+                let isPalin = true;
+                
+                while (second) {
+                    if (first.data !== second.data) {
+                        isPalin = false;
+                        break;
+                    }
+                    first = first.next;
+                    second = second.next;
+                }
+                
+                this.reverseList(secondHalf);
+                return isPalin;
+            }
+            
+            addTwoNumbers(l1, l2) {
+                const dummy = new Node(0);
+                let current = dummy;
+                let carry = 0;
+                
+                while (l1 || l2 || carry) {
+                    const val1 = l1 ? l1.data : 0;
+                    const val2 = l2 ? l2.data : 0;
+                    
+                    const sum = val1 + val2 + carry;
+                    carry = Math.floor(sum / 10);
+                    current.next = new Node(sum % 10);
+                    current = current.next;
+                    
+                    if (l1) l1 = l1.next;
+                    if (l2) l2 = l2.next;
+                }
+                
+                return dummy.next;
+            }
+            
+            getIntersectionNode(headA, headB) {
+                if (!headA || !headB) return null;
+                
+                let pointerA = headA;
+                let pointerB = headB;
+                
+                while (pointerA !== pointerB) {
+                    pointerA = pointerA ? pointerA.next : headB;
+                    pointerB = pointerB ? pointerB.next : headA;
+                }
+                
+                return pointerA;
+            }
+            
+            sortList(head) {
+                if (!head || !head.next) return head;
+                
+                const middle = this.getMiddle(head);
+                const right = middle.next;
+                middle.next = null;
+                
+                const left = this.sortList(head);
+                const sortedRight = this.sortList(right);
+                
+                return this.merge(left, sortedRight);
+            }
+            
+            merge(left, right) {
+                const dummy = new Node(0);
+                let current = dummy;
+                
+                while (left && right) {
+                    if (left.data < right.data) {
+                        current.next = left;
+                        left = left.next;
+                    } else {
+                        current.next = right;
+                        right = right.next;
+                    }
+                    current = current.next;
+                }
+                
+                current.next = left || right;
+                return dummy.next;
+            }
+        }
+
+        function clearConsole() {
+            document.getElementById('console-output').textContent = '';
+        }
+
+        function log(message) {
+            const output = document.getElementById('console-output');
+            output.textContent += message + '\n';
+            output.scrollTop = output.scrollHeight;
+        }
+
+        function runMergeSorted() {
+            clearConsole();
+            log('=== MERGE TWO SORTED LISTS ===');
+            
+            const list1 = new LinkedList();
+            [1, 3, 5].forEach(val => list1.insertAtTail(val));
+            
+            const list2 = new LinkedList();
+            [2, 4, 6].forEach(val => list2.insertAtTail(val));
+            
+            log('List 1: ' + list1.display());
+            log('List 2: ' + list2.display());
+            
+            const merged = list1.mergeSorted(list1.head, list2.head);
+            log('Merged: ' + list1.display(merged));
+        }
+
+        function runRemoveNthFromEnd() {
+            clearConsole();
+            log('=== REMOVE NTH FROM END ===');
+            
+            const list = new LinkedList();
+            [1, 2, 3, 4, 5].forEach(val => list.insertAtTail(val));
+            
+            log('Original: ' + list.display());
+            
+            const result = list.removeNthFromEnd(list.head, 2);
+            log('After removing 2nd from end: ' + list.display(result));
+        }
+
+        function runPalindrome() {
+            clearConsole();
+            log('=== PALINDROME CHECK ===');
+            
+            const palindromeList = new LinkedList();
+            [1, 2, 3, 2, 1].forEach(val => palindromeList.insertAtTail(val));
+            log('Palindrome list: ' + palindromeList.display());
+            log('Is palindrome: ' + palindromeList.isPalindrome());
+            
+            const nonPalindromeList = new LinkedList();
+            [1, 2, 3, 4, 5].forEach(val => nonPalindromeList.insertAtTail(val));
+            log('Non-palindrome list: ' + nonPalindromeList.display());
+            log('Is palindrome: ' + nonPalindromeList.isPalindrome());
+        }
+
+        function runAddTwoNumbers() {
+            clearConsole();
+            log('=== ADD TWO NUMBERS ===');
+            
+            const list1 = new LinkedList();
+            [2, 4, 3].forEach(val => list1.insertAtTail(val)); <span class="comment">// 342</span>
+            
+            const list2 = new LinkedList();
+            [5, 6, 4].forEach(val => list2.insertAtTail(val)); <span class="comment">// 465</span>
+            
+            log('Number 1: ' + list1.display() + ' (342)');
+            log('Number 2: ' + list2.display() + ' (465)');
+            
+            const sum = list1.addTwoNumbers(list1.head, list2.head);
+            log('Sum: ' + list1.display(sum) + ' (807)');
+        }
+
+        function runIntersection() {
+            clearConsole();
+            log('=== INTERSECTION OF TWO LISTS ===');
+            
+            <span class="comment">// Create intersecting lists</span>
+            const common = new LinkedList();
+            [8, 9, 10].forEach(val => common.insertAtTail(val));
+            
+            const list1 = new LinkedList();
+            [1, 2, 3].forEach(val => list1.insertAtTail(val));
+            list1.head.next.next.next = common.head; <span class="comment">// Create intersection</span>
+            
+            const list2 = new LinkedList();
+            [4, 5, 6, 7].forEach(val => list2.insertAtTail(val));
+            list2.head.next.next.next.next = common.head; <span class="comment">// Create intersection</span>
+            
+            log('List 1: 1 -> 2 -> 3 -> 8 -> 9 -> 10');
+            log('List 2: 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10');
+            
+            const intersection = list1.getIntersectionNode(list1.head, list2.head);
+            log('Intersection at: ' + (intersection ? intersection.data : 'null'));
+        }
+
+        function runSortList() {
+            clearConsole();
+            log('=== SORT LINKED LIST ===');
+            
+            const list = new LinkedList();
+            [4, 2, 1, 3, 5].forEach(val => list.insertAtTail(val));
+            
+            log('Unsorted: ' + list.display());
+            
+            const sorted = list.sortList(list.head);
+            log('Sorted: ' + list.display(sorted));
+        }
+
+        function runFlatten() {
+            clearConsole();
+            log('=== FLATTEN LINKED LIST ===');
+            log('Flattening multilevel lists requires additional child pointers.');
+            log('This is a complex problem typically seen in advanced interviews.');
+            log('The solution involves DFS or stack-based traversal.');
+        }
+
+        function runAllProblems() {
+            clearConsole();
+            log('=== ALL INTERVIEW PROBLEMS DEMO ===');
+            
+            runMergeSorted();
+            log('\n' + '='.repeat(50) + '\n');
+            runRemoveNthFromEnd();
+            log('\n' + '='.repeat(50) + '\n');
+            runPalindrome();
+            log('\n' + '='.repeat(50) + '\n');
+            runAddTwoNumbers();
+            log('\n' + '='.repeat(50) + '\n');
+            runIntersection();
+            log('\n' + '='.repeat(50) + '\n');
+            runSortList();
+        }
+
+        window.onload = function() {
+            runAllProblems();
+        };
+    </script>
+</body>
+</html>
